@@ -93,6 +93,10 @@ public class Bedwars extends JavaPlugin {
                 20L,
                 20L
         );
+        if (getLobbySpawn() == null) {
+        	setLobbySpawn(new Location(Bukkit.getWorld("world"), 0 , 64 ,0));
+        }
+        lobbySpawn = new Location(Bukkit.getWorld(getConfig().getString("Lobby.World")), getConfig().getInt("Lobby.X"), getConfig().getInt("Lobby.Y"), getConfig().getInt("Lobby.Z"));
         spectatorManager = new SpectatorManager();
         shopManager = new ShopManager();
         getCommand("bw")
