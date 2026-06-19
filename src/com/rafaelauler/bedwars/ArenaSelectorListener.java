@@ -31,6 +31,9 @@ public class ArenaSelectorListener
         if(e.getCurrentItem()
                 == null)
             return;
+        if(e.getCurrentItem().getItemMeta()
+                == null)
+            return;
 
         String arenaName =
                 ChatColor.stripColor(

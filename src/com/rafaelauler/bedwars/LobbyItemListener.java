@@ -17,9 +17,7 @@ public class LobbyItemListener
 
         if(e.getItem()
                 .getType()
-                != Material.COMPASS)
-            return;
-
+                == Material.COMPASS)
         ArenaSelectorMenu.open(
                 e.getPlayer()
         );
