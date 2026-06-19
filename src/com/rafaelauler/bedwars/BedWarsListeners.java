@@ -1,0 +1,100 @@
+package com.rafaelauler.bedwars;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+
+public class BedWarsListeners implements Listener {
+
+	@EventHandler
+	public void onBreak(BlockBreakEvent e) {
+
+	    if(e.getBlock().getType() != Material.BED_BLOCK)
+	        return;
+
+	    Player player = e.getPlayer();
+
+	    GamePlayer gp =
+	            Bedwars.getInstance()
+	                    .getPlayerManager()
+	                    .get(player);
+
+	    if(gp.getArena() == null)
+	        return;
+
+	    Arena arena = gp.getArena();
+
+	    BWTeam bedTeam =
+	            arena.getTeamByBed(
+	                    e.getBlock().getLocation()
+	            );
+
+	    if(bedTeam == null)
+	        return;
+
+	    if(bedTeam == gp.getTeam()) {
+
+	        e.setCancelled(true);
+
+	        player.sendMessage(
+	                "§cVocê não pode quebrar sua cama."
+	        );
+
+	        return;
+	    }
+
+	    bedTeam.setBedAlive(false);
+
+	    Bukkit.broadcastMessage(
+	            "§cA cama do time "
+	            + bedTeam.getColor().name()
+	            + " foi destruída!"
+	    );
+	}
+
+@EventHandler
+public void onDeath(PlayerDeathEvent e) {
+
+    Player player = e.getEntity();
+
+    GamePlayer gp =
+            Bedwars.getInstance()
+                    .getPlayerManager()
+                    .get(player);
+
+    if(gp.getArena() == null)
+        return;
+
+    Bukkit.getScheduler()
+            .runTaskLater(
+                    Bedwars.getInstance(),
+                    () -> {
+
+                        if(gp.getTeam()
+                                .isBedAlive()) {
+                        	Bedwars.getInstance()
+                            .getKillManager()
+                            .handleDeath(
+                                    player,
+                                    gp
+                            );
+                            Bedwars.getInstance().getRespawnManager().respawn(player);
+
+                        } else {
+
+                            EliminationTask
+                                    .eliminate(
+                                            player,
+                                            gp
+                                    );
+                        }
+
+                    },
+                    2L
+            );
+}
+}
