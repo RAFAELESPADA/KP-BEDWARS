@@ -61,6 +61,13 @@ public class VoidListener
                     player,
                     gp
             );
+        	PlayerStats stats2 =
+                    Bedwars.getInstance()
+                            .getStatsManager()
+                            .getStats(
+                                    player.getUniqueId()
+                            );
+        	stats2.setDeaths(stats2.getDeaths() + 1);
             respawn(
                     player
             );

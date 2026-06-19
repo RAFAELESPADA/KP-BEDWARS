@@ -19,6 +19,7 @@ public class Arena {
     private Location lobby;
 	private boolean starting;
     private Location spectator;
+    
     private int countdown = 30;
     private final List<TeamGenerator> teamGenerators =
             new ArrayList<>();

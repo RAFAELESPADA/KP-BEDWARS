@@ -27,6 +27,9 @@ public class BWCommand implements CommandExecutor {
                 new SetGeneratorCommand()
         );
         register(
+                new StatsCommand()
+        );
+        register(
                 new SaveArenaCommand()
         );
         register(new CreateTeamCommand());
@@ -34,6 +37,9 @@ public class BWCommand implements CommandExecutor {
         register(new SetBedCommand());
         register(new JoinCommand());
         register(new LeaveCommand());
+
+        register(new SetPlayNPCCommand());
+        register(new SetMainLobbyCommand());
         register(
                 new RemoveNPCCommand()
         );
@@ -71,7 +77,10 @@ public class BWCommand implements CommandExecutor {
         	player.sendMessage("§7------------------");
         	player.sendMessage("§e/bw create <arena>");
         	player.sendMessage("§e/bw delete <arena>");
+        	player.sendMessage("§e/bw stats");
         	player.sendMessage("§e/bw setlobby <arena>");
+        	player.sendMessage("§e/bw setplaynpc");
+        	player.sendMessage("§e/bw setmainlobby");
         	player.sendMessage("§e/bw setspec <arena>");
         	player.sendMessage("§e/bw createteam <arena> <cor>");
         	player.sendMessage("§e/bw setspawn <arena> <cor>");

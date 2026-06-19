@@ -7,6 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class BedWarsListeners implements Listener {
 
@@ -48,14 +50,66 @@ public class BedWarsListeners implements Listener {
 	    }
 
 	    bedTeam.setBedAlive(false);
-
+	    Bedwars.getInstance()
+        .getRewardManager()
+        .rewardBedBreak(
+                player
+        );
 	    Bukkit.broadcastMessage(
 	            "§cA cama do time "
 	            + bedTeam.getColor().name()
 	            + " foi destruída!"
 	    );
 	}
+	@EventHandler
+	public void onQuit(
+	        PlayerQuitEvent e) {
 
+	    PlayerStats stats =
+	            Bedwars.getInstance()
+	                    .getStatsManager()
+	                    .getStats(
+	                            e.getPlayer()
+	                                    .getUniqueId()
+	                    );
+
+	    Bukkit.getScheduler()
+	            .runTaskAsynchronously(
+	                    Bedwars.getInstance(),
+	                    () -> Bedwars
+	                            .getInstance()
+	                            .getStatsManager()
+	                            .save(stats)
+	            );
+	}
+	@EventHandler
+	public void onJoin(
+	        PlayerJoinEvent e) {
+
+	    PlayerStats stats =
+	            Bedwars.getInstance()
+	                    .getStatsManager()
+	                    .getStats(
+	                            e.getPlayer()
+	                                    .getUniqueId()
+	                    );
+
+	    stats.setName(
+	            e.getPlayer()
+	                    .getName()
+	    );
+	}
+	@EventHandler
+	public void onQuit2(
+	        PlayerQuitEvent e) {
+
+	    Bedwars.getInstance()
+	            .getStatsManager()
+	            .unload(
+	                    e.getPlayer()
+	                            .getUniqueId()
+	            );
+	}
 @EventHandler
 public void onDeath(PlayerDeathEvent e) {
 

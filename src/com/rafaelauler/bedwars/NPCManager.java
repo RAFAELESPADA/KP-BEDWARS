@@ -108,6 +108,35 @@ public class NPCManager {
 
         return closest;
     }
+    public NPC createPlayNPC(
+            Location location) {
+
+        NPC npc =
+                CitizensAPI
+                        .getNPCRegistry()
+                        .createNPC(
+                                EntityType.PLAYER,
+                                "§aJogar BedWars"
+                        );
+
+        npc.spawn(location);
+
+        npc.data().set(
+                "bw_npc",
+                NPCType.PLAY.name()
+        );
+        npc.setProtected(
+                true
+        );
+        npc.setFlyable(
+                false
+        );
+        npc.data().setPersistent(
+                "cached-skin-uuid-name",
+                "Hypixel"
+        );
+        return npc;
+    }
     public void removeNPC(
             NPC npc) {
 

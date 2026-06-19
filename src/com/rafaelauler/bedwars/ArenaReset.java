@@ -5,12 +5,12 @@ import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 
 public class ArenaReset {
 
     public void reset(
             Arena arena) {
-
         restoreBlocks(arena);
 
         removePlacedBlocks(arena);
@@ -26,6 +26,13 @@ public class ArenaReset {
         arena.setState(
                 ArenaState.WAITING
         );
+        for(Player player :
+            arena.getPlayers()) {
+
+        Bedwars.getInstance()
+                .getSpectatorManager()
+                .removeSpectator(arena, player);
+        }
     }
 
 private void restoreBlocks(

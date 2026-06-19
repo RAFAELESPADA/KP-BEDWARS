@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -106,6 +107,26 @@ public class SpectatorListener implements Listener {
     	    return;
 
     	e.setCancelled(true);
+    }
+    @EventHandler
+    public void onCommand(
+            PlayerCommandPreprocessEvent e) {
+
+        if(!isSpectator(
+                        e.getPlayer()
+                ))
+            return;
+
+        if(e.getMessage()
+                .startsWith("/bw"))
+            return;
+
+        e.setCancelled(true);
+
+        e.getPlayer()
+                .sendMessage(
+                        "§cEspectadores não podem usar comandos."
+                );
     }
     @EventHandler
     public void onInteract(

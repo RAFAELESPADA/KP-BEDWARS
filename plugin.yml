@@ -3,6 +3,8 @@ main: com.rafaelauler.bedwars.Bedwars
 version: 1.0
 author: Rafael Auler
 depend: [Citizens]
+softdepend:
+  - PlaceholderAPI
 
 commands:
   bw:
