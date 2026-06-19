@@ -40,9 +40,7 @@ public class LobbyJoinListener
                 e.getPlayer();
 
         player.teleport(
-                Bedwars.getInstance()
-                        .getLobbyFile()
-                        .getLobby()
+                Bedwars.getInstance().getLobbySpawn()
         );
 
         player.getInventory()

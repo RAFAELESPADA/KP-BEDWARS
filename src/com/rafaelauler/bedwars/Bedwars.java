@@ -86,7 +86,8 @@ public class Bedwars extends JavaPlugin {
                 new UpgradeManager();
         scoreboardManager =
                 new ScoreboardManager();
-        
+        lobbyScoreboard =
+                new LobbyScoreboard();
         new ScoreboardTask()
         .runTaskTimer(
                 this,
