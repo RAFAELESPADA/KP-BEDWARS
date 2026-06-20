@@ -1,6 +1,7 @@
 package com.rafaelauler.bedwars;
 
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class JoinCommand implements SubCommand {
@@ -30,7 +31,32 @@ public class JoinCommand implements SubCommand {
 
         BWTeam team =
                 arena.getAvailableTeam();
+        if(arena.getState()
+                == ArenaState.PLAYING) {
 
+            player.sendMessage(
+                    "§cPartida já iniciou."
+            );
+
+            return;
+        }
+        if (arena.getPlayers().contains(player)) {
+        	player.sendMessage(
+                    "§cVocê já está nessa arena."
+            );
+
+        	return;
+        }
+        if(arena.getPlayers()
+                .size()
+                >= arena.getMaxPlayers()) {
+
+            player.sendMessage(
+                    "§cArena cheia."
+            );
+
+            return;
+        }
         if(team == null) {
 
             player.sendMessage(
@@ -57,6 +83,12 @@ public class JoinCommand implements SubCommand {
         player.teleport(
                 arena.getLobby()
         );
+        player.setScoreboard(
+                Bukkit.getScoreboardManager()
+                        .getNewScoreboard()
+        );
+
+        player.getInventory().clear();
         if(arena.getPlayers()
                 .size() >= 2
                 && !arena.isStarting()) {

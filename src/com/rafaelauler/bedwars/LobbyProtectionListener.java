@@ -1,5 +1,6 @@
 package com.rafaelauler.bedwars;
 
+
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,6 +21,65 @@ public class LobbyProtectionListener
     /*
      * Anti Hunger
      */
+	 @EventHandler
+	    public void onFood2(
+	            FoodLevelChangeEvent e) {
+		 if(!(e.getEntity()
+	                instanceof Player))
+	            return;
+
+	        Player player =
+	                (Player)
+	                        e.getEntity();
+
+	        if(!isLobby(player))
+	            return;
+	        GamePlayer killerGP =
+	                Bedwars.getInstance()
+	                        .getPlayerManager()
+	                        .get(player);
+	        if (killerGP.getArena().getState() == ArenaState.WAITING || killerGP.getArena().getState() == ArenaState.STARTING) {
+	        	e.setCancelled(true);
+	        }
+	 }
+	 @EventHandler
+	    public void onFood2(
+	            BlockBreakEvent e) {
+
+
+	        Player player =
+	                (Player)
+	                        e.getPlayer();
+
+	        if(!isLobby(player))
+	            return;
+	        GamePlayer killerGP =
+	                Bedwars.getInstance()
+	                        .getPlayerManager()
+	                        .get(player);
+	        if (killerGP.getArena().getState() == ArenaState.WAITING || killerGP.getArena().getState() == ArenaState.STARTING) {
+	        	e.setCancelled(true);
+	        }
+	 }
+	 @EventHandler
+	    public void onFood2(
+	            BlockPlaceEvent e) {
+
+
+	        Player player =
+	                (Player)
+	                        e.getPlayer();
+
+	        if(!isLobby(player))
+	            return;
+	        GamePlayer killerGP =
+	                Bedwars.getInstance()
+	                        .getPlayerManager()
+	                        .get(player);
+	        if (killerGP.getArena().getState() == ArenaState.WAITING || killerGP.getArena().getState() == ArenaState.STARTING) {
+	        	e.setCancelled(true);
+	        }
+	 }
     @EventHandler
     public void onFood(
             FoodLevelChangeEvent e) {

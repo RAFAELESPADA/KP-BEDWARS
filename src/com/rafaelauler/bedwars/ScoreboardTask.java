@@ -13,6 +13,27 @@ public class ScoreboardTask
         for(Player player :
                 Bukkit.getOnlinePlayers()) {
 
+            GamePlayer gp =
+                    Bedwars.getInstance()
+                            .getPlayerManager()
+                            .get(player);
+
+            /*
+             * Lobby
+             */
+            if(gp == null
+                    || gp.getArena() == null) {
+
+                Bedwars.getInstance()
+                        .getLobbyScoreboard()
+                        .update(player);
+
+                continue;
+            }
+
+            /*
+             * Partida
+             */
             Bedwars.getInstance()
                     .getScoreboardManager()
                     .update(player);

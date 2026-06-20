@@ -110,26 +110,13 @@ public class ArenaSelectorMenu {
                             + arena.getPlayers()
                                     .size()
                             + "/"
-                            + arena.getMaxPlayers()
+                            + arena.getMaxPlayers() +  "\n§7Status: "
+                            + status + "\n§7Vagas: §a" + (
+                                    arena.getMaxPlayers()
+                                    - arena.getPlayers().size() + "\n" + "§aClique para entrar" + "\n§7Lotação: " + bar
+                                    )
                     )
-                    .lore(
-                            "§7Status: "
-                            + status
-                    )
-                    .lore("")
-                    .lore(
-                            "§7Vagas: §a"
-                            + (
-                            arena.getMaxPlayers()
-                            - arena.getPlayers().size()
-                            ))
                     
-                    .lore(
-                            "§aClique para entrar"
-                    )
-                    .lore(
-                            "§7Lotação: " + bar
-                    )
                     .build();
 
             inventory.setItem(

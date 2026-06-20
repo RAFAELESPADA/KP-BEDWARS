@@ -35,6 +35,7 @@ public class GameStart {
                         team.getSpawn()
                 );
                 arena.setStarting(false);
+                teleportPlayers(arena);
                 assignTeams(arena);
                 arena.setState(ArenaState.PLAYING);
                 Bedwars.getInstance()

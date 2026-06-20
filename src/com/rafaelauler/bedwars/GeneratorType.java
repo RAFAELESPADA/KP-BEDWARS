@@ -1,9 +1,17 @@
 package com.rafaelauler.bedwars;
 import org.bukkit.Material;
 
-public enum GeneratorType {
+public enum GeneratorType { 
 
-    
+    IRON(
+            Material.IRON_INGOT,
+            20L
+    ),
+
+    GOLD(
+            Material.GOLD_INGOT,
+            80L
+    ),
 
     DIAMOND(
             Material.DIAMOND,
@@ -14,6 +22,7 @@ public enum GeneratorType {
             Material.EMERALD,
             1200L
     );
+
 
     private final Material material;
     private final long defaultDelay;

@@ -68,6 +68,7 @@ public class GeneratorManager {
 	                .delete();
 	    }
 	}
+	
 	public void start(Arena arena) {
 
 	    int id = 0;
@@ -82,32 +83,56 @@ public class GeneratorManager {
 
 	        switch(generator.getType()) {
 
-	            case DIAMOND:
+	        case IRON:
 
-	                new DiamondGeneratorTask(
-	                        generator,
-	                        30
-	                ).runTaskTimer(
-	                        Bedwars.getInstance(),
-	                        20L,
-	                        20L
-	                );
+	            new IronTaskGenerator(
+	                    generator
+	            ).runTaskTimer(
+	                    Bedwars.getInstance(),
+	                    1L,
+	                    1L
+	            );
 
-	                break;
+	            break;
 
-	            case EMERALD:
+	        case GOLD:
 
-	                new EmeraldGeneratorTask(
-	                        generator,
-	                        60
-	                ).runTaskTimer(
-	                        Bedwars.getInstance(),
-	                        20L,
-	                        20L
-	                );
+	            new GoldGeneratorTask(
+	                    generator
+	            ).runTaskTimer(
+	                    Bedwars.getInstance(),
+	                    1L,
+	                    1L
+	            );
 
-	                break;
-	        }
+	            break;
+
+	        case DIAMOND:
+
+	            new DiamondGeneratorTask(
+	                    generator,
+	                    30
+	            ).runTaskTimer(
+	                    Bedwars.getInstance(),
+	                    1L,
+	                    1L
+	            );
+
+	            break;
+
+	        case EMERALD:
+
+	            new EmeraldGeneratorTask(
+	                    generator,
+	                    60
+	            ).runTaskTimer(
+	                    Bedwars.getInstance(),
+	                    1L,
+	                    1L
+	            );
+
+	            break;
+	    }
 	    }
 	}
 }

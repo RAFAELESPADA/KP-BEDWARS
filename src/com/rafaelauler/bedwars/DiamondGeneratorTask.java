@@ -7,56 +7,91 @@ import org.bukkit.scheduler.BukkitRunnable;
 import eu.decentsoftware.holograms.api.DHAPI;
 
 public class DiamondGeneratorTask
-extends BukkitRunnable {
+        extends BukkitRunnable {
 
-private final Generator generator;
+    private final Generator generator;
 
-private final int maxSeconds;
+    private final int maxSeconds;
 
-private int countdown;
+    private int countdownTicks;
 
-public DiamondGeneratorTask(
-    Generator generator,
-    int maxSeconds) {
+    public DiamondGeneratorTask(
+            Generator generator,
+            int maxSeconds) {
 
-this.generator = generator;
-this.maxSeconds = maxSeconds;
-this.countdown = maxSeconds;
-}
+        this.generator =
+                generator;
 
-@Override
-public void run() {
+        this.maxSeconds =
+                maxSeconds;
 
-countdown--;
+        this.countdownTicks =
+                maxSeconds * 20;
+    }
 
-updateHologram();
+    @Override
+    public void run() {
 
-if(countdown > 0)
-    return;
+        countdownTicks--;
 
-spawnDiamond();
+        if(countdownTicks % 20 == 0) {
 
-countdown = maxSeconds;
-}
+            updateHologram();
+        }
 
-private void updateHologram() {
+        if(countdownTicks > 0)
+            return;
 
-DHAPI.setHologramLine(
-        generator.getDisplay()
-                .getHologram(),
-        2,"§fGera items a cada §a" + countdown + " §fsegundos"
-);
-}
+        spawnDiamond();
 
-private void spawnDiamond() {
+        countdownTicks =
+                maxSeconds * 20;
+    }
 
-generator.getLocation()
-        .getWorld()
-        .dropItemNaturally(
-                generator.getLocation(),
-                new ItemStack(
-                        Material.DIAMOND
-                )
+    private void updateHologram() {
+
+        int seconds =
+                countdownTicks / 20;
+
+        DHAPI.setHologramLine(
+                generator.getDisplay()
+                        .getHologram(),
+                2,
+
+                "§fPróximo diamante em §b"
+                        + seconds
+                        + "s"
         );
-}
+    }
+
+    private void spawnDiamond() {
+
+        long amount =
+                generator.getLocation()
+                        .getWorld()
+                        .getNearbyEntities(
+                                generator.getLocation(),
+                                2,
+                                2,
+                                2
+                        )
+                        .stream()
+                        .filter(entity ->
+                                entity instanceof org.bukkit.entity.Item
+                        )
+                        .count();
+
+        if(amount >= 4)
+            return;
+
+        generator.getLocation()
+                .getWorld()
+                .dropItemNaturally(
+                        generator.getLocation(),
+
+                        new ItemStack(
+                                Material.DIAMOND
+                        )
+                );
+    }
 }

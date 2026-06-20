@@ -61,6 +61,7 @@ public class BedWarsListeners implements Listener {
 	            + " foi destruída!"
 	    );
 	}
+	
 	@EventHandler
 	public void onQuit(
 	        PlayerQuitEvent e) {
@@ -81,6 +82,24 @@ public class BedWarsListeners implements Listener {
 	                            .getStatsManager()
 	                            .save(stats)
 	            );
+	    GamePlayer gp =
+                Bedwars.getInstance()
+                        .getPlayerManager()
+                        .get(
+                                e.getPlayer()
+                        );
+
+        if(gp == null)
+            return;
+
+        Arena arena =
+                gp.getArena();
+	    if(arena == null)
+            return;
+
+        ArenaLeaveManager.leave(
+                gp
+        );
 	}
 	@EventHandler
 	public void onJoin(

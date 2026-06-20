@@ -14,7 +14,7 @@ public class BlockTracker
             BlockBreakEvent e) {
 
         Arena arena =
-                Bedwars.getInstance().getArenaManager().getArena(
+                Bedwars.getInstance().getArenaManager().getArenabyRealPlayer(
                         e.getPlayer()
                 );
 
@@ -33,7 +33,7 @@ public class BlockTracker
             BlockPlaceEvent e) {
 
     	 Arena arena =
-                 Bedwars.getInstance().getArenaManager().getArena(
+                 Bedwars.getInstance().getArenaManager().getArenabyRealPlayer(
                          e.getPlayer()
                  );
 

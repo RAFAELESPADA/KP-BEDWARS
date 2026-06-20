@@ -86,7 +86,24 @@ public class ArenaManager {
                                             + ".location"
                                     )
                             );
+                    String teamName =
+                            arenaFile.getConfig()
+                                    .getString(
+                                            arenaName
+                                            + ".Generators."
+                                            + key
+                                            + ".team"
+                                    );
 
+                    if(teamName != null) {
+
+                        BWTeam team =
+                                arena.getTeams()
+                                        .get(teamName);
+
+                        generator.setTeam(team);
+                    }
+                    loadTeams(arenaName, arena);
                     arena.getGenerators()
                             .add(generator);
                 }
@@ -139,7 +156,60 @@ public class ArenaManager {
             arenas.put(arenaName, arena);
         }
     }
-    public Arena getArena(
+    private void loadTeams(
+            String arenaName,
+            Arena arena) {
+
+        ConfigurationSection section =
+                arenaFile.getConfig()
+                        .getConfigurationSection(
+                                arenaName + ".Teams"
+                        );
+
+        if(section == null)
+            return;
+
+        for(String key :
+                section.getKeys(false)) {
+
+            TeamColor color =
+                    TeamColor.valueOf(
+                            key.toUpperCase()
+                    );
+
+            BWTeam team =
+                    new BWTeam(
+                            color
+                    );
+
+            team.setSpawn(
+                    arenaFile.getLocation(
+                            arenaName
+                            + ".Teams."
+                            + key
+                            + ".spawn"
+                    )
+            );
+
+            team.setBed(
+                    arenaFile.getLocation(
+                            arenaName
+                            + ".Teams."
+                            + key
+                            + ".bed"
+                    )
+            );
+
+            arena.getTeams()
+                    .put(
+                            color,
+                            team
+                    );
+       }
+        Bukkit.getConsoleSender().sendMessage("TIMES DA ARENA " + arenaName + " CARREGADOS");
+        
+    }
+    public Arena PlayerisOnArena(
             GamePlayer player) {
 
         for(Arena arena :
@@ -154,7 +224,20 @@ public class ArenaManager {
 
         return null;
     }
-    public Arena getArena(
+    public Arena ArenaExists() {
+
+        for(Arena arena :
+                arenas.values()) {
+
+            if(arena.getLobby() != null){
+
+                return arena;
+            }
+        }
+
+        return null;
+    }
+    public Arena getArenabyRealPlayer(
             Player player) {
 
         for(Arena arena :
@@ -248,7 +331,15 @@ public class ArenaManager {
                     generator
                             .getLocation()
             );
+            if(generator.getTeam() != null) {
 
+                arenaFile.getConfig().set(
+                        path + ".team",
+                        generator.getTeam()
+                                .getColor()
+                                .name()
+                );
+            }
             index++;
         }
     }

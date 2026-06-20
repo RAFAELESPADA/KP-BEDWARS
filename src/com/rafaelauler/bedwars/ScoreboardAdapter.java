@@ -1,12 +1,13 @@
 package com.rafaelauler.bedwars;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 
 public class ScoreboardAdapter {
 
@@ -25,7 +26,8 @@ public class ScoreboardAdapter {
                         .getPlayerManager()
                         .get(player);
 
-        if(gp.getArena() == null)
+        if(gp == null
+                || gp.getArena() == null)
             return;
 
         Arena arena =
@@ -66,9 +68,24 @@ public class ScoreboardAdapter {
 
         add(
                 objective,
-                " ",
+                "§0",
                 score--
         );
+
+        add(
+                objective,
+                "§fMapa: §a"
+                + arena.getName(),
+                score--
+        );
+
+        add(
+                objective,
+                "§fJogadores: §a"
+                + arena.getPlayers().size(),
+                score--
+        );
+
         if(arena.getState()
                 == ArenaState.STARTING) {
 
@@ -80,74 +97,31 @@ public class ScoreboardAdapter {
                     score--
             );
         }
-        add(
-                objective,
-                "§fMapa: §a"
-                + arena.getName(),
-                score--
-        );
-
-        add(
-                objective,
-                "§fJogadores: §a"
-                + arena.getPlayers()
-                        .size(),
-                score--
-        );
-        add(
-                objective,
-                "§1",
-                score--
-        );
-        add(
-                objective,
-                "§fKills: §a"
-                + gp.getKills(),
-                score--
-        );
-        if(gp.getTeam() != null) {
+        else if(arena.getState()
+                == ArenaState.WAITING) {
 
             add(
                     objective,
-                    "§fTime: "
-                    + gp.getTeam().getColor().getColor()
-                    + gp.getTeam()
-                            .getColor()
-                            .name(),
+                    "§fEsperando Jogadores",
                     score--
             );
         }
-        add(
-                objective,
-                "§fFinal Kills: §c"
-                + gp.getFinalKills(),
-                score--
-        );
-        add(
-                objective,
-                "§2",
-                score--
-        );
-        add(
-                objective,
-                "  ",
-                score--
-        );
 
-        for(BWTeam team :
+        
+
+        if(arena.getState()
+                == ArenaState.PLAYING
+                && gp.getTeam() != null) {
+        	for(BWTeam team :
                 arena.getTeams()
                         .values()) {
 
             String status =
                     team.isBedAlive()
 
-                    ?
+                    ? "§a✔"
 
-                    "§a✔"
-
-                    :
-
-                    "§c✘";
+                    : "§c✘";
 
             add(
                     objective,
@@ -157,20 +131,54 @@ public class ScoreboardAdapter {
                             .name()
                     + " "
                     + status,
+
+                    score--
+            );
+        }
+            add(
+                    objective,
+                    "§2",
+                    score--
+            );
+
+            add(
+                    objective,
+                    "§fKills: §a"
+                    + gp.getKills(),
+                    score--
+            );
+
+            add(
+                    objective,
+                    "§fFinal Kills: §c"
+                    + gp.getFinalKills(),
+                    score--
+            );
+
+            add(
+                    objective,
+                    "§fTime: "
+                    + gp.getTeam()
+                            .getColor()
+                            .getColor()
+                    + gp.getTeam()
+                            .getColor()
+                            .name(),
+
                     score--
             );
         }
 
         add(
                 objective,
-                "   ",
+                "§3",
                 score--
         );
 
         add(
                 objective,
                 "§eskyzermc.com.br",
-                score
+                score--
         );
 
         player.setScoreboard(
@@ -183,7 +191,10 @@ public class ScoreboardAdapter {
             String line,
             int score) {
 
-        objective.getScore(line)
-                .setScore(score);
+        objective.getScore(
+                line
+        ).setScore(
+                score
+        );
     }
 }

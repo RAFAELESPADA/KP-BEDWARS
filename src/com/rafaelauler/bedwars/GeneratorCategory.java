@@ -2,7 +2,8 @@ package com.rafaelauler.bedwars;
 
 public enum GeneratorCategory {
 
-    TEAM,
+    IRON,
+    GOLD,
     DIAMOND,
     EMERALD
 
