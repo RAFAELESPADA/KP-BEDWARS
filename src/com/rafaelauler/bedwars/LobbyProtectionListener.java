@@ -21,65 +21,97 @@ public class LobbyProtectionListener
     /*
      * Anti Hunger
      */
-	 @EventHandler
-	    public void onFood2(
-	            FoodLevelChangeEvent e) {
-		 if(!(e.getEntity()
-	                instanceof Player))
-	            return;
+	@EventHandler
+	public void onFood2(
+	        FoodLevelChangeEvent e) {
 
-	        Player player =
-	                (Player)
-	                        e.getEntity();
+	    if(!(e.getEntity()
+	            instanceof Player))
+	        return;
 
-	        if(!isLobby(player))
-	            return;
-	        GamePlayer killerGP =
-	                Bedwars.getInstance()
-	                        .getPlayerManager()
-	                        .get(player);
-	        if (killerGP.getArena().getState() == ArenaState.WAITING || killerGP.getArena().getState() == ArenaState.STARTING) {
-	        	e.setCancelled(true);
-	        }
-	 }
-	 @EventHandler
-	    public void onFood2(
-	            BlockBreakEvent e) {
+	    Player player =
+	            (Player) e.getEntity();
 
+	    GamePlayer gp =
+	            Bedwars.getInstance()
+	                    .getPlayerManager()
+	                    .get(player);
 
-	        Player player =
-	                (Player)
-	                        e.getPlayer();
+	    if(gp == null
+	            || gp.getArena() == null) {
 
-	        if(!isLobby(player))
-	            return;
-	        GamePlayer killerGP =
-	                Bedwars.getInstance()
-	                        .getPlayerManager()
-	                        .get(player);
-	        if (killerGP.getArena().getState() == ArenaState.WAITING || killerGP.getArena().getState() == ArenaState.STARTING) {
-	        	e.setCancelled(true);
-	        }
-	 }
-	 @EventHandler
-	    public void onFood2(
-	            BlockPlaceEvent e) {
+	        e.setCancelled(true);
+	        return;
+	    }
 
+	    ArenaState state =
+	            gp.getArena()
+	                    .getState();
 
-	        Player player =
-	                (Player)
-	                        e.getPlayer();
+	    if(state == ArenaState.WAITING
+	            || state == ArenaState.STARTING) {
 
-	        if(!isLobby(player))
-	            return;
-	        GamePlayer killerGP =
-	                Bedwars.getInstance()
-	                        .getPlayerManager()
-	                        .get(player);
-	        if (killerGP.getArena().getState() == ArenaState.WAITING || killerGP.getArena().getState() == ArenaState.STARTING) {
-	        	e.setCancelled(true);
-	        }
-	 }
+	        e.setCancelled(true);
+	    }
+	}
+	@EventHandler
+	public void onBREAK(
+	        BlockBreakEvent e) {
+
+	    Player player =
+	            e.getPlayer();
+
+	    GamePlayer gp =
+	            Bedwars.getInstance()
+	                    .getPlayerManager()
+	                    .get(player);
+
+	    if(gp == null
+	            || gp.getArena() == null) {
+
+	        e.setCancelled(true);
+	        return;
+	    }
+
+	    ArenaState state =
+	            gp.getArena()
+	                    .getState();
+
+	    if(state == ArenaState.WAITING
+	            || state == ArenaState.STARTING) {
+
+	        e.setCancelled(true);
+	    }
+	}
+	@EventHandler
+	public void onPlace2(
+	        BlockPlaceEvent e) {
+
+	    Player player =
+	            e.getPlayer();
+
+	    GamePlayer gp =
+	            Bedwars.getInstance()
+	                    .getPlayerManager()
+	                    .get(player);
+
+	    if(gp == null
+	            || gp.getArena() == null) {
+
+	        e.setCancelled(true);
+	        return;
+	    }
+
+	    ArenaState state =
+	            gp.getArena()
+	                    .getState();
+
+	    if(state == ArenaState.WAITING
+	            || state == ArenaState.STARTING) {
+
+	        e.setCancelled(true);
+	    }
+	}
     @EventHandler
     public void onFood(
             FoodLevelChangeEvent e) {
