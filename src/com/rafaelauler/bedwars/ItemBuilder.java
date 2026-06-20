@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class ItemBuilder {
 
@@ -43,6 +44,15 @@ public class ItemBuilder {
         meta.setLore(
                 Arrays.asList(lore)
         );
+
+        return this;
+    }
+
+    public ItemBuilder lore(
+            List<String> lore2) {
+
+        meta.setLore(lore2);
+        
 
         return this;
     }

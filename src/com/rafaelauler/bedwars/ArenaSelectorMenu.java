@@ -1,5 +1,8 @@
 package com.rafaelauler.bedwars;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -98,27 +101,52 @@ public class ArenaSelectorMenu {
         	    material =
         	            Material.BED;
         	}
-            ItemStack item =
-                    new ItemBuilder(
-                            material
-                    )
-                    .name(
-                            "§a" +
-                            arena.getName())
-                    .lore(
-                            "§7Jogadores: §f"
-                            + arena.getPlayers()
-                                    .size()
-                            + "/"
-                            + arena.getMaxPlayers() +  "\n§7Status: "
-                            + status + "\n§7Vagas: §a" + (
-                                    arena.getMaxPlayers()
-                                    - arena.getPlayers().size() + "\n" + "§aClique para entrar" + "\n§7Lotação: " + bar
-                                    )
-                    )
+        	  List<String> lore =
+                      new ArrayList<>();
                     
-                    .build();
 
+                  
+
+            lore.add(
+                    "§7Jogadores: §f"
+                    + arena.getPlayers().size()
+                    + "/"
+                    + arena.getMaxPlayers()
+            );
+
+            lore.add(
+                    "§7Status: "
+                    + status
+            );
+
+            lore.add(
+                    "§7Vagas: §a"
+                    + (
+                    arena.getMaxPlayers()
+                    - arena.getPlayers().size()
+                    )
+            );
+
+            lore.add("");
+
+            lore.add(
+                    "§7Lotação: "
+                    + bar
+            );
+
+            lore.add("");
+
+            lore.add(
+                    full
+                    ? "§cArena cheia"
+                    : "§aClique para entrar"
+            );
+                    
+            ItemStack item =
+                    new ItemBuilder(material)
+                    .name("§a" + arena.getName())
+                    .lore(lore)
+                    .build();
             inventory.setItem(
                     slot++,
                     item
