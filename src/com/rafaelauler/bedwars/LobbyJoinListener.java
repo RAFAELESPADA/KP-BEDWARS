@@ -27,9 +27,7 @@ public class LobbyJoinListener
 	        return;
 
 	    player.teleport(
-	            Bedwars.getInstance()
-	                    .getLobbyFile()
-	                    .getLobby()
+	            Bedwars.getInstance().getLobbySpawn()
 	    );
 	}
     @EventHandler

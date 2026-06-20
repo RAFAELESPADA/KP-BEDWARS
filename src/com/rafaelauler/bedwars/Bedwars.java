@@ -42,6 +42,8 @@ public class Bedwars extends JavaPlugin {
         swordManager =
                 new SwordManager();
         playerManager = new PlayerManager();
+
+        npcManager = new NPCManager();
         arenaManager = new ArenaManager();
         gameEndManager =
                 new GameEndManager();
@@ -72,7 +74,6 @@ public class Bedwars extends JavaPlugin {
                     .register();
         }
         
-        npcManager = new NPCManager();
         tntManager =
                 new TNTManager();
         toolManager =

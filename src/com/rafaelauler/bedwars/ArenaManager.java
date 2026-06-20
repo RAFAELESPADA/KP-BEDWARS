@@ -3,6 +3,7 @@ package com.rafaelauler.bedwars;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -90,18 +91,51 @@ public class ArenaManager {
                             .add(generator);
                 }
             }
-            Bedwars.getInstance().getNpcManager().createItemShop(
+            org.bukkit.Location itemShop =
                     arenaFile.getLocation(
                             arenaName +
                             ".NPCS.ITEM_SHOP"
-                    )
-            );
-            Bedwars.getInstance().getNpcManager().createUpgradeShop(
+                    );
+
+            if(itemShop != null) {
+
+                Bedwars.getInstance()
+                        .getNpcManager()
+                        .createItemShop(
+                                itemShop
+                        );
+            }
+            else {
+            	  Bukkit.getLogger().warning(
+            	            "[KPBedWars] Arena "
+            	            + arenaName
+            	            + " não possui NPC ITEM_SHOP."
+            	    );
+            	  continue;
+            }
+            org.bukkit.Location teamUpgrade =
                     arenaFile.getLocation(
                             arenaName +
                             ".NPCS.TEAM_UPGRADES"
-                    )
-            );
+                    );
+
+            if(teamUpgrade != null) {
+
+                Bedwars.getInstance()
+                        .getNpcManager()
+                        .createUpgradeShop(
+                                teamUpgrade
+                        );
+            }
+                else {
+              	  Bukkit.getLogger().warning(
+              	            "[KPBedWars] Arena "
+              	            + arenaName
+              	            + " não possui NPC TEAM_UPGRADES."
+              	    );
+              	  continue;
+              
+            }
             arenas.put(arenaName, arena);
         }
     }

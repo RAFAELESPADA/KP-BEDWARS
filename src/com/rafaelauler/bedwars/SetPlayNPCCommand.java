@@ -8,7 +8,7 @@ public class SetPlayNPCCommand
 
     @Override
     public String getName() {
-        return "setnpc";
+        return "setplaynpc";
     }
 
     @Override
