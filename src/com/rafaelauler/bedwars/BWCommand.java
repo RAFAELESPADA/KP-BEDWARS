@@ -32,6 +32,9 @@ public class BWCommand implements CommandExecutor {
         register(
                 new SaveArenaCommand()
         );
+        register(
+                new SetCosmeticGeneratorCommand()
+        );
         register(new CreateTeamCommand());
         register(new SetSpawnCommand());
         register(new SetBedCommand());
@@ -87,6 +90,8 @@ public class BWCommand implements CommandExecutor {
         	player.sendMessage("§e/bw setbed <arena> <cor>");
         	player.sendMessage("§e/bw setnpc <arena> <itemshop|upgrades>");
         	player.sendMessage("§e/bw setgenerator <arena> <diamond|emerald>");
+
+        	player.sendMessage("§e/bw setcosmeticgenerator diamond|emerald|gold_block>");
         	player.sendMessage("§e/bw list");
         	player.sendMessage(
         	        "§e/bw removenpc <arena> <itemshop|upgrades>"

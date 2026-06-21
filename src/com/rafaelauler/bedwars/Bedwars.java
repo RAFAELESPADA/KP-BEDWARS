@@ -20,6 +20,7 @@ public class Bedwars extends JavaPlugin {
     private ArmorManager armorManager;
     private ToolManager toolManager;
     private GameEndManager gameEndManager;
+    private CosmeticGeneratorManager cosmeticGeneratorManager;
     private KillManager killManager;
     private ScoreboardManager scoreboardManager;
     private TNTManager tntManager;
@@ -29,6 +30,7 @@ public class Bedwars extends JavaPlugin {
     private EliminationManager eliminationManager;
     private RespawnManager respawnManager;
     private MySQL mysql;
+    private CosmeticGeneratorFile cosmeticGeneratorFile;
     private LevelManager levelManager;
     private Location lobbySpawn;
     private LobbyFile lobbyFile;
@@ -39,6 +41,8 @@ public class Bedwars extends JavaPlugin {
         instance = this;
 
         saveDefaultConfig();
+        cosmeticGeneratorFile =
+                new CosmeticGeneratorFile();
         swordManager =
                 new SwordManager();
         playerManager = new PlayerManager();
@@ -54,9 +58,13 @@ public class Bedwars extends JavaPlugin {
         levelManager =
                 new LevelManager();
         mysql.connect();
-
+        generatorManager =
+                new GeneratorManager();
         mysql.createTables();
+        cosmeticGeneratorManager =
+                new CosmeticGeneratorManager();
 
+        cosmeticGeneratorManager.load();
         statsManager =
                 new StatsManager(mysql);
         eliminationManager = new EliminationManager();
@@ -184,6 +192,7 @@ public class Bedwars extends JavaPlugin {
                 new DamageListener(),
                 this
         );
+        
         Bukkit.getPluginManager()
         .registerEvents(
                 new UpgradeListener(),
@@ -244,6 +253,9 @@ public class Bedwars extends JavaPlugin {
     }
     public RewardManager getRewardManager() {
         return rewardManager;
+    }
+    public CosmeticGeneratorFile getCosmeticGeneratorFile() {
+        return cosmeticGeneratorFile;
     }
     public StatsManager getStatsManager() {
         return statsManager;
