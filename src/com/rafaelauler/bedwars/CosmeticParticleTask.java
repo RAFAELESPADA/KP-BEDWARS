@@ -33,14 +33,7 @@ public class CosmeticParticleTask
 
         for(int i = 0; i < 8; i++) {
 
-            double current =
-                    angle +
-                    ((Math.PI * 2) / 8)
-                    * i;
 
-            double x =
-                    Math.cos(current)
-                    * 0.8;
 
             Location center =
                     stand.getLocation();
@@ -54,31 +47,6 @@ public class CosmeticParticleTask
                     ),
                     Effect.HAPPY_VILLAGER
             );
-            double z =
-                    Math.sin(current)
-                    * 0.8;
-            double y =
-                    (Math.sin(angle * 2) + 1)
-                    * 0.5;
-            Location particle =
-                    center.clone().add(
-                            x,
-                            y,
-                            z
-                    );
-            Effect effect =
-                    angle % 2 < 1
-
-                    ? Effect.MAGIC_CRIT
-
-                    : Effect.CRIT;
-
-            center.getWorld()
-                    .spigot()
-                    .playEffect(
-                            particle,
-                            effect
-                    );
         }
     }
 }

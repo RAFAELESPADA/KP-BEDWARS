@@ -25,7 +25,7 @@ public class CosmeticGenerator {
         stand.setArms(true);
         stand.setBasePlate(false);
 
-        stand.setItemInHand(
+        stand.setHelmet(
                 new ItemStack(material)
         );
     }

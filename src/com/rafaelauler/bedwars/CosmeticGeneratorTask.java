@@ -1,6 +1,5 @@
 package com.rafaelauler.bedwars;
 
-
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -11,11 +10,22 @@ public class CosmeticGeneratorTask
 
     private final ArmorStand stand;
 
-    private double angle;
+    private final Location baseLocation;
+
+    private double rotation;
+
+    private double height;
+
+    private boolean up = true;
+
     public CosmeticGeneratorTask(
             ArmorStand stand) {
 
         this.stand = stand;
+
+        this.baseLocation =
+                stand.getLocation()
+                        .clone();
     }
 
     @Override
@@ -28,21 +38,42 @@ public class CosmeticGeneratorTask
             return;
         }
 
+        rotation += 0.15;
 
-        double y = 0;
-        boolean increase = true;
-            if (y >= Math.PI * 6) {
-                increase = false;
-            } else if (y <= 0) {
-                increase = true;
-            }
-            if (increase) {
-                y += 0.2;
-            } else {
-                y -= 0.2;
-            }
+        stand.setHeadPose(
+                new EulerAngle(
+                        0,
+                        rotation,
+                        0
+                )
+        );
 
+        if(up) {
 
-            stand.setHeadPose(new EulerAngle(0, y, 0));
+            height += 0.01;
+
+            if(height >= 0.25)
+                up = false;
+
+        } else {
+
+            height -= 0.01;
+
+            if(height <= 0)
+                up = true;
+        }
+
+        Location location =
+                baseLocation.clone();
+
+        location.add(
+                0,
+                height,
+                0
+        );
+
+        stand.teleport(
+                location
+        );
     }
 }
