@@ -4,6 +4,7 @@ package com.rafaelauler.bedwars;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.EulerAngle;
 
 public class CosmeticGeneratorTask
         extends BukkitRunnable {
@@ -27,22 +28,21 @@ public class CosmeticGeneratorTask
             return;
         }
 
-        angle += 0.1;
 
-        Location location =
-                stand.getLocation();
+        double y = 0;
+        boolean increase = true;
+            if (y >= Math.PI * 6) {
+                increase = false;
+            } else if (y <= 0) {
+                increase = true;
+            }
+            if (increase) {
+                y += 0.2;
+            } else {
+                y -= 0.2;
+            }
 
-        location.add(
-                0,
-                Math.sin(angle) * 0.03,
-                0
-        );
 
-        location.setYaw(
-                location.getYaw() + 5
-        );
-
-
-        stand.teleport(location);
+            stand.setHeadPose(new EulerAngle(0, y, 0));
     }
 }
