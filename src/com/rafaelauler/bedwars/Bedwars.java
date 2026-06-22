@@ -6,6 +6,9 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+
 
 public class Bedwars extends JavaPlugin {
 
@@ -152,6 +155,8 @@ public class Bedwars extends JavaPlugin {
                 new LobbyItemListener(),
                 this
         );
+        npcManager.loadNPCs();
+       
         Bukkit.getPluginManager()
         .registerEvents(
                 new TeamDamageListener(),

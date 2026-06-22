@@ -13,15 +13,17 @@ public class ArenaReset {
 
     public void reset(
             Arena arena) {
-        restoreBlocks(arena);
+    	restoreBlocks(arena);
 
-        removePlacedBlocks(arena);
+    	removePlacedBlocks(arena);
 
-        clearDrops(arena);
+    	restoreBeds(arena);
 
-        resetTeams(arena);
-        restoreBeds(arena);
-        resetGenerators(arena);
+    	clearDrops(arena);
+
+    	resetTeams(arena);
+
+    	resetGenerators(arena);
         for(Player player :
             new java.util.ArrayList<>(
                     arena.getPlayers()
@@ -64,44 +66,35 @@ private void restoreBeds(
     for(BWTeam team :
             arena.getTeams().values()) {
 
-        Block bed =
-                team.getBed()
+        if(team.getBedHead() == null
+                || team.getBedFoot() == null)
+            continue;
+    
+
+        Block head =
+                team.getBedHead()
                         .getBlock();
 
-        bed.setType(
+        head.setType(
                 Material.BED_BLOCK
         );
 
-        byte data =
-                bed.getData();
+        head.setData(
+                team.getBedHeadData()
+        );
 
-        BlockFace face;
+        Block foot =
+                team.getBedFoot()
+                        .getBlock();
 
-        switch(data & 0x3) {
-
-        case 0:
-            face = BlockFace.SOUTH;
-            break;
-
-        case 1:
-            face = BlockFace.WEST;
-            break;
-
-        case 2:
-            face = BlockFace.NORTH;
-            break;
-
-        default:
-            face = BlockFace.EAST;
-            break;
-        }
-
-        Block other =
-                bed.getRelative(face);
-
-        other.setType(
+        foot.setType(
                 Material.BED_BLOCK
         );
+
+        foot.setData(
+                team.getBedFootData()
+        );
+
         team.setBedAlive(true);
     }
 }

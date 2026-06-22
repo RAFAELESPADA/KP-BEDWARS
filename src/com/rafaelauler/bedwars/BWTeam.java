@@ -24,7 +24,9 @@ public class BWTeam {
             new HashSet<>();
     private Location bedHead;
     private Location bedFoot;
-
+    private byte bedHeadData;
+    private byte bedFootData;
+    
     public Location getBedHead() {
         return bedHead;
     }
@@ -141,4 +143,19 @@ public class BWTeam {
     public Set<UUID> getPlayers() {
         return players;
     }
+
+	public void setBedHeadData(byte int1) {
+		bedHeadData = int1;
+		
+	}
+	 public byte getBedHeadData() {
+	        return bedHeadData;
+	    }
+	 public byte getBedFootData() {
+	        return bedHeadData;
+	    }
+	public void setBedFootData(byte int1) {
+		bedFootData = int1;
+		
+	}
 }

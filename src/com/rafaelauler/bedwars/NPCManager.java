@@ -3,6 +3,8 @@ package com.rafaelauler.bedwars;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 
@@ -15,6 +17,86 @@ public class NPCManager {
             new HashMap<>();
     private final Map<NPC, NPCType> npcs =
             new HashMap<>();
+
+    public void register(
+            int id,
+            NPCType type) {
+
+        npcTypes.put(id, type);
+
+        Bedwars.getInstance()
+                .getConfig()
+                .set(
+                        "NPCS." + type.name(),
+                        id
+                );
+
+        Bedwars.getInstance()
+                .saveConfig();
+    }
+    public void loadNPCs() {
+
+        Bukkit.getScheduler()
+                .runTaskLater(
+                        Bedwars.getInstance(),
+
+                        () -> {
+
+                            for(NPCType type :
+                                    NPCType.values()) {
+
+                                int id =
+                                        Bedwars.getInstance()
+                                                .getConfig()
+                                                .getInt(
+                                                        "NPCS."
+                                                        + type.name(),
+                                                        -1
+                                                );
+
+                                if(id == -1)
+                                    continue;
+                                NPC npc =
+                                        CitizensAPI
+                                                .getNPCRegistry()
+                                                .getById(id);
+
+                                if(npc == null)
+                                    continue;
+
+                                npcTypes.put(id, type);
+
+                                npcs.put(
+                                        npc,
+                                        type
+                                );
+
+
+                                npcTypes.put(
+                                        id,
+                                        type
+                                );
+
+                                npcs.put(
+                                        npc,
+                                        type
+                                );
+                            }
+
+                            Bukkit.getLogger()
+                                    .info(
+                                            "[KPBedWars] "
+                                            + npcTypes.size()
+                                            + " NPCs carregados."
+                                    );
+
+                        },
+
+                        40L
+                );
+    }
+
+
     public NPC createItemShop(
             Location location) {
 
@@ -27,10 +109,7 @@ public class NPCManager {
 
         npc.spawn(location);
 
-        npcTypes.put(
-                npc.getId(),
-                NPCType.ITEM_SHOP
-        );
+
         npc.data().set(
                 NPC.Metadata.NAMEPLATE_VISIBLE,
                 true
@@ -39,28 +118,29 @@ public class NPCManager {
                 "cached-skin-uuid-name",
                 "Villager"
         );
-        npc.data().set(
-                "kpbedwars",
-                true
+        register(
+                npc.getId(),
+                NPCType.ITEM_SHOP
         );
         npcs.put(
                 npc,
                 NPCType.ITEM_SHOP
         );
+    
         return npc;
     }
     public void cleanupArenaNPCs() {
 
         for(NPC npc :
-                CitizensAPI
-                        .getNPCRegistry()) {
-
-            if(!npc.data()
-                    .has("kpbedwars"))
-                continue;
+                new java.util.ArrayList<>(
+                        npcs.keySet()
+                )) {
 
             npc.destroy();
         }
+
+        npcs.clear();
+        npcTypes.clear();
     }
     public NPC createUpgradeShop(
             Location location) {
@@ -74,10 +154,6 @@ public class NPCManager {
 
         npc.spawn(location);
 
-        npcTypes.put(
-                npc.getId(),
-                NPCType.TEAM_UPGRADES
-        );
         npc.data().set(
                 NPC.Metadata.NAMEPLATE_VISIBLE,
                 true
@@ -86,9 +162,9 @@ public class NPCManager {
                 "cached-skin-uuid-name",
                 "Gladiator"
         );
-        npc.data().set(
-                "kpbedwars",
-                true
+        register(
+                npc.getId(),
+                NPCType.TEAM_UPGRADES
         );
         npcs.put(
                 npc,
@@ -140,10 +216,9 @@ public class NPCManager {
                         );
 
         npc.spawn(location);
-
-        npc.data().set(
-                "bw_npc",
-                NPCType.PLAY.name()
+        npcs.put(
+                npc,
+                NPCType.PLAY
         );
         npc.setProtected(
                 true
@@ -155,6 +230,7 @@ public class NPCManager {
                 "cached-skin-uuid-name",
                 "Hypixel"
         );
+        register(npc.getId(), NPCType.PLAY);
         return npc;
     }
     public void removeNPC(

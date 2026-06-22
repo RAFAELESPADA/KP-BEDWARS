@@ -12,16 +12,14 @@ public class EliminationManager {
 
         BWTeam team =
                 gp.getTeam();
-
+        if(team == null)
+            return;
         gp.setAlive(false);
 
         team.getPlayers()
                 .remove(
                         player.getUniqueId()
                 );
-
-        player.getInventory()
-                .clear();
 
         player.setGameMode(
                 GameMode.CREATIVE
@@ -39,7 +37,38 @@ public class EliminationManager {
                 + player.getName()
                 + " foi eliminado!"
         );
+        if(!gp.hasCountedLoss()) {
 
+            PlayerStats stats =
+                    Bedwars.getInstance()
+                            .getStatsManager()
+                            .getStats(
+                                    player.getUniqueId()
+                            );
+
+            stats.setLosses(
+                    stats.getLosses() + 1
+            );
+
+            gp.setCountedLoss(true);
+
+            Bedwars.getInstance()
+                    .getRewardManager()
+                    .rewardLoss(player);
+        }
+
+        TitleAPI.send(
+                player,
+                "§4§lELIMINADO",
+                "§7Sua partida acabou",
+                10,
+                80,
+                10
+        );
+        player.sendMessage("");
+        player.sendMessage("§c§lELIMINADO");
+        player.sendMessage("§7Você não possui mais respawns.");
+        player.sendMessage("");
         Bedwars.getInstance()
                 .getGameEndManager()
                 .checkWinner(

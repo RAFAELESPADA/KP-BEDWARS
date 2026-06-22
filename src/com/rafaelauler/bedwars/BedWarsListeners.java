@@ -2,6 +2,7 @@ package com.rafaelauler.bedwars;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -63,6 +64,24 @@ public class BedWarsListeners implements Listener {
 	            + bedTeam.getColor().name()
 	            + " foi destruída!"
 	    );
+	    for(UUID uuid :
+	    	bedTeam.getPlayers()) {
+
+	    Player target =
+	            Bukkit.getPlayer(uuid);
+
+	    if(target == null)
+	        continue;
+
+	    TitleAPI.send(
+	            target,
+	            "§c§lSUA CAMA FOI DESTRUÍDA!",
+	            "§7Você não poderá mais respawnar",
+	            10,
+	            80,
+	            10
+	    );
+	}
 	}
 	
 	@EventHandler

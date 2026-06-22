@@ -91,6 +91,7 @@ public class BWCommand implements CommandExecutor {
         	player.sendMessage("§e/bw setnpc <arena> <itemshop|upgrades>");
         	player.sendMessage("§e/bw setgenerator <arena> <diamond|emerald>");
 
+        	player.sendMessage("§e/bw leave");
         	player.sendMessage("§e/bw setcosmeticgenerator diamond_block|emerald_block|gold_block>");
         	player.sendMessage("§e/bw list");
         	player.sendMessage(

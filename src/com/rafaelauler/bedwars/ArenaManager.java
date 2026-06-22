@@ -7,6 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+
 public class ArenaManager {
 
     private final Map<String, Arena> arenas;
@@ -50,6 +53,7 @@ public class ArenaManager {
 
             Arena arena = new Arena(arenaName);
 
+            loadTeams(arenaName, arena);
             arena.setLobby(
                     arenaFile.getLocation(
                             arenaName + ".lobby"
@@ -121,14 +125,15 @@ public class ArenaManager {
                         BWTeam team =
                                 arena.getTeams()
                                         .get(teamName);
-
+                        
                         generator.setTeam(team);
                     }
-                    loadTeams(arenaName, arena);
+                    
                     arena.getGenerators()
                             .add(generator);
                 }
             }
+           
             org.bukkit.Location itemShop =
                     arenaFile.getLocation(
                             arenaName +
@@ -137,11 +142,34 @@ public class ArenaManager {
 
             if(itemShop != null) {
 
-                Bedwars.getInstance()
-                        .getNpcManager()
-                        .createItemShop(
-                                itemShop
-                        );
+                int id =
+                        arenaFile.getConfig()
+                                .getInt(
+                                        arenaName
+                                        + ".NPCS.ITEM_SHOP_ID",
+                                        -1
+                                );
+
+                if(id == -1
+                        || CitizensAPI
+                                .getNPCRegistry()
+                                .getById(id) == null) {
+
+                    NPC npc =
+                            Bedwars.getInstance()
+                                    .getNpcManager()
+                                    .createItemShop(
+                                            itemShop
+                                    );
+
+                    arenaFile.getConfig().set(
+                            arenaName
+                            + ".NPCS.ITEM_SHOP_ID",
+                            npc.getId()
+                    );
+
+                    arenaFile.save();
+                }
             }
             else {
             	  Bukkit.getLogger().warning(
@@ -159,11 +187,34 @@ public class ArenaManager {
 
             if(teamUpgrade != null) {
 
-                Bedwars.getInstance()
-                        .getNpcManager()
-                        .createUpgradeShop(
-                                teamUpgrade
-                        );
+                int id =
+                        arenaFile.getConfig()
+                                .getInt(
+                                        arenaName
+                                        + ".NPCS.TEAM_UPGRADES_ID",
+                                        -1
+                                );
+
+                if(id == -1
+                        || CitizensAPI
+                                .getNPCRegistry()
+                                .getById(id) == null) {
+
+                    NPC npc =
+                            Bedwars.getInstance()
+                                    .getNpcManager()
+                                    .createUpgradeShop(
+                                            teamUpgrade
+                                    );
+
+                    arenaFile.getConfig().set(
+                            arenaName
+                            + ".NPCS.TEAM_UPGRADES_ID",
+                            npc.getId()
+                    );
+
+                    arenaFile.save();
+                }
             }
                 else {
               	  Bukkit.getLogger().warning(
@@ -174,6 +225,7 @@ public class ArenaManager {
               	  continue;
               
             }
+            
             arenas.put(arenaName, arena);
         }
     }
@@ -212,13 +264,35 @@ public class ArenaManager {
                     )
             );
 
-            team.setBed(
+            String teamPath =
+                    arenaName
+                    + ".Teams."
+                    + key;
+
+            team.setBedHead(
                     arenaFile.getLocation(
-                            arenaName
-                            + ".Teams."
-                            + key
-                            + ".bed"
+                            teamPath + ".bedHead"
                     )
+            );
+
+            team.setBedFoot(
+                    arenaFile.getLocation(
+                            teamPath + ".bedFoot"
+                    )
+            );
+
+            team.setBedHeadData(
+                    (byte) arenaFile.getConfig()
+                            .getInt(
+                                    teamPath + ".bedHeadData"
+                            )
+            );
+
+            team.setBedFootData(
+                    (byte) arenaFile.getConfig()
+                            .getInt(
+                                    teamPath + ".bedFootData"
+                            )
             );
 
             arena.getTeams()
@@ -323,8 +397,23 @@ public class ArenaManager {
             );
 
             arenaFile.setLocation(
-                    teamPath + ".bed",
-                    team.getBed()
+                    teamPath + ".bedHead",
+                    team.getBedHead()
+            );
+
+            arenaFile.setLocation(
+                    teamPath + ".bedFoot",
+                    team.getBedFoot()
+            );
+
+            arenaFile.getConfig().set(
+                    teamPath + ".bedHeadData",
+                    team.getBedHeadData()
+            );
+
+            arenaFile.getConfig().set(
+                    teamPath + ".bedFootData",
+                    team.getBedFootData()
             );
         }
     }

@@ -19,7 +19,27 @@ public class GamePlayer {
     private ToolTier axeTier = null;
     private int kills;
     private Player lastDamager;
+    private boolean countedLoss;
+    private boolean winner;
 
+    public boolean hasCountedLoss() {
+        return countedLoss;
+    }
+
+    public void setCountedLoss(
+            boolean countedLoss) {
+
+        this.countedLoss = countedLoss;
+    }
+    public boolean isWinner() {
+        return winner;
+    }
+
+    public void setWinner(
+            boolean winner) {
+
+        this.winner = winner;
+    }
     private long lastDamageTime;
     private int finalKills;
 

@@ -35,7 +35,10 @@ public class LeaveCommand implements SubCommand {
 
         gp.setArena(null);
         gp.setTeam(null);
-
+        player.teleport(Bedwars.getInstance().getLobbySpawn());
+        player.getInventory().clear();
+        player.getInventory().setArmorContents(null);
+        LobbyItems.give(player);
         player.sendMessage(
                 "§cVocê saiu da arena."
         );

@@ -30,7 +30,13 @@ public class GameStart {
 
 	        continue;
 	    }
+	    for(GamePlayer gp :
+	        arena.getGamePlayers()) {
 
+	    gp.setCountedLoss(
+	            false
+	    );
+	}
 	    team.setBedAlive(true);
 	}
 	    assignTeams(

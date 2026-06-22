@@ -46,7 +46,16 @@ player.teleport(gp.getArena().getLobby());
                 + seconds
                 + " segundos..."
         );
-
+        TitleAPI.send(
+                player,
+                "§e§lRESPAWN",
+                "§fVoltando em §a"
+                + seconds
+                + "s",
+                0,
+                25,
+                0
+        );
         seconds--;
     }
 }
