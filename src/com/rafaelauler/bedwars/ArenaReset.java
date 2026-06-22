@@ -56,25 +56,25 @@ private void restoreBlocks(
     arena.getBrokenBlocks()
             .clear();
 }
-public void restoreBeds(
+private void restoreBeds(
         Arena arena) {
 
     for(BWTeam team :
-            arena.getTeams()
-                    .values()) {
+            arena.getTeams().values()) {
 
-        if(team.getBed() == null)
+        if(team.getBedHead() == null
+                || team.getBedFoot() == null)
             continue;
 
-        team.getBed()
+        team.getBedHead()
                 .getBlock()
-                .setType(
-                        org.bukkit.Material.BED_BLOCK
-                );
+                .setType(Material.BED_BLOCK);
 
-        team.setBedAlive(
-                true
-        );
+        team.getBedFoot()
+                .getBlock()
+                .setType(Material.BED_BLOCK);
+
+        team.setBedAlive(true);
     }
 }
 private void clearDrops(

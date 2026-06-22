@@ -22,7 +22,24 @@ public class BWTeam {
 
     private final Set<UUID> players =
             new HashSet<>();
+    private Location bedHead;
+    private Location bedFoot;
 
+    public Location getBedHead() {
+        return bedHead;
+    }
+
+    public void setBedHead(Location bedHead) {
+        this.bedHead = bedHead;
+    }
+
+    public Location getBedFoot() {
+        return bedFoot;
+    }
+
+    public void setBedFoot(Location bedFoot) {
+        this.bedFoot = bedFoot;
+    }
     public BWTeam(TeamColor color) {
         this.color = color;
     }
