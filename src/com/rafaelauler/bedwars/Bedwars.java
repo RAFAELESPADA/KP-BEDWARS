@@ -195,6 +195,11 @@ public class Bedwars extends JavaPlugin {
         );
         Bukkit.getPluginManager()
         .registerEvents(
+                new ArenaBlockBreakListener(),
+                this
+        );
+        Bukkit.getPluginManager()
+        .registerEvents(
                 new DamageListener(),
                 this
         );

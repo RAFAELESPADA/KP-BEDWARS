@@ -18,7 +18,7 @@ public class ArenaReset {
         clearDrops(arena);
 
         resetTeams(arena);
-
+        restoreBeds(arena);
         resetGenerators(arena);
 
         resetPlayers(arena);
@@ -49,6 +49,27 @@ private void restoreBlocks(
 
     arena.getBrokenBlocks()
             .clear();
+}
+private void restoreBeds(
+        Arena arena) {
+
+    for(BWTeam team :
+            arena.getTeams()
+                    .values()) {
+
+        if(team.getBed() == null)
+            continue;
+
+        team.getBed()
+                .getBlock()
+                .setType(
+                        org.bukkit.Material.BED_BLOCK
+                );
+
+        team.setBedAlive(
+                true
+        );
+    }
 }
 private void clearDrops(
         Arena arena) {

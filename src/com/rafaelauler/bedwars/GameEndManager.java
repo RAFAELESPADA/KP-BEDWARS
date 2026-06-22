@@ -1,6 +1,5 @@
 package com.rafaelauler.bedwars;
 
-
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -18,11 +17,9 @@ public class GameEndManager {
         int aliveTeams = 0;
 
         for(BWTeam team :
-                arena.getTeams()
-                        .values()) {
+                arena.getTeams().values()) {
 
-            if(team.getPlayers()
-                    .isEmpty())
+            if(team.getPlayers().isEmpty())
                 continue;
 
             aliveTeams++;
@@ -30,13 +27,38 @@ public class GameEndManager {
             winner = team;
         }
 
-        if(aliveTeams > 1)
+        if(aliveTeams != 1
+                || winner == null)
             return;
-        endGame(arena, winner);
-        
+
+        endGame(
+                arena,
+                winner
+        );
     }
+
     private void sendToLobby(
             Player player) {
+
+        GamePlayer gp =
+                Bedwars.getInstance()
+                        .getPlayerManager()
+                        .get(player);
+
+        if(gp != null) {
+
+            if(gp.getTeam() != null) {
+
+                gp.getTeam()
+                        .getPlayers()
+                        .remove(
+                                player.getUniqueId()
+                        );
+            }
+
+            gp.setArena(null);
+            gp.setTeam(null);
+        }
 
         player.getInventory()
                 .clear();
@@ -52,25 +74,39 @@ public class GameEndManager {
         player.setFireTicks(
                 0
         );
-player.setGameMode(GameMode.SURVIVAL);
+
+        player.setGameMode(
+                GameMode.ADVENTURE
+        );
+
         player.teleport(
-                Bedwars.getInstance().getLobbySpawn()
+                Bedwars.getInstance()
+                        .getLobbySpawn()
+        );
+
+        player.setScoreboard(
+                Bukkit.getScoreboardManager()
+                        .getNewScoreboard()
         );
 
         LobbyItems.give(
                 player
         );
-        player.setScoreboard(
-                Bukkit.getScoreboardManager()
-                        .getNewScoreboard()
-        );
+
         Bedwars.getInstance()
-        .getLobbyScoreboard()
-        .update(player);
+                .getLobbyScoreboard()
+                .update(
+                        player
+                );
     }
+
     public void endGame(
             Arena arena,
             BWTeam winner) {
+
+        if(arena.getState()
+                == ArenaState.ENDING)
+            return;
 
         arena.setState(
                 ArenaState.ENDING
@@ -83,6 +119,11 @@ player.setGameMode(GameMode.SURVIVAL);
                 + winner.getColor()
                         .name()
                 + " §fvenceu!"
+        );
+
+        rewardPlayers(
+                arena,
+                winner
         );
 
         new BukkitRunnable() {
@@ -101,12 +142,22 @@ player.setGameMode(GameMode.SURVIVAL);
                                 player
                         );
                     }
-                    end(
-                            arena,
-                            winner
-                    );
-                    cancel();
 
+                    Bukkit.getScheduler()
+                            .runTaskLater(
+                                    Bedwars.getInstance(),
+
+                                    () -> Bedwars
+                                            .getInstance()
+                                            .getArenaReset()
+                                            .reset(
+                                                    arena
+                                            ),
+
+                                    20L
+                            );
+
+                    cancel();
                     return;
                 }
 
@@ -132,80 +183,72 @@ player.setGameMode(GameMode.SURVIVAL);
                 20L
         );
     }
-    private void end(
+
+    private void rewardPlayers(
             Arena arena,
             BWTeam winner) {
 
-        arena.setState(
-                ArenaState.ENDING
-        );
-
-        Bukkit.broadcastMessage(
-                "§a"
-                + winner.getColor()
-                        .name()
-                + " venceu a partida!"
-        );
+        /*
+         * Vencedores
+         */
         for(UUID uuid :
-            winner.getPlayers()) {
-        	PlayerStats stats =
-        	        Bedwars.getInstance()
-        	                .getStatsManager()
-        	                .getStats(uuid);
-
-        	stats.setWins(
-        	        stats.getWins() + 1
-        	);
-        	Player player =
-        	        Bukkit.getPlayer(uuid);
-
-        	if(player != null) {
-
-        	    Bedwars.getInstance()
-        	            .getRewardManager()
-        	            .rewardWin(
-        	                    player
-        	            );
-        	}
-        	for(BWTeam team :
-                arena.getTeams()
-                        .values()) {
-        		if(team == winner)
-        		    continue;
-        	}
-        	
-        	for(UUID uuid2 :
                 winner.getPlayers()) {
 
-            PlayerStats stats2 =
+            PlayerStats stats =
                     Bedwars.getInstance()
                             .getStatsManager()
-                            .getStats(uuid2);
+                            .getStats(uuid);
 
-            stats2.setLosses(
-                    stats2.getLosses() + 1
+            stats.setWins(
+                    stats.getWins() + 1
             );
+
+            Player player =
+                    Bukkit.getPlayer(uuid);
+
             if(player != null) {
-            Bedwars.getInstance()
-            .getRewardManager()
-            .rewardLoss(
-                    player
-            );
-        }
-        	}
-        }
-        Bukkit.getScheduler()
-                .runTaskLater(
-                        Bedwars.getInstance(),
 
-                        () -> Bedwars
-                                .getInstance()
-                                .getArenaReset()
-                                .reset(
-                                        arena
-                                ),
+                Bedwars.getInstance()
+                        .getRewardManager()
+                        .rewardWin(
+                                player
+                        );
+            }
+        }
 
-                        200L
+        /*
+         * Perdedores
+         */
+        for(BWTeam team :
+                arena.getTeams().values()) {
+
+            if(team == winner)
+                continue;
+
+            for(UUID uuid :
+                    team.getPlayers()) {
+
+                PlayerStats stats =
+                        Bedwars.getInstance()
+                                .getStatsManager()
+                                .getStats(uuid);
+
+                stats.setLosses(
+                        stats.getLosses() + 1
                 );
+
+                Player player =
+                        Bukkit.getPlayer(uuid);
+
+                if(player != null) {
+
+                    Bedwars.getInstance()
+                            .getRewardManager()
+                            .rewardLoss(
+                                    player
+                            );
+                }
+            }
+        }
     }
 }

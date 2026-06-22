@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -21,6 +22,39 @@ public class LobbyProtectionListener
     /*
      * Anti Hunger
      */
+	@EventHandler
+	public void onDamage(
+	        EntityDamageByEntityEvent e) {
+
+	    if(!(e.getEntity()
+	            instanceof Player))
+	        return;
+
+	    Player player =
+	            (Player) e.getEntity();
+
+	    GamePlayer gp =
+	            Bedwars.getInstance()
+	                    .getPlayerManager()
+	                    .get(player);
+
+	    if(gp == null
+	            || gp.getArena() == null) {
+
+	        e.setCancelled(true);
+	        return;
+	    }
+
+	    ArenaState state =
+	            gp.getArena()
+	                    .getState();
+
+	    if(state == ArenaState.WAITING
+	            || state == ArenaState.STARTING) {
+
+	        e.setCancelled(true);
+	    }
+	}
 	@EventHandler
 	public void onFood2(
 	        FoodLevelChangeEvent e) {

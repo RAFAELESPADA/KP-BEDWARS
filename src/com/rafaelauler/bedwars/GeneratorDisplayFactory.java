@@ -55,7 +55,7 @@ public class GeneratorDisplayFactory {
                         location.clone()
                                 .add(0, 3.0, 0)
                 );
-
+if (generator.getType() == GeneratorType.DIAMOND || generator.getType() == GeneratorType.EMERALD) {
         DHAPI.setHologramLines(
                 hologram,
                 Arrays.asList(
@@ -69,6 +69,7 @@ public class GeneratorDisplayFactory {
                         "§fGera items a cada §a0 §fsegundos"
                 )
         );
+}
 
         return new GeneratorDisplay(
                 stand,
