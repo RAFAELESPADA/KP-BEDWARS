@@ -1,6 +1,5 @@
 package com.rafaelauler.bedwars;
 
-package com.rafaelauler.bedwars;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
