@@ -64,17 +64,6 @@ private void restoreBeds(
     for(BWTeam team :
             arena.getTeams().values()) {
 
-        if(team.getBedHead() == null
-                || team.getBedFoot() == null)
-            continue;
-
-        team.getBedHead()
-                .getBlock()
-                .setType(Material.BED_BLOCK);
-
-        team.getBedFoot()
-                .getBlock()
-                .setType(Material.BED_BLOCK);
         Block bed =
                 team.getBed()
                         .getBlock();
