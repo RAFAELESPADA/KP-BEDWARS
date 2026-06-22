@@ -2,6 +2,7 @@ package com.rafaelauler.bedwars;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -48,6 +49,12 @@ public class Bedwars extends JavaPlugin {
         playerManager = new PlayerManager();
 
         npcManager = new NPCManager();
+        npcManager.cleanupArenaNPCs();
+        Bukkit.getPluginManager()
+        .registerEvents(
+                new LobbyJumpPadListener(),
+                this
+        );
         arenaManager = new ArenaManager();
         gameEndManager =
                 new GameEndManager();
@@ -63,7 +70,6 @@ public class Bedwars extends JavaPlugin {
         mysql.createTables();
         cosmeticGeneratorManager =
                 new CosmeticGeneratorManager();
-
         cosmeticGeneratorManager.load();
         statsManager =
                 new StatsManager(mysql);
@@ -81,7 +87,7 @@ public class Bedwars extends JavaPlugin {
             new BedwarsExpansion()
                     .register();
         }
-        
+    
         tntManager =
                 new TNTManager();
         toolManager =
@@ -232,6 +238,15 @@ public class Bedwars extends JavaPlugin {
                 .save(stats);
         statsManager.saveAll();
     }
+    	for(ArmorStand stand : Bukkit.getWorld(getConfig().getString("Lobby.World")).getEntitiesByClass(ArmorStand.class)) {
+if (stand.hasMetadata("KPBEDWARS_COSMETIC"))
+    	    if(stand != null
+    	            && !stand.isDead()) {
+
+    	        stand.remove();
+    	    }
+getLogger().info("Stands cosmeticos removidos");
+    	}
         getLogger().info("BedWars desligado!");
     }
     public LobbyScoreboard getLobbyScoreboard() {

@@ -5,13 +5,14 @@ import org.bukkit.Color;
 
 public enum TeamColor {
 
-    RED(Color.RED, ChatColor.RED),
-
-    BLUE(Color.BLUE, ChatColor.BLUE),
-
-    GREEN(Color.GREEN, ChatColor.GREEN),
-
-    YELLOW(Color.YELLOW, ChatColor.YELLOW);
+    VERMELHO(Color.RED, ChatColor.RED),
+    AZUL(Color.BLUE, ChatColor.BLUE),
+    VERDE(Color.GREEN, ChatColor.GREEN),
+    BRANCO(Color.WHITE, ChatColor.WHITE),
+    CINZA(Color.GRAY, ChatColor.GRAY),
+    ROXO(Color.PURPLE, ChatColor.DARK_PURPLE),
+    ROSA(Color.OLIVE, ChatColor.LIGHT_PURPLE),
+    AMARELO(Color.YELLOW, ChatColor.YELLOW);
 
     private final Color leatherColor;
     private final ChatColor chatColor;

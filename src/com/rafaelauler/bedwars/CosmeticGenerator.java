@@ -28,6 +28,7 @@ public class CosmeticGenerator {
         stand.setHelmet(
                 new ItemStack(material)
         );
+        
     }
 
     public ArmorStand getStand() {

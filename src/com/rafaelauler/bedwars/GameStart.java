@@ -13,37 +13,29 @@ import org.bukkit.inventory.ItemStack;
 
 public class GameStart {
 
-    public static void start(Arena arena) {
+	public static void start(
+	        Arena arena) {
 
-        arena.setState(
-                ArenaState.PLAYING
-        );
+	    arena.setStarting(false);
 
-        for(BWTeam team :
-                arena.getTeams().values()) {
+	    arena.setState(
+	            ArenaState.PLAYING
+	    );
 
-            for(Player player :
-                    Bukkit.getOnlinePlayers()) {
+	    assignTeams(
+	            arena
+	    );
 
-                if(!team.getPlayers()
-                        .contains(
-                                player.getUniqueId()
-                        ))
-                    continue;
+	    teleportPlayers(
+	            arena
+	    );
 
-                player.teleport(
-                        team.getSpawn()
-                );
-                arena.setStarting(false);
-                teleportPlayers(arena);
-                assignTeams(arena);
-                arena.setState(ArenaState.PLAYING);
-                Bedwars.getInstance()
-                .getGeneratorManager()
-                .start(arena);
-            }
-        }
-    }
+	    Bedwars.getInstance()
+	            .getGeneratorManager()
+	            .start(
+	                    arena
+	            );
+	}
     private static void assignTeams(
             Arena arena) {
     	for(BWTeam team :

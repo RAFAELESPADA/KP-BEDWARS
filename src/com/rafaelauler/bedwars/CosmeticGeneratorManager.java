@@ -1,9 +1,11 @@
 package com.rafaelauler.bedwars;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class CosmeticGeneratorManager {
-
+	
     public void load() {
 
         CosmeticGeneratorFile file =

@@ -1,7 +1,11 @@
 package com.rafaelauler.bedwars;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 
@@ -11,7 +15,8 @@ public class CosmeticGeneratorTask
     private final ArmorStand stand;
 
     private final Location baseLocation;
-
+    private final List<ArmorStand> cosmetics =
+	        new ArrayList<>();
     private double rotation;
 
     private double height;
@@ -62,7 +67,14 @@ public class CosmeticGeneratorTask
             if(height <= 0)
                 up = true;
         }
-
+        stand.setMetadata(
+                "KPBEDWARS_COSMETIC",
+                new FixedMetadataValue(
+                        Bedwars.getInstance(),
+                        true
+                )
+        );
+        cosmetics.add(stand);
         Location location =
                 baseLocation.clone();
 

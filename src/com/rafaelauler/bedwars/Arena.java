@@ -47,7 +47,7 @@ public class Arena {
         this.players = new ArrayList<>();
 
         this.minPlayers = 2;
-        this.maxPlayers = 16;
+        this.maxPlayers = 8;
     }
     public boolean createTeam(TeamColor color) {
 

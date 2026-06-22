@@ -39,13 +39,29 @@ public class NPCManager {
                 "cached-skin-uuid-name",
                 "Villager"
         );
+        npc.data().set(
+                "kpbedwars",
+                true
+        );
         npcs.put(
                 npc,
                 NPCType.ITEM_SHOP
         );
         return npc;
     }
+    public void cleanupArenaNPCs() {
 
+        for(NPC npc :
+                CitizensAPI
+                        .getNPCRegistry()) {
+
+            if(!npc.data()
+                    .has("kpbedwars"))
+                continue;
+
+            npc.destroy();
+        }
+    }
     public NPC createUpgradeShop(
             Location location) {
 
@@ -69,6 +85,10 @@ public class NPCManager {
         npc.data().setPersistent(
                 "cached-skin-uuid-name",
                 "Gladiator"
+        );
+        npc.data().set(
+                "kpbedwars",
+                true
         );
         npcs.put(
                 npc,
