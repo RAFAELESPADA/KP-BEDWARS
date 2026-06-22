@@ -183,6 +183,7 @@ public class BedWarsListeners implements Listener {
 
 
 	    Bedwars.getInstance().getGameEndManager().checkWinner(arena);
+	    
 	}
 @EventHandler
 public void onDeath(PlayerDeathEvent e) {

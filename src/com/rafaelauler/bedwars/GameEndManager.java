@@ -4,7 +4,9 @@ package com.rafaelauler.bedwars;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameEndManager {
 
@@ -30,13 +32,106 @@ public class GameEndManager {
 
         if(aliveTeams > 1)
             return;
+        endGame(arena, winner);
+        
+    }
+    private void sendToLobby(
+            Player player) {
 
-        end(
-                arena,
-                winner
+        player.getInventory()
+                .clear();
+
+        player.setHealth(
+                20.0
+        );
+
+        player.setFoodLevel(
+                20
+        );
+
+        player.setFireTicks(
+                0
+        );
+player.setGameMode(GameMode.SURVIVAL);
+        player.teleport(
+                Bedwars.getInstance().getLobbySpawn()
+        );
+
+        LobbyItems.give(
+                player
+        );
+        player.setScoreboard(
+                Bukkit.getScoreboardManager()
+                        .getNewScoreboard()
+        );
+        Bedwars.getInstance()
+        .getLobbyScoreboard()
+        .update(player);
+    }
+    public void endGame(
+            Arena arena,
+            BWTeam winner) {
+
+        arena.setState(
+                ArenaState.ENDING
+        );
+
+        Bukkit.broadcastMessage(
+                "§6§lBEDWARS §8» §fO time "
+                + winner.getColor()
+                        .getColor()
+                + winner.getColor()
+                        .name()
+                + " §fvenceu!"
+        );
+
+        new BukkitRunnable() {
+
+            int seconds = 10;
+
+            @Override
+            public void run() {
+
+                if(seconds <= 0) {
+
+                    for(Player player :
+                            arena.getPlayers()) {
+
+                        sendToLobby(
+                                player
+                        );
+                    }
+                    end(
+                            arena,
+                            winner
+                    );
+                    cancel();
+
+                    return;
+                }
+
+                if(seconds <= 5) {
+
+                    for(Player player :
+                            arena.getPlayers()) {
+
+                        player.sendMessage(
+                                "§aVoltando ao lobby em "
+                                + seconds
+                                + "s"
+                        );
+                    }
+                }
+
+                seconds--;
+            }
+
+        }.runTaskTimer(
+                Bedwars.getInstance(),
+                20L,
+                20L
         );
     }
-
     private void end(
             Arena arena,
             BWTeam winner) {
