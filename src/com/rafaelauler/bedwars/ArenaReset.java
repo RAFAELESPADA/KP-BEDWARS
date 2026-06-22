@@ -20,19 +20,25 @@ public class ArenaReset {
         resetTeams(arena);
         restoreBeds(arena);
         resetGenerators(arena);
-
-        resetPlayers(arena);
-
-        arena.setState(
-                ArenaState.WAITING
-        );
         for(Player player :
-            arena.getPlayers()) {
+            new java.util.ArrayList<>(
+                    arena.getPlayers()
+            )) {
 
         Bedwars.getInstance()
                 .getSpectatorManager()
-                .removeSpectator(arena, player);
-        }
+                .removeSpectator(
+                        arena,
+                        player
+                );
+    }
+        resetPlayers(arena);
+        arena.getPlayers().clear();
+        arena.getGamePlayers().clear();
+        arena.setState(
+                ArenaState.WAITING
+        );
+     
     }
 
 private void restoreBlocks(
@@ -50,7 +56,7 @@ private void restoreBlocks(
     arena.getBrokenBlocks()
             .clear();
 }
-private void restoreBeds(
+public void restoreBeds(
         Arena arena) {
 
     for(BWTeam team :

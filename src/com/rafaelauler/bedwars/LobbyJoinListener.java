@@ -47,7 +47,7 @@ public class LobbyJoinListener
         player.setGameMode(
                 GameMode.ADVENTURE
         );
-
+player.getInventory().setArmorContents(null);
         LobbyItems.give(
                 player
         );

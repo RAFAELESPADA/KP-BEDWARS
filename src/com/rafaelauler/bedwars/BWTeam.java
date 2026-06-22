@@ -50,7 +50,10 @@ public class BWTeam {
     public int getProtectionLevel() {
         return protectionLevel;
     }
+    public boolean isActive() {
 
+        return !getPlayers().isEmpty();
+    }
     public void setProtectionLevel(
             int protectionLevel) {
 

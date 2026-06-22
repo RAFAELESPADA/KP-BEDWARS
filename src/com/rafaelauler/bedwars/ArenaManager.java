@@ -227,6 +227,7 @@ public class ArenaManager {
                             team
                     );
        }
+    
         Bukkit.getConsoleSender().sendMessage("TIMES DA ARENA " + arenaName + " CARREGADOS");
         
     }

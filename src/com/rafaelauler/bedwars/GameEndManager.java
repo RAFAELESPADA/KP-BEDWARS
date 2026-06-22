@@ -1,5 +1,6 @@
 package com.rafaelauler.bedwars;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -19,7 +20,7 @@ public class GameEndManager {
         for(BWTeam team :
                 arena.getTeams().values()) {
 
-            if(team.getPlayers().isEmpty())
+            if(!team.isBedAlive() && team.getPlayers().isEmpty())
                 continue;
 
             aliveTeams++;
@@ -44,7 +45,10 @@ public class GameEndManager {
                 Bedwars.getInstance()
                         .getPlayerManager()
                         .get(player);
-
+        player.teleport(
+                Bedwars.getInstance()
+                        .getLobbySpawn()
+        );
         if(gp != null) {
 
             if(gp.getTeam() != null) {
@@ -55,7 +59,17 @@ public class GameEndManager {
                                 player.getUniqueId()
                         );
             }
+            Arena arena =
+                    gp.getArena();
 
+            if(arena != null) {
+
+                arena.getPlayers()
+                        .remove(player);
+
+                arena.getGamePlayers()
+                        .remove(gp);
+            }
             gp.setArena(null);
             gp.setTeam(null);
         }
@@ -79,10 +93,7 @@ public class GameEndManager {
                 GameMode.ADVENTURE
         );
 
-        player.teleport(
-                Bedwars.getInstance()
-                        .getLobbySpawn()
-        );
+        
 
         player.setScoreboard(
                 Bukkit.getScoreboardManager()
@@ -135,13 +146,13 @@ public class GameEndManager {
 
                 if(seconds <= 0) {
 
-                    for(Player player :
-                            arena.getPlayers()) {
+                	for(Player player :
+                        new ArrayList<>(
+                                arena.getPlayers()
+                        )) {
 
-                        sendToLobby(
-                                player
-                        );
-                    }
+                    sendToLobby(player);
+                }
 
                     Bukkit.getScheduler()
                             .runTaskLater(

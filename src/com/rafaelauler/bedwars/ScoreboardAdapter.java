@@ -116,12 +116,20 @@ public class ScoreboardAdapter {
                 arena.getTeams()
                         .values()) {
 
-            String status =
-                    team.isBedAlive()
+        		String status;
 
-                    ? "§a✔"
+        		if(team.getPlayers().isEmpty()) {
 
-                    : "§c✘";
+        		    status = "§8✘";
+
+        		} else if(team.isBedAlive()) {
+
+        		    status = "§a✔";
+
+        		} else {
+
+        		    status = "§c✘";
+        		}
 
             add(
                     objective,

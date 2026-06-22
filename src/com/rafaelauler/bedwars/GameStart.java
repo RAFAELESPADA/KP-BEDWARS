@@ -21,7 +21,18 @@ public class GameStart {
 	    arena.setState(
 	            ArenaState.PLAYING
 	    );
+	    for(BWTeam team :
+	        arena.getTeams().values()) {
 
+	    if(!team.isActive()) {
+
+	        team.setBedAlive(false);
+
+	        continue;
+	    }
+
+	    team.setBedAlive(true);
+	}
 	    assignTeams(
 	            arena
 	    );
