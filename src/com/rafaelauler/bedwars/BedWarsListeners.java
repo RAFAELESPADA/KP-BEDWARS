@@ -17,26 +17,39 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class BedWarsListeners implements Listener {
 
 	@EventHandler
-	public void onBreak(BlockBreakEvent e) {
+	public void onBreak(
+	        BlockBreakEvent e) {
 
-	    if(e.getBlock().getType() != Material.BED_BLOCK)
+	    if(e.getBlock().getType()
+	            != Material.BED_BLOCK)
 	        return;
 
-	    Player player = e.getPlayer();
+	    Player player =
+	            e.getPlayer();
 
 	    GamePlayer gp =
 	            Bedwars.getInstance()
 	                    .getPlayerManager()
 	                    .get(player);
 
-	    if(gp.getArena() == null)
+	    if(gp == null
+	            || gp.getArena() == null)
 	        return;
 
-	    Arena arena = gp.getArena();
+	    Arena arena =
+	            gp.getArena();
+
+	    if(arena.getState()
+	            != ArenaState.PLAYING) {
+
+	        e.setCancelled(true);
+	        return;
+	    }
 
 	    BWTeam bedTeam =
 	            arena.getTeamByBed(
-	                    e.getBlock().getLocation()
+	                    e.getBlock()
+	                            .getLocation()
 	            );
 
 	    if(bedTeam == null)
@@ -47,41 +60,84 @@ public class BedWarsListeners implements Listener {
 	        e.setCancelled(true);
 
 	        player.sendMessage(
-	                "§cVocê não pode quebrar sua cama."
+	                "§cVocê não pode quebrar sua própria cama."
 	        );
 
 	        return;
 	    }
 
+	    if(!bedTeam.isBedAlive()) {
+
+	        e.setCancelled(true);
+	        return;
+	    }
+
 	    bedTeam.setBedAlive(false);
+
+	    /*
+	     * Remove as duas partes da cama
+	     */
+	    if(bedTeam.getBed() != null) {
+
+	        bedTeam.getBed()
+	                .getBlock()
+	                .setType(
+	                        Material.AIR
+	                );
+	    }
+
+	    if(bedTeam.getBedHead() != null) {
+
+	        bedTeam.getBedHead()
+	                .getBlock()
+	                .setType(
+	                        Material.AIR
+	                );
+	    }
+
 	    Bedwars.getInstance()
-        .getRewardManager()
-        .rewardBedBreak(
-                player
-        );
+	            .getRewardManager()
+	            .rewardBedBreak(
+	                    player
+	            );
+
 	    Bukkit.broadcastMessage(
-	            "§cA cama do time "
-	            + bedTeam.getColor().name()
-	            + " foi destruída!"
+	            "§6§lBEDWARS §8» §fA cama do time "
+	            + bedTeam.getColor()
+	                    .getColor()
+	            + bedTeam.getColor()
+	                    .name()
+	            + " §ffoi destruída!"
 	    );
+
 	    for(UUID uuid :
-	    	bedTeam.getPlayers()) {
+	            bedTeam.getPlayers()) {
 
-	    Player target =
-	            Bukkit.getPlayer(uuid);
+	        Player target =
+	                Bukkit.getPlayer(uuid);
 
-	    if(target == null)
-	        continue;
+	        if(target == null)
+	            continue;
 
-	    TitleAPI.send(
-	            target,
-	            "§c§lSUA CAMA FOI DESTRUÍDA!",
-	            "§7Você não poderá mais respawnar",
-	            10,
-	            80,
-	            10
-	    );
-	}
+	        TitleAPI.send(
+	                target,
+	                "§c§lSUA CAMA FOI DESTRUÍDA!",
+	                "§7Você não poderá mais respawnar",
+	                10,
+	                80,
+	                10
+	        );
+
+	        target.sendMessage(
+	                "§cSua cama foi destruída! Agora você possui apenas uma vida."
+	        );
+	    }
+
+	    Bedwars.getInstance()
+	            .getGameEndManager()
+	            .checkWinner(
+	                    arena
+	            );
 	}
 	
 	@EventHandler

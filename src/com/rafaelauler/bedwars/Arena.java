@@ -168,32 +168,51 @@ public class Arena {
     public String getName() {
         return name;
     }
-    public BWTeam getTeamByBed(Location location) {
+    public BWTeam getTeamByBed(
+            Location location) {
 
-        for(BWTeam team : teams.values()) {
+        for(BWTeam team :
+                teams.values()) {
 
-            if(team.getBed() == null)
-                continue;
+            if(team.getBed() != null) {
 
-            if(team.getBed().getBlockX() ==
-                    location.getBlockX()
+                if(team.getBed()
+                        .getBlock()
+                        .equals(
+                                location.getBlock()
+                        )) {
 
-                    &&
-
-                    team.getBed().getBlockY() ==
-                    location.getBlockY()
-
-                    &&
-
-                    team.getBed().getBlockZ() ==
-                    location.getBlockZ()) {
-
-                return team;
+                    return team;
+                }
             }
+
+            if(team.getBedHead() != null) {
+
+                if(team.getBedHead()
+                        .getBlock()
+                        .equals(
+                                location.getBlock()
+                        )) {
+
+                    return team;
+                }
+                if(team.getBedFoot() != null) {
+
+                    if(team.getBedFoot()
+                            .getBlock()
+                            .equals(
+                                    location.getBlock()
+                            )) {
+
+                        return team;
+                    }
+            }
+        }
         }
 
         return null;
     }
+
     public ArenaState getState() {
         return state;
     }
