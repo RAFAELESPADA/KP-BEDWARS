@@ -1,5 +1,8 @@
 package com.rafaelauler.bedwars;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -129,6 +132,58 @@ public class BedWarsListeners implements Listener {
 	                            .getUniqueId()
 	            );
 	}
+	@EventHandler
+	public void onQuit5(
+	        PlayerQuitEvent e) {
+
+	    Player player =
+	            e.getPlayer();
+
+	    GamePlayer gp =
+	            Bedwars.getInstance()
+	                    .getPlayerManager()
+	                    .get(player);
+
+	    if(gp == null)
+	        return;
+
+	    Arena arena =
+	            gp.getArena();
+
+	    if(arena == null)
+	        return;
+
+	    ArenaLeaveManager.leave(
+	            gp
+	    );
+
+	    checkWinner(
+	                    arena
+	            );
+	}
+	public void checkWinner(
+	        Arena arena) {
+
+	    List<BWTeam> alive =
+	            new ArrayList<>();
+
+	    for(BWTeam team :
+	            arena.getTeams()
+	                    .values()) {
+
+	        if(team.getPlayers()
+	                .isEmpty())
+	            continue;
+
+	        alive.add(team);
+	    }
+
+	    if(alive.size() != 1)
+	        return;
+
+
+	    Bedwars.getInstance().getGameEndManager().checkWinner(arena);
+	}
 @EventHandler
 public void onDeath(PlayerDeathEvent e) {
 
@@ -155,7 +210,12 @@ public void onDeath(PlayerDeathEvent e) {
                                     player,
                                     gp
                             );
-                            Bedwars.getInstance().getRespawnManager().respawn(player);
+                        	new RespawnTask(player)
+                            .runTaskTimer(
+                                    Bedwars.getInstance(),
+                                    20L,
+                                    20L
+                            );
 
                         } else {
 

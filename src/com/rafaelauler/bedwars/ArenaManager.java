@@ -19,7 +19,28 @@ public class ArenaManager {
 
         loadArenas();
     }
+    public static void leave(
+            GamePlayer gp) {
 
+        Arena arena =
+                gp.getArena();
+
+        if(arena == null)
+            return;
+
+        if(gp.getTeam() != null) {
+
+            gp.getTeam()
+                    .getPlayers()
+                    .remove(gp.getUuid());
+        }
+
+        arena.getGamePlayers()
+                .remove(gp);
+
+        gp.setArena(null);
+        gp.setTeam(null);
+    }
     private void loadArenas() {
 
         if (arenaFile.getConfig().getKeys(false).isEmpty())

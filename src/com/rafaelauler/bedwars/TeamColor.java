@@ -5,19 +5,19 @@ import org.bukkit.Color;
 
 public enum TeamColor {
 
-    VERMELHO(Color.RED, ChatColor.RED),
-    AZUL(Color.BLUE, ChatColor.BLUE),
-    VERDE(Color.GREEN, ChatColor.GREEN),
-    BRANCO(Color.WHITE, ChatColor.WHITE),
-    CINZA(Color.GRAY, ChatColor.GRAY),
-    ROXO(Color.PURPLE, ChatColor.DARK_PURPLE),
-    ROSA(Color.OLIVE, ChatColor.LIGHT_PURPLE),
-    AMARELO(Color.YELLOW, ChatColor.YELLOW);
+    VERMELHO( ChatColor.RED, Color.RED),
+    AZUL( ChatColor.BLUE, Color.BLUE),
+    VERDE(ChatColor.GREEN, Color.GREEN),
+    BRANCO(ChatColor.WHITE, Color.WHITE),
+    CINZA( ChatColor.GRAY, Color.GRAY),
+    ROXO( ChatColor.DARK_PURPLE, Color.PURPLE),
+    ROSA(ChatColor.LIGHT_PURPLE, Color.OLIVE),
+    AMARELO(ChatColor.YELLOW,Color.YELLOW);
 
     private final Color leatherColor;
     private final ChatColor chatColor;
     TeamColor(
-            Color leatherColor, ChatColor chatColor) {
+    		ChatColor chatColor, Color leatherColor) {
 
         this.leatherColor =
                 leatherColor;

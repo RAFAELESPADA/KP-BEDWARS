@@ -1,5 +1,6 @@
 package com.rafaelauler.bedwars;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -28,37 +29,48 @@ public class RespawnManager {
         if(team == null)
             return;
 
-        player.teleport(
-                team.getSpawn()
-        );
+        player.spigot().respawn();
 
-        player.setHealth(
-                20.0
-        );
+        Bukkit.getScheduler()
+                .runTaskLater(
+                        Bedwars.getInstance(),
+                        () -> {
 
-        player.setFoodLevel(
-                20
-        );
+                            player.teleport(
+                                    team.getSpawn()
+                            );
 
-        player.setFireTicks(
-                0
-        );
+                            player.setHealth(
+                                    20.0
+                            );
 
-        player.setGameMode(
-                GameMode.SURVIVAL
-        );
+                            player.setFoodLevel(
+                                    20
+                            );
 
-        player.getInventory()
-                .clear();
+                            player.setFireTicks(
+                                    0
+                            );
 
-        giveDefaultItems(
-                player
-        );
+                            player.setGameMode(
+                                    GameMode.SURVIVAL
+                            );
 
-        restoreUpgrades(
-                player,
-                gp
-        );
+                            player.getInventory()
+                                    .clear();
+
+                            giveDefaultItems(
+                                    player
+                            );
+
+                            restoreUpgrades(
+                                    player,
+                                    gp
+                            );
+
+                        },
+                        1L
+                );
     }
 
 private void giveDefaultItems(
