@@ -2,6 +2,8 @@ package com.rafaelauler.bedwars;
 
 
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -73,7 +75,44 @@ private void restoreBeds(
         team.getBedFoot()
                 .getBlock()
                 .setType(Material.BED_BLOCK);
+        Block bed =
+                team.getBed()
+                        .getBlock();
 
+        bed.setType(
+                Material.BED_BLOCK
+        );
+
+        byte data =
+                bed.getData();
+
+        BlockFace face;
+
+        switch(data & 0x3) {
+
+        case 0:
+            face = BlockFace.SOUTH;
+            break;
+
+        case 1:
+            face = BlockFace.WEST;
+            break;
+
+        case 2:
+            face = BlockFace.NORTH;
+            break;
+
+        default:
+            face = BlockFace.EAST;
+            break;
+        }
+
+        Block other =
+                bed.getRelative(face);
+
+        other.setType(
+                Material.BED_BLOCK
+        );
         team.setBedAlive(true);
     }
 }
