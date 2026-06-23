@@ -33,14 +33,14 @@ public class LeaveCommand implements SubCommand {
                 .getPlayers()
                 .remove(player.getUniqueId());
 
-        gp.setArena(null);
-        gp.setTeam(null);
+	    Bedwars.getInstance().getGameEndManager().checkWinner(gp.getArena());
+   
         player.teleport(Bedwars.getInstance().getLobbySpawn());
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
         LobbyItems.give(player);
-
-	    Bedwars.getInstance().getGameEndManager().checkWinner(gp.getArena());
+        gp.setArena(null);
+        gp.setTeam(null);
         player.sendMessage(
                 "§cVocê saiu da arena."
         );
