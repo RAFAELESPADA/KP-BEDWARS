@@ -39,6 +39,8 @@ public class LeaveCommand implements SubCommand {
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
         LobbyItems.give(player);
+
+	    Bedwars.getInstance().getGameEndManager().checkWinner(gp.getArena());
         player.sendMessage(
                 "§cVocê saiu da arena."
         );

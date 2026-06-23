@@ -99,7 +99,7 @@ Player spectator = Bukkit.getPlayer(spectator2);
 	    spectator.setFoodLevel(20);
 
 	    spectator.setFireTicks(0);
-
+spectator.getInventory().setArmorContents(null);
 	    LobbyItems.give(
 	            spectator
 	    );
@@ -159,6 +159,7 @@ Player spectator = Bukkit.getPlayer(spectator2);
                 20.0
         );
 
+player.getInventory().setArmorContents(null);
         player.setFoodLevel(
                 20
         );

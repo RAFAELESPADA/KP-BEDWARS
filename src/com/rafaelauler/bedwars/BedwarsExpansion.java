@@ -91,6 +91,15 @@ public class BedwarsExpansion
             return gp.getTeam()
                     .getColor()
                     .name();
+        case "team_color_raw":
+
+            if(gp == null
+                    || gp.getTeam() == null)
+                return "NONE";
+
+            return String.valueOf(gp.getTeam()
+                    .getColor()
+                    .getColor());
             case "arena":
 
                 return gp == null
