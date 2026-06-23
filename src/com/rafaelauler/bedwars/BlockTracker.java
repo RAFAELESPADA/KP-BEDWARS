@@ -13,10 +13,15 @@ public class BlockTracker
     public void onBreak(
             BlockBreakEvent e) {
 
-        Arena arena =
-                Bedwars.getInstance().getArenaManager().getArenabyRealPlayer(
-                        e.getPlayer()
-                );
+    	GamePlayer gp =
+    	        Bedwars.getInstance()
+    	                .getPlayerManager()
+    	                .get(
+    	                        e.getPlayer()
+    	                );
+
+    	Arena arena =
+    	        gp.getArena();
 
         if(arena == null)
             return;
@@ -32,19 +37,24 @@ public class BlockTracker
     public void onPlace(
             BlockPlaceEvent e) {
 
-    	 Arena arena =
-                 Bedwars.getInstance().getArenaManager().getArenabyRealPlayer(
-                         e.getPlayer()
-                 );
+    	GamePlayer gp =
+    	        Bedwars.getInstance()
+    	                .getPlayerManager()
+    	                .get(
+    	                        e.getPlayer()
+    	                );
+
+    	Arena arena =
+    	        gp.getArena();
 
         if(arena == null)
             return;
 
         arena.getPlacedBlocks()
-                .add(
-                        e.getBlock()
-                                .getLocation().getBlock()
-                                .getLocation()
-                );
+        .add(
+                e.getBlock()
+                        .getLocation()
+                        .clone()
+        );
     }
 }

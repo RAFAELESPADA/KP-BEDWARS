@@ -1,58 +1,67 @@
 package com.rafaelauler.bedwars;
 
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 public class ArenaBlockBreakListener
         implements Listener {
 
-    @EventHandler
-    public void onBreak(
-            BlockBreakEvent e) {
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onBreak(
+	        BlockBreakEvent e) {
 
-        GamePlayer gp =
-                Bedwars.getInstance()
-                        .getPlayerManager()
-                        .get(
-                                e.getPlayer()
-                        );
+	    GamePlayer gp =
+	            Bedwars.getInstance()
+	                    .getPlayerManager()
+	                    .get(
+	                            e.getPlayer()
+	                    );
 
-        if(gp == null)
-            return;
+	    if(gp == null)
+	        return;
 
-        Arena arena =
-                gp.getArena();
+	    Arena arena =
+	            gp.getArena();
 
-        if(arena == null)
-            return;
+	    if(arena == null)
+	        return;
 
-        if(e.getBlock()
-                .getType()
-                == Material.BED_BLOCK)
-            return;
+	    if(e.getBlock().getType()
+	            == Material.BED_BLOCK)
+	        return;
 
-        if(!arena.getPlacedBlocks()
-                .contains(
-                        e.getBlock()
-                                .getLocation().getBlock()
-                                .getLocation()
-                )) {
+	    Location loc =
+	            e.getBlock()
+	                    .getLocation();
 
-            e.setCancelled(
-                    true
-            );
+	    Location found = null;
+	    for(Location placed : arena.getPlacedBlocks()) {
 
-            return;
-        }
+	        if(placed.getWorld().equals(loc.getWorld())
+	                && placed.getBlockX() == loc.getBlockX()
+	                && placed.getBlockY() == loc.getBlockY()
+	                && placed.getBlockZ() == loc.getBlockZ()) {
 
-        arena.getPlacedBlocks()
-                .remove(
-                        e.getBlock()
-                                .getLocation().getBlock()
-                                .getLocation()
-                );
-    }
+	            found = placed;
+	            break;
+	        }
+	    }
+
+	    if(found != null) {
+
+	        arena.getPlacedBlocks().remove(found);
+
+	        e.setCancelled(false);
+
+	        return;
+	    }
+
+	    e.setCancelled(true);
+	}
+	
 }

@@ -142,6 +142,7 @@ public class LobbyProtectionListener
 
         player.setFoodLevel(20);
     }
+    @EventHandler
     public void onForm(
             BlockFormEvent e) {
 
