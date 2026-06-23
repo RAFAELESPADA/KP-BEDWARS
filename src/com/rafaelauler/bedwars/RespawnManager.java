@@ -62,7 +62,7 @@ public class RespawnManager {
                             giveDefaultItems(
                                     player
                             );
-
+                         
                             restoreUpgrades(
                                     player,
                                     gp
@@ -88,12 +88,11 @@ private void restoreUpgrades(
         Player player,
         GamePlayer gp) {
 
-    Bedwars.getInstance()
-            .getArmorManager()
-            .equip(
-                    player, gp,
-                    gp.getArmorTier()
-            );
+	   Bedwars.getInstance().getArmorManager().equip(
+               player,
+               gp,
+               gp.getArmorTier()
+       );
 
     Bedwars.getInstance()
             .getToolManager()

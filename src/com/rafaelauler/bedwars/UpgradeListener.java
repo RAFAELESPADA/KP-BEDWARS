@@ -43,10 +43,8 @@ public class UpgradeListener
         if(e.getCurrentItem() == null)
             return;
 
-        if(e.getCurrentItem()
-                .getType()
-                != Material.GOLD_INGOT)
-            return;
+        Material type =
+                e.getCurrentItem().getType();
 
         BWTeam team =
                 gp.getTeam();
@@ -72,97 +70,126 @@ public class UpgradeListener
                 player,
                 cost
         );
-        switch(
-                e.getCurrentItem()
-                        .getType()) {
-                        case IRON_SWORD:
+  
+        		switch(type) {
+        	    case IRON_SWORD:
 
-                            if(!hasDiamonds(
-                                    player,
-                                    4
-                            ))
-                                return;
+        	        if(!hasDiamonds(player, 4)) {
+        	            player.sendMessage("§cDiamantes insuficientes.");
+        	            return;
+        	        }
 
-                            if(!Bedwars.getInstance()
-                                    .getUpgradeManager()
-                                    .buySharpness(
-                                            team
-                                    )) {
+        	        if(!Bedwars.getInstance()
+        	                .getUpgradeManager()
+        	                .buySharpness(team)) {
 
-                                player.sendMessage(
-                                        "§cSeu time já possui Sharpness."
-                                );
+        	            player.sendMessage(
+        	                    "§cSeu time já possui Sharpness."
+        	            );
 
-                                return;
-                            }
+        	            return;
+        	        }
 
-                            removeDiamonds(
-                                    player,
-                                    4
-                            );
+        	        removeDiamonds(player, 4);
 
-                            applySharpnessToTeam(
-                                    team
-                            );
+        	        applySharpnessToTeam(team);
 
-                            player.sendMessage(
-                                    "§aSharpness comprada."
-                            );
+        	        player.sendMessage(
+        	                "§aSharpness comprada."
+        	        );
+        	        break;
 
-                            break;
-                        case IRON_CHESTPLATE:
+        	    case IRON_CHESTPLATE:
 
-                            int cost2 =
-                                    team.getProtectionLevel()
-                                    + 2;
+        	        int cost2 =
+        	                team.getProtectionLevel() + 2;
 
-                            if(!hasDiamonds(
-                                    player,
-                                    cost2
-                            ))
-                                return;
+        	        if(!hasDiamonds(player, cost2)) {
+        	            player.sendMessage("§cDiamantes insuficientes.");
+        	            return;
+        	        }
 
-                            if(!Bedwars.getInstance()
-                                    .getUpgradeManager()
-                                    .buyProtection(
-                                            team
-                                    )) {
+        	        if(!Bedwars.getInstance()
+        	                .getUpgradeManager()
+        	                .buyProtection(team)) {
 
-                                player.sendMessage(
-                                        "§cProtection máxima."
-                                );
+        	            player.sendMessage(
+        	                    "§cProtection máxima."
+        	            );
 
-                                return;
-                            }
+        	            return;
+        	        }
 
-                            removeDiamonds(
-                                    player,
-                                    cost2
-                            );
+        	        removeDiamonds(player, cost2);
 
-                            player.sendMessage(
-                                    "§aProtection melhorada."
-                            );
+        	        player.sendMessage(
+        	                "§aProtection melhorada."
+        	        );
+        	        break;
 
-                            break;
-        }
-        if(!Bedwars.getInstance()
-                .getUpgradeManager()
-                .buyForge(team)) {
+        	    case GOLD_INGOT:
 
-            player.sendMessage(
-                    "§cForge máxima."
-            );
+        	        int forgeCost =
+        	                getForgeCost(
+        	                        team.getForgeLevel()
+        	                );
 
-            return;
-        }
+        	        if(!hasDiamonds(
+        	                player,
+        	                forgeCost
+        	        )) {
 
-        player.sendMessage(
-                "§aForge melhorada."
-        );
-    }
+        	            player.sendMessage(
+        	                    "§cDiamantes insuficientes."
+        	            );
 
-    private int getForgeCost(
+        	            return;
+        	        }
+
+        	        if(!Bedwars.getInstance()
+        	                .getUpgradeManager()
+        	                .buyForge(team)) {
+
+        	            player.sendMessage(
+        	                    "§cForge máxima."
+        	            );
+
+        	            return;
+        	        }
+
+        	        removeDiamonds(
+        	                player,
+        	                forgeCost
+        	        );
+
+        	        player.sendMessage(
+        	                "§aForge melhorada."
+        	        );
+
+        	        if(!Bedwars.getInstance()
+        	                .getUpgradeManager()
+        	                .buyForge(team)) {
+
+        	            player.sendMessage(
+        	                    "§cForge máxima."
+        	            );
+
+        	            return;
+        	        }
+
+        	        player.sendMessage(
+        	                "§aForge melhorada."
+        	        );
+        	    
+        	       break;
+				default:
+					break;
+        		}
+        		
+				
+        	}
+
+    public int getForgeCost(
             int level) {
 
         switch(level) {

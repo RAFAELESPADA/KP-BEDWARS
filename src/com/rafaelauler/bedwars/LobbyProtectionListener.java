@@ -62,32 +62,9 @@ public class LobbyProtectionListener
 	    if(!(e.getEntity()
 	            instanceof Player))
 	        return;
-
-	    Player player =
-	            (Player) e.getEntity();
-
-	    GamePlayer gp =
-	            Bedwars.getInstance()
-	                    .getPlayerManager()
-	                    .get(player);
-
-	    if(gp == null
-	            || gp.getArena() == null) {
-
-	        e.setCancelled(true);
-	        return;
-	    }
-
-	    ArenaState state =
-	            gp.getArena()
-	                    .getState();
-
-	    if(state == ArenaState.WAITING
-	            || state == ArenaState.STARTING) {
-
 	        e.setCancelled(true);
 	    }
-	}
+	
 	@EventHandler
 	public void onBREAK(
 	        BlockBreakEvent e) {

@@ -8,6 +8,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 public class ArenaReset {
 
@@ -37,12 +38,27 @@ public class ArenaReset {
                 );
     }
         resetPlayers(arena);
-        arena.getPlayers().clear();
-        arena.getGamePlayers().clear();
         arena.setState(
                 ArenaState.WAITING
         );
-     
+        arena.getPlayers().clear();
+        arena.getGamePlayers().clear();
+        arena.getTasks().forEach(BukkitTask::cancel);
+        arena.cancelTasks();
+        arena.getTasks().clear();
+        for(BWTeam team : arena.getTeams().values()) {
+
+            team.getPlayers().clear();
+
+            team.setBedAlive(true);
+
+            team.setSharpness(false);
+
+            team.setProtectionLevel(0);
+
+            team.setForgeLevel(0);
+           
+        }
     }
 
 private void restoreBlocks(
@@ -139,10 +155,6 @@ private void resetGenerators(
     Bedwars.getInstance()
             .getGeneratorManager()
             .stop(arena);
-
-    Bedwars.getInstance()
-            .getGeneratorManager()
-            .start(arena);
 }
 private void resetPlayers(
         Arena arena) {

@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
@@ -22,6 +26,8 @@ public class Arena {
     
     private int countdown = 30;
     private final List<TeamGenerator> teamGenerators =
+            new ArrayList<>();
+    private final List<BukkitTask> tasks =
             new ArrayList<>();
     private ArenaState state;
     private final Map<TeamColor, BWTeam> teams =
@@ -73,6 +79,26 @@ public class Arena {
             int countdown) {
 
         this.countdown = countdown;
+    }
+    public List<BukkitTask> getTasks() {
+        return tasks;
+    }
+    public void addTask(
+            BukkitTask task) {
+
+        tasks.add(task);
+    }
+    public void cancelTasks() {
+
+        for(BukkitTask task : tasks) {
+
+            if(task != null) {
+
+                task.cancel();
+            }
+        }
+
+        tasks.clear();
     }
     public int getCountdown() {
         return countdown;

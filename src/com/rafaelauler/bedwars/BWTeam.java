@@ -1,7 +1,9 @@
 package com.rafaelauler.bedwars;
 
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -79,6 +81,22 @@ public class BWTeam {
         this.protectionLevel =
                 protectionLevel;
     }
+    public boolean isAlive() {
+
+        for(UUID uuid : players) {
+
+            Player player =
+                    Bukkit.getPlayer(uuid);
+
+            if(player != null
+                    && player.isOnline()) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
     public void setForgeLevel(int forgeLevel) {
         this.forgeLevel = forgeLevel;
     }
@@ -152,7 +170,7 @@ public class BWTeam {
 	        return bedHeadData;
 	    }
 	 public byte getBedFootData() {
-	        return bedHeadData;
+	        return bedFootData;
 	    }
 	public void setBedFootData(byte int1) {
 		bedFootData = int1;

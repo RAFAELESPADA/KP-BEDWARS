@@ -72,13 +72,14 @@ public class ArenaJoinManager {
                 .size() >= 2
                 && !arena.isStarting()) {
 
-            new CountdownTask(
-                    arena
-            ).runTaskTimer(
-                    Bedwars.getInstance(),
-                    20L,
-                    20L
-            );
+        	arena.addTask(
+        	        new CountdownTask(arena)
+        	                .runTaskTimer(
+        	                        Bedwars.getInstance(),
+        	                        20L,
+        	                        20L
+        	                )
+        	);
         }
         player.sendMessage(
                 "§aEntrou na arena."

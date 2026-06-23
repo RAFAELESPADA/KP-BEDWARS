@@ -85,38 +85,40 @@ public class GeneratorManager {
 
 	        case IRON:
 
-	            new IronTaskGenerator(
-	                    generator
-	            ).runTaskTimer(
-	                    Bedwars.getInstance(),
-	                    1L,
-	                    1L
-	            );
+	        	arena.addTask(
+	        	        new IronTaskGenerator(generator)
+	        	                .runTaskTimer(
+	        	                        Bedwars.getInstance(),
+	        	                        1L,
+	        	                        1L
+	        	                )
+	        	);
 
 	            break;
 
 	        case GOLD:
 
-	            new GoldGeneratorTask(
-	                    generator
-	            ).runTaskTimer(
-	                    Bedwars.getInstance(),
-	                    1L,
-	                    1L
-	            );
+	        	arena.addTask(
+	        	        new GoldGeneratorTask(generator)
+	        	                .runTaskTimer(
+	        	                        Bedwars.getInstance(),
+	        	                        1L,
+	        	                        1L
+	        	                )
+	        	);
 
 	            break;
 	           
 	        case DIAMOND:
 
-	            new DiamondGeneratorTask(
-	                    generator,
-	                    30
-	            ).runTaskTimer(
-	                    Bedwars.getInstance(),
-	                    1L,
-	                    1L
-	            );
+	        	arena.addTask(
+	        	        new DiamondGeneratorTask(generator, 30)
+	        	                .runTaskTimer(
+	        	                        Bedwars.getInstance(),
+	        	                        20L,
+	        	                        20L
+	        	                )
+	        	);
 
 	            break;
 

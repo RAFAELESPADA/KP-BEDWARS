@@ -25,7 +25,19 @@ public class CountdownTask
 
     @Override
     public void run() {
+    	  if(arena.getState()
+    	            == ArenaState.PLAYING) {
 
+    	        cancel();
+    	        return;
+    	    }
+
+    	    if(arena.getState()
+    	            == ArenaState.ENDING) {
+
+    	        cancel();
+    	        return;
+    	    }
         if(arena.getPlayers()
                 .size() < 2) {
 

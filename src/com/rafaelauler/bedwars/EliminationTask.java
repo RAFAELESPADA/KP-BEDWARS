@@ -31,9 +31,6 @@ public class EliminationTask {
                 arena,
                 player
         );
-	    Bedwars.getInstance()
-        .getGeneratorManager()
-        .stop(arena);
 
 player.teleport(
         arena.getSpectator()
@@ -64,24 +61,23 @@ public static void checkWin(
         return;
 
     Bukkit.broadcastMessage(
-            winner.getColor().getLeatherColor()
+            winner.getColor().getColor()
             + winner.getColor().name()
             + " venceu!"
     );
 
-    arena.setState(
-            ArenaState.ENDING
-    );
+    BWTeam v = winner;
     Bukkit.getScheduler()
     .runTaskLater(
             Bedwars.getInstance(),
 
             () -> Bedwars
                     .getInstance()
-                    .getArenaReset()
-                    .reset(arena),
+                    .getGameEndManager()
+                    .endGame(arena, v),
 
             200L
     );
+    
 }
 }

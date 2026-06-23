@@ -52,7 +52,7 @@ public class ShopManager {
     		                "",
     		                "§7Cost: §f4 Iron",
     		                "",
-    		                "§eClick to purchase!"
+    		                "§eClique para comprar!"
     		        )
     		        .build(),
 
@@ -79,7 +79,7 @@ public class ShopManager {
     		                "",
     		                "§7Cost: §f24 Iron",
     		                "",
-    		                "§eClick to purchase!"
+    		                "§eClique para comprar!"
     		        )
     		        .build(),
 
@@ -106,7 +106,7 @@ public class ShopManager {
     		                "",
     		                "§7Cost: §64 Gold",
     		                "",
-    		                "§eClick to purchase!"
+    		                "§eClique para comprar!"
     		        )
     		        .build(),
 
@@ -132,7 +132,7 @@ public class ShopManager {
                                 "",
                                 "§7Cost: §f10 Iron",
                                 "",
-                                "§eClick to purchase!"
+                                "§eClique para comprar!"
                         ),
 
                         new ItemStack(
@@ -160,7 +160,7 @@ public class ShopManager {
                                 "",
                                 "§7Cost: §64 Gold",
                                 "",
-                                "§eClick to purchase!"
+                                "§eClique para comprar!"
                         ),
 
                         new ItemStack(
@@ -188,7 +188,7 @@ public class ShopManager {
                                 "",
                                 "§7Cost: §26 Emeralds",
                                 "",
-                                "§eClick to purchase!"
+                                "§eClique para comprar!"
                         ),
 
                         new ItemStack(

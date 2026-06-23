@@ -127,17 +127,39 @@ public class ShopListener implements Listener {
                 continue;
 
             e.setCancelled(true);
+            if(e.getCurrentItem() == null)
+                return;
 
+            if(e.getCurrentItem().getType() == Material.AIR)
+                return;
+
+            if(!e.getCurrentItem().hasItemMeta())
+                return;
+
+            if(!e.getCurrentItem()
+                    .getItemMeta()
+                    .hasDisplayName());
             ShopItem shopItem =
                     Bedwars.getInstance()
                             .getShopManager()
                             .getItemByDisplay(
                                     e.getCurrentItem()
                             );
-
-            if(shopItem == null)
+            if(e.getCurrentItem() == null)
                 return;
 
+            if(e.getCurrentItem().getType()
+                    == Material.AIR)
+                return;
+            if(shopItem == null) {
+
+                player.sendMessage(
+                        "§cItem não encontrado."
+                );
+
+                return;
+            }
+            
             buy(
                     player,
                     shopItem

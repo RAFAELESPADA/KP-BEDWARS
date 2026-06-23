@@ -109,7 +109,7 @@ public class BedWarsListeners implements Listener {
 	                    .name()
 	            + " §ffoi destruída!"
 	    );
-
+e.getBlock().getDrops().clear();
 	    for(UUID uuid :
 	            bedTeam.getPlayers()) {
 
@@ -140,45 +140,7 @@ public class BedWarsListeners implements Listener {
 	            );
 	}
 	
-	@EventHandler
-	public void onQuit(
-	        PlayerQuitEvent e) {
 
-	    PlayerStats stats =
-	            Bedwars.getInstance()
-	                    .getStatsManager()
-	                    .getStats(
-	                            e.getPlayer()
-	                                    .getUniqueId()
-	                    );
-
-	    Bukkit.getScheduler()
-	            .runTaskAsynchronously(
-	                    Bedwars.getInstance(),
-	                    () -> Bedwars
-	                            .getInstance()
-	                            .getStatsManager()
-	                            .save(stats)
-	            );
-	    GamePlayer gp =
-                Bedwars.getInstance()
-                        .getPlayerManager()
-                        .get(
-                                e.getPlayer()
-                        );
-
-        if(gp == null)
-            return;
-
-        Arena arena =
-                gp.getArena();
-	    if(arena == null)
-            return;
-
-        ArenaLeaveManager.leave(
-                gp
-        );
-	}
 	@EventHandler
 	public void onJoin(
 	        PlayerJoinEvent e) {
@@ -196,19 +158,9 @@ public class BedWarsListeners implements Listener {
 	                    .getName()
 	    );
 	}
-	@EventHandler
-	public void onQuit2(
-	        PlayerQuitEvent e) {
 
-	    Bedwars.getInstance()
-	            .getStatsManager()
-	            .unload(
-	                    e.getPlayer()
-	                            .getUniqueId()
-	            );
-	}
 	@EventHandler
-	public void onQuit5(
+	public void onQuit(
 	        PlayerQuitEvent e) {
 
 	    Player player =
@@ -231,9 +183,31 @@ public class BedWarsListeners implements Listener {
 	    ArenaLeaveManager.leave(
 	            gp
 	    );
+        gp.setAlive(false);
+	    Bedwars.getInstance()
+        .getGameEndManager()
+        .checkWinner(arena);
+	    Bedwars.getInstance()
+        .getStatsManager()
+        .unload(
+                e.getPlayer()
+                        .getUniqueId()
+        );
+	    PlayerStats stats =
+	            Bedwars.getInstance()
+	                    .getStatsManager()
+	                    .getStats(
+	                            e.getPlayer()
+	                                    .getUniqueId()
+	                    );
 
-	    checkWinner(
-	                    arena
+	    Bukkit.getScheduler()
+	            .runTaskAsynchronously(
+	                    Bedwars.getInstance(),
+	                    () -> Bedwars
+	                            .getInstance()
+	                            .getStatsManager()
+	                            .save(stats)
 	            );
 	}
 	public void checkWinner(
@@ -270,9 +244,17 @@ public void onDeath(PlayerDeathEvent e) {
                     .getPlayerManager()
                     .get(player);
 
-    if(gp.getArena() == null)
+    if(gp.getArena() == null || gp == null
+            )
         return;
+	e.getDrops().removeIf(item ->
 
+    item.getType() != Material.IRON_INGOT
+    && item.getType() != Material.GOLD_INGOT
+    && item.getType() != Material.DIAMOND
+    && item.getType() != Material.EMERALD
+);
+	e.setDeathMessage(null);
     Bukkit.getScheduler()
             .runTaskLater(
                     Bedwars.getInstance(),
@@ -286,12 +268,14 @@ public void onDeath(PlayerDeathEvent e) {
                                     player,
                                     gp
                             );
-                        	new RespawnTask(player)
-                            .runTaskTimer(
-                                    Bedwars.getInstance(),
-                                    20L,
-                                    20L
-                            );
+                        	gp.getArena().addTask(
+                        	        new RespawnTask(player)
+                        	                .runTaskTimer(
+                        	                        Bedwars.getInstance(),
+                        	                        20L,
+                        	                        20L
+                        	                )
+                        	);
 
                         } else {
 

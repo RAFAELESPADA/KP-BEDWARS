@@ -112,6 +112,7 @@ public class Bedwars extends JavaPlugin {
                 20L,
                 20L
         );
+        
         if (getLobbySpawn() == null) {
         	setLobbySpawn(new Location(Bukkit.getWorld("world"), 0 , 64 ,0));
         }

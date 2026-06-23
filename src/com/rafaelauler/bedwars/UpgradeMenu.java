@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 public class UpgradeMenu {
 
@@ -17,9 +16,12 @@ public class UpgradeMenu {
                         27,
                         "Team Upgrades"
                 );
-
+        GamePlayer gp =
+	            Bedwars.getInstance()
+	                    .getPlayerManager()
+	                    .get(player);
         inv.setItem(
-                13,
+                11,
 
                 new ItemBuilder(
                         Material.IRON_SWORD
@@ -29,15 +31,34 @@ public class UpgradeMenu {
                 )
                 .lore(
                         "",
-                        "§7Cost: §b4 Diamonds",
+                        "§7Custo: §b4 Diamantes",
                         "",
-                        "§eClick to purchase!"
+                        "§eClique para comprar!"
                 )
                 .build()
         );
 
+		UpgradeListener u = new UpgradeListener();
         inv.setItem(
                 15,
+
+                new ItemBuilder(
+                        Material.GOLD_INGOT
+                )
+                
+                .name(
+                        "§aVelocidade da forja"
+                )
+                .lore(
+                        "",
+                        "§7Custo: " + gp.getTeam().getForgeLevel()
+                        ,
+                        "§eClique para comprar!"
+                )
+                .build()
+        );
+        inv.setItem(
+                13,
 
                 new ItemBuilder(
                         Material.IRON_CHESTPLATE
@@ -47,9 +68,9 @@ public class UpgradeMenu {
                 )
                 .lore(
                         "",
-                        "§7Cost: §b2 Diamonds",
+                        "§7Custo: §b2 Diamantes",
                         "",
-                        "§eClick to purchase!"
+                        "§eClique para comprar!"
                 )
                 .build()
         );

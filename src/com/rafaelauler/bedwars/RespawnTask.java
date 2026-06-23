@@ -40,6 +40,9 @@ GamePlayer gp =
 Bedwars.getInstance()
         .getPlayerManager()
         .get(player);
+if(gp.getArena() == null) {
+    cancel();
+}
 player.teleport(gp.getArena().getLobby());
         player.sendMessage(
                 "§aRespawna em "

@@ -70,9 +70,9 @@ public class EliminationManager {
         player.sendMessage("§7Você não possui mais respawns.");
         player.sendMessage("");
         Bedwars.getInstance()
-                .getGameEndManager()
-                .checkWinner(
-                        gp.getArena()
-                );
+        .getGameEndManager()
+        .checkWinner(
+                gp.getArena()
+        );
     }
 }

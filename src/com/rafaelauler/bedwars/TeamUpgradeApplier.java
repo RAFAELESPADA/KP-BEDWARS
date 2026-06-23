@@ -1,7 +1,11 @@
 package com.rafaelauler.bedwars;
 
 
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class TeamUpgradeApplier {
@@ -21,21 +25,79 @@ public class TeamUpgradeApplier {
                 1
         );
     }
+    public static void applyProtection(
+            BWTeam team) {
 
-public static void applyArmor(
-        BWTeam team,
-        ItemStack armor) {
+        int level =
+                team.getProtectionLevel();
 
-    if(armor == null)
-        return;
+        for(UUID uuid :
+                team.getPlayers()) {
 
-    if(team.getProtectionLevel()
-            <= 0)
-        return;
+            Player player =
+                    Bukkit.getPlayer(uuid);
 
-    armor.addUnsafeEnchantment(
-            Enchantment.PROTECTION_ENVIRONMENTAL,
-            team.getProtectionLevel()
-    );
-}
+            if(player == null)
+                continue;
+
+            enchant(
+                    player.getInventory()
+                            .getHelmet(),
+                    level
+            );
+
+            enchant(
+                    player.getInventory()
+                            .getChestplate(),
+                    level
+            );
+
+            enchant(
+                    player.getInventory()
+                            .getLeggings(),
+                    level
+            );
+
+            enchant(
+                    player.getInventory()
+                            .getBoots(),
+                    level
+            );
+
+            player.updateInventory();
+        }
+    }
+
+    private static void enchant(
+            ItemStack item,
+            int level) {
+
+        if(item == null)
+            return;
+
+        item.removeEnchantment(
+                Enchantment.PROTECTION_ENVIRONMENTAL
+        );
+
+        item.addUnsafeEnchantment(
+                Enchantment.PROTECTION_ENVIRONMENTAL,
+                level
+        );
+    }
+
+    public static void applyArmor(
+            BWTeam team,
+            ItemStack item) {
+
+        if(item == null)
+            return;
+
+        if(team.getProtectionLevel() > 0) {
+
+            item.addUnsafeEnchantment(
+                    Enchantment.PROTECTION_ENVIRONMENTAL,
+                    team.getProtectionLevel()
+            );
+        }
+    }
 }

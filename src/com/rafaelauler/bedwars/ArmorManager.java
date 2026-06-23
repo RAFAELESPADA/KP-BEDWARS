@@ -39,103 +39,105 @@ public class ArmorManager {
             GamePlayer gp,
             ArmorTier tier) {
     	
+        ItemStack chestplate =
+                TeamColorUtil.createColoredChestplate(
+                        gp.getTeam()
+                );
+
+        ItemStack leggings;
+        ItemStack boots;
+
         switch(tier) {
 
+            default:
             case LEATHER:
 
-                player.getInventory()
-                        .setBoots(
-                                new ItemStack(
-                                        Material.LEATHER_BOOTS
-                                )
+                leggings =
+                        TeamColorUtil.createColoredLeggings(
+                                gp.getTeam()
                         );
-                ItemStack boots4 =
-            	        new ItemStack(
-            	                Material.LEATHER_BOOTS
-            	        );
 
-            	TeamUpgradeApplier.applyArmor(
-            	        gp.getTeam(),
-            	        boots4
-            	);
+                boots =
+                        TeamColorUtil.createColoredBoots(
+                                gp.getTeam()
+                        );
 
-            	player.getInventory()
-            	        .setBoots(
-            	                boots4
-            	        );
                 break;
 
             case CHAINMAIL:
 
-                player.getInventory()
-                        .setBoots(
-                                new ItemStack(
-                                        Material.CHAINMAIL_BOOTS
-                                )
+                leggings =
+                        new ItemStack(
+                                Material.CHAINMAIL_LEGGINGS
                         );
-                ItemStack boots3 =
-            	        new ItemStack(
-            	                Material.CHAINMAIL_BOOTS
-            	        );
 
-            	TeamUpgradeApplier.applyArmor(
-            	        gp.getTeam(),
-            	        boots3
-            	);
+                boots =
+                        new ItemStack(
+                                Material.CHAINMAIL_BOOTS
+                        );
 
-            	player.getInventory()
-            	        .setBoots(
-            	                boots3
-            	        );
                 break;
 
             case IRON:
 
-                player.getInventory()
-                        .setBoots(
-                                new ItemStack(
-                                        Material.IRON_BOOTS
-                                )
+                leggings =
+                        new ItemStack(
+                                Material.IRON_LEGGINGS
                         );
-                ItemStack boots =
-            	        new ItemStack(
-            	                Material.IRON_BOOTS
-            	        );
 
-            	TeamUpgradeApplier.applyArmor(
-            	        gp.getTeam(),
-            	        boots
-            	);
+                boots =
+                        new ItemStack(
+                                Material.IRON_BOOTS
+                        );
 
-            	player.getInventory()
-            	        .setBoots(
-            	                boots
-            	        );
                 break;
 
             case DIAMOND:
 
-                player.getInventory()
-                        .setBoots(
-                                new ItemStack(
-                                        Material.DIAMOND_BOOTS
-                                )
+                leggings =
+                        new ItemStack(
+                                Material.DIAMOND_LEGGINGS
                         );
-                ItemStack boots2 =
-            	        new ItemStack(
-            	                Material.DIAMOND_BOOTS
-            	        );
 
-            	TeamUpgradeApplier.applyArmor(
-            	        gp.getTeam(),
-            	        boots2
-            	);
+                boots =
+                        new ItemStack(
+                                Material.DIAMOND_BOOTS
+                        );
 
-            	player.getInventory()
-            	        .setBoots(
-            	                boots2
-            	        );
                 break;
         }
+
+        TeamUpgradeApplier.applyArmor(
+                gp.getTeam(),
+                chestplate
+        );
+
+        TeamUpgradeApplier.applyArmor(
+                gp.getTeam(),
+                leggings
+        );
+
+        TeamUpgradeApplier.applyArmor(
+                gp.getTeam(),
+                boots
+        );
+
+        player.getInventory()
+                .setChestplate(
+                        chestplate
+                );
+
+        player.getInventory()
+                .setLeggings(
+                        leggings
+                );
+
+        player.getInventory()
+                .setBoots(
+                        boots
+                );
+
+        player.updateInventory();
+    
     }
 }

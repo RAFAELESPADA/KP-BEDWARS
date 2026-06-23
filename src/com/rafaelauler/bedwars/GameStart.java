@@ -15,7 +15,13 @@ public class GameStart {
 
 	public static void start(
 	        Arena arena) {
+		if(arena.getState()
+		        == ArenaState.PLAYING)
+		    return;
 
+		if(arena.getState()
+		        == ArenaState.ENDING)
+		    return;
 	    arena.setStarting(false);
 
 	    arena.setState(

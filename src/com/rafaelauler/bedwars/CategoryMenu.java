@@ -11,12 +11,12 @@ public class CategoryMenu {
             Player player,
             ShopCategory category) {
 
-        Inventory inventory =
-                Bukkit.createInventory(
-                        null,
-                        54,
-                        category.name()
-                );
+    	Inventory inventory =
+    	        Bukkit.createInventory(
+    	                null,
+    	                54,
+    	                category.getDisplay()
+    	        );
 
         for(ShopItem item :
                 Bedwars.getInstance()
