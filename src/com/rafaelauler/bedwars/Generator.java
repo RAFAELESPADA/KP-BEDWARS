@@ -8,7 +8,7 @@ public class Generator {
 
     private final GeneratorCategory category;
     private GeneratorDisplay display;
-    private final Location location;
+    private Location location;
     private BWTeam team;
 
     private Arena arena;
@@ -76,4 +76,8 @@ public class Generator {
     public Location getLocation() {
         return location;
     }
+	public void setLocation(Location location2) {
+		this.location = location2;
+		
+	}
 }

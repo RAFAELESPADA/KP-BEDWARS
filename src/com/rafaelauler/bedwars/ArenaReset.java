@@ -1,6 +1,8 @@
 package com.rafaelauler.bedwars;
 
 
+import java.util.ArrayList;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -12,54 +14,50 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class ArenaReset {
 
-    public void reset(
-            Arena arena) {
-    	restoreBlocks(arena);
+	public void reset(Arena arena) {
 
-    	removePlacedBlocks(arena);
+	    clearDrops(arena);
 
-    	restoreBeds(arena);
+	    resetGenerators(arena);
 
-    	clearDrops(arena);
+	    for(Player player : new ArrayList<>(arena.getPlayers())){
 
-    	resetTeams(arena);
+	        Bedwars.getInstance()
+	                .getSpectatorManager()
+	                .removeSpectator(arena, player);
+	    }
 
-    	resetGenerators(arena);
-        for(Player player :
-            new java.util.ArrayList<>(
-                    arena.getPlayers()
-            )) {
+	    resetPlayers(arena);
 
-        Bedwars.getInstance()
-                .getSpectatorManager()
-                .removeSpectator(
-                        arena,
-                        player
-                );
-    }
-        resetPlayers(arena);
-        arena.setState(
-                ArenaState.WAITING
-        );
-        arena.getPlayers().clear();
-        arena.getGamePlayers().clear();
-        arena.getTasks().forEach(BukkitTask::cancel);
-        arena.cancelTasks();
-        arena.getTasks().clear();
-        for(BWTeam team : arena.getTeams().values()) {
+	    arena.getPlayers().clear();
 
-            team.getPlayers().clear();
+	    arena.getGamePlayers().clear();
 
-            team.setBedAlive(true);
+	    arena.getTasks().forEach(BukkitTask::cancel);
 
-            team.setSharpness(false);
+	    arena.cancelTasks();
 
-            team.setProtectionLevel(0);
+	    arena.getTasks().clear();
 
-            team.setForgeLevel(0);
-           
-        }
-    }
+	    for(BWTeam team : arena.getTeams().values()){
+
+	        team.getPlayers().clear();
+
+	        team.setBedAlive(true);
+
+	        team.setSharpness(false);
+
+	        team.setForgeLevel(0);
+
+	        team.setProtectionLevel(0);
+	    }
+
+	    Bedwars.getInstance()
+	            .getWorldReset()
+	            .reset(arena);
+
+	    arena.setState(ArenaState.WAITING);
+	}
 
 private void restoreBlocks(
         Arena arena) {

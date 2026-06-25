@@ -5,17 +5,164 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.util.Vector;
 
 public class BedWarsListeners implements Listener {
+	@EventHandler
+	public void onPlace(BlockPlaceEvent e) {
 
+	    if (e.getBlock().getType() != Material.TNT)
+	        return;
+
+	    GamePlayer gp = Bedwars.getInstance().getPlayerManager().get(e.getPlayer());
+
+	    if (gp == null || gp.getArena() == null)
+	        return;
+
+	    e.setCancelled(true);
+
+	    Location loc = e.getBlock().getLocation().add(0.5, 0, 0.5);
+
+	    TNTPrimed tnt = loc.getWorld().spawn(loc, TNTPrimed.class);
+
+	    tnt.setFuseTicks(40);
+
+	    tnt.setMetadata("bedwars", new FixedMetadataValue(Bedwars.getInstance(), gp.getArena().getName()));
+	}
+	@EventHandler
+	public void onExplode(EntityExplodeEvent e) {
+
+	    if (!(e.getEntity() instanceof TNTPrimed))
+	        return;
+
+	    e.setCancelled(true);
+
+	    explode(e.getLocation(), 4.5);
+	}
+	@EventHandler
+	public void onFireball(PlayerInteractEvent e) {
+
+	    Player player = e.getPlayer();
+
+	    ItemStack item = player.getItemInHand();
+
+	    if (item == null)
+	        return;
+
+	    if (item.getType() != Material.FIREBALL)
+	        return;
+
+	    e.setCancelled(true);
+
+	    if (item.getAmount() == 1)
+	        player.setItemInHand(null);
+	    else
+	        item.setAmount(item.getAmount() - 1);
+
+	    Fireball fireball = player.launchProjectile(Fireball.class);
+
+	    fireball.setYield(0);
+
+	    fireball.setIsIncendiary(false);
+
+	    fireball.setVelocity(player.getLocation().getDirection().multiply(1.8));
+
+	    fireball.setMetadata("bedwars", new FixedMetadataValue(Bedwars.getInstance(), true));
+	}
+	@EventHandler
+	public void onFireballHit(ProjectileHitEvent e) {
+
+	    if (!(e.getEntity() instanceof Fireball))
+	        return;
+
+	    if (!e.getEntity().hasMetadata("bedwars"))
+	        return;
+
+	    explode(e.getEntity().getLocation(), 3.5);
+
+	    e.getEntity().remove();
+	}
+	private void explode(Location center, double radius) {
+
+	    World world = center.getWorld();
+
+	    world.playEffect(center, Effect.EXPLOSION_HUGE, 0);
+
+	    world.playSound(center, Sound.EXPLODE, 1F, 1F);
+
+	    Arena arena = Bedwars.getInstance()
+	            .getArenaManager()
+	            .getArena(world.getName());
+
+	    if (arena == null)
+	        return;
+
+	    int r = (int) Math.ceil(radius);
+
+	    for (int x = -r; x <= r; x++) {
+
+	        for (int y = -r; y <= r; y++) {
+
+	            for (int z = -r; z <= r; z++) {
+
+	                Block block = center.clone().add(x, y, z).getBlock();
+
+	                if (block.getType() == Material.AIR)
+	                    continue;
+
+	                if (!arena.getPlacedBlocks().contains(block.getLocation()))
+	                    continue;
+
+	                arena.getPlacedBlocks().remove(block.getLocation());
+
+	                if (arena.getPlacedBlocks().remove(block.getLocation())) {
+	                    block.setType(Material.AIR);
+	                }
+	            }
+	        }
+	    }
+
+	    for (Player player : world.getPlayers()) {
+
+	        double distance = player.getLocation().distance(center);
+
+	        if (distance > radius)
+	            continue;
+
+	        Vector vector = player.getLocation().toVector()
+	                .subtract(center.toVector())
+	                .normalize();
+
+	        vector.multiply(1.7);
+
+	        vector.setY(0.9);
+
+	        player.setVelocity(vector);
+
+	        player.damage(4.0);
+	    }
+	}
 	@EventHandler
 	public void onBreak(
 	        BlockBreakEvent e) {

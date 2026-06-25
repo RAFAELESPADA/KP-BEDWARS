@@ -35,6 +35,16 @@ public class BWCommand implements CommandExecutor {
         register(
                 new SetCosmeticGeneratorCommand()
         );
+        register(
+                new ShopCommand()
+        );
+        register(
+                new PlayCommand()
+        );
+
+        register(
+                new TeamShopCommand()
+        );
         register(new CreateTeamCommand());
         register(new SetSpawnCommand());
         register(new SetBedCommand());

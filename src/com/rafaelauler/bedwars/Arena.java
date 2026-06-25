@@ -41,11 +41,13 @@ public class Arena {
             new ArrayList<>();
     private final Set<BlockState> brokenBlocks =
             new HashSet<>();
-
+    private World world;
+    private String template;
     private final Set<Location> placedBlocks =
             new HashSet<>();
     public Arena(String name) {
-
+    
+    	    this.template = name;
         this.name = name;
         this.state = ArenaState.WAITING;
         this.players = new ArrayList<>();
@@ -72,6 +74,21 @@ public class Arena {
             GamePlayer player) {
 
         gamePlayers.add(player);
+    }
+    public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
     }
     public void setCountdown(
             int countdown) {
@@ -146,15 +163,98 @@ public class Arena {
     public List<Generator> getGenerators() {
         return generators;
     }
-    public World getWorld() {
+    public void updateWorld(World world) {
 
-        if(lobby != null)
-            return lobby.getWorld();
+        this.world = world;
 
-        if(spectator != null)
-            return spectator.getWorld();
+        if (lobby != null) {
+            lobby = new Location(
+                    world,
+                    lobby.getX(),
+                    lobby.getY(),
+                    lobby.getZ(),
+                    lobby.getYaw(),
+                    lobby.getPitch()
+            );
+        }
 
-        return null;
+        if (spectator != null) {
+            spectator = new Location(
+                    world,
+                    spectator.getX(),
+                    spectator.getY(),
+                    spectator.getZ(),
+                    spectator.getYaw(),
+                    spectator.getPitch()
+            );
+        }
+
+        for (BWTeam team : teams.values()) {
+
+            if (team.getSpawn() != null) {
+                team.setSpawn(new Location(
+                        world,
+                        team.getSpawn().getX(),
+                        team.getSpawn().getY(),
+                        team.getSpawn().getZ(),
+                        team.getSpawn().getYaw(),
+                        team.getSpawn().getPitch()
+                ));
+            }
+
+            if (team.getBedHead() != null) {
+                team.setBedHead(new Location(
+                        world,
+                        team.getBedHead().getX(),
+                        team.getBedHead().getY(),
+                        team.getBedHead().getZ()
+                ));
+            }
+
+            if (team.getBedFoot() != null) {
+                team.setBedFoot(new Location(
+                        world,
+                        team.getBedFoot().getX(),
+                        team.getBedFoot().getY(),
+                        team.getBedFoot().getZ()
+                ));
+            }
+
+            if (team.getGenerator() != null &&
+            	    team.getGenerator().getLocation() != null) {
+            	
+                team.getGenerator().setLocation(new Location(
+                        world,
+                        team.getGenerator().getLocation().getX(),
+                        team.getGenerator().getLocation().getY(),
+                        team.getGenerator().getLocation().getZ()
+                ));
+            }
+        }
+
+        for (Generator generator : generators) {
+        	 if (generator == null || generator.getLocation() == null)
+        	        continue;
+            generator.setLocation(new Location(
+                    world,
+                    generator.getLocation().getX(),
+                    generator.getLocation().getY(),
+                    generator.getLocation().getZ()
+            ));
+        }
+
+        for (TeamGenerator generator : teamGenerators) {
+        	
+        	 if (generator == null || generator.getLocation() == null )
+        	        continue;
+        	 
+            generator.setLocation(new Location(
+                    world,
+                    generator.getLocation().getX(),
+                    generator.getLocation().getY(),
+                    generator.getLocation().getZ()
+            ));
+        }
     }
     public Map<TeamColor, BWTeam> getTeams() {
         return teams;

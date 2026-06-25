@@ -4,7 +4,7 @@ import org.bukkit.Location;
 public class TeamGenerator {
 
     private final BWTeam team;
-    private final Location location;
+    private Location location;
 
     public TeamGenerator(
             BWTeam team,
@@ -21,4 +21,9 @@ public class TeamGenerator {
     public Location getLocation() {
         return location;
     }
+
+	public void setLocation(Location location2) {
+		this.location = location2;
+		
+	}
 }

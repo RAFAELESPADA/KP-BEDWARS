@@ -49,8 +49,9 @@ public class SetNPCCommand implements SubCommand {
         if(type.equals("itemshop")) {
 
             Bedwars.getInstance()
-                    .getNpcManager()
+                    .getNpcManager()                  
                     .createItemShop(
+                            arena,
                             player.getLocation()
                     );
 
@@ -73,8 +74,8 @@ public class SetNPCCommand implements SubCommand {
         if(type.equals("upgrades")) {
 
             Bedwars.getInstance()
-                    .getNpcManager()
-                    .createUpgradeShop(
+                    .getNpcManager().createUpgradeShop(
+                            arena,
                             player.getLocation()
                     );
 

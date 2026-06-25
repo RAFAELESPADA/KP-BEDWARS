@@ -21,7 +21,7 @@ public class GameEndManager {
 	            arena.getTeams()
 	                    .values()) {
 
-	        if(team.isAlive()) {
+	        if(team.hasAlivePlayers(arena)) {
 
 	            alive.add(team);
 	        }

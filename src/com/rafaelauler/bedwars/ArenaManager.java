@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -20,7 +21,7 @@ public class ArenaManager {
         this.arenas = new HashMap<>();
         this.arenaFile = new ArenaFile();
 
-        loadArenas();
+       
     }
     public static void leave(
             GamePlayer gp) {
@@ -44,7 +45,7 @@ public class ArenaManager {
         gp.setArena(null);
         gp.setTeam(null);
     }
-    private void loadArenas() {
+    public void loadArenas() {
 
         if (arenaFile.getConfig().getKeys(false).isEmpty())
             return;
@@ -54,6 +55,17 @@ public class ArenaManager {
             Arena arena = new Arena(arenaName);
 
             loadTeams(arenaName, arena);
+            String worldName = arenaFile.getConfig().getString(
+                    arenaName + ".lobby.world"
+            );
+
+            World world = Bukkit.getWorld(worldName);
+
+            if (world != null) {
+                arena.setTemplate(worldName);
+                arena.setWorld(world);
+                arena.updateWorld(world);
+            }
             arena.setLobby(
                     arenaFile.getLocation(
                             arenaName + ".lobby"
@@ -122,109 +134,32 @@ public class ArenaManager {
 
                     if(teamName != null) {
 
-                        BWTeam team =
-                                arena.getTeams()
-                                        .get(teamName);
+                    	BWTeam team = arena.getTeams().get(
+                    	        TeamColor.valueOf(teamName.toUpperCase())
+                    	);
                         
                         generator.setTeam(team);
+                        
                     }
-                    
-                    arena.getGenerators()
-                            .add(generator);
                 }
+                Bukkit.getScheduler().runTaskLater(
+                        Bedwars.getInstance(),
+                        () -> Bukkit.dispatchCommand(
+                                Bukkit.getConsoleSender(),
+                                "citizens reload"
+                        ), 120l
+                );
+                Bukkit.getScheduler().runTaskLater(
+                        Bedwars.getInstance(),
+                        () -> Bukkit.dispatchCommand(
+                                Bukkit.getConsoleSender(),
+                                "citizens reload"
+                        ), 120l
+                );
             }
            
-            org.bukkit.Location itemShop =
-                    arenaFile.getLocation(
-                            arenaName +
-                            ".NPCS.ITEM_SHOP"
-                    );
+            
 
-            if(itemShop != null) {
-
-                int id =
-                        arenaFile.getConfig()
-                                .getInt(
-                                        arenaName
-                                        + ".NPCS.ITEM_SHOP_ID",
-                                        -1
-                                );
-
-                if(id == -1
-                        || CitizensAPI
-                                .getNPCRegistry()
-                                .getById(id) == null) {
-
-                    NPC npc =
-                            Bedwars.getInstance()
-                                    .getNpcManager()
-                                    .createItemShop(
-                                            itemShop
-                                    );
-
-                    arenaFile.getConfig().set(
-                            arenaName
-                            + ".NPCS.ITEM_SHOP_ID",
-                            npc.getId()
-                    );
-
-                    arenaFile.save();
-                }
-            }
-            else {
-            	  Bukkit.getLogger().warning(
-            	            "[KPBedWars] Arena "
-            	            + arenaName
-            	            + " não possui NPC ITEM_SHOP."
-            	    );
-            	  continue;
-            }
-            org.bukkit.Location teamUpgrade =
-                    arenaFile.getLocation(
-                            arenaName +
-                            ".NPCS.TEAM_UPGRADES"
-                    );
-
-            if(teamUpgrade != null) {
-
-                int id =
-                        arenaFile.getConfig()
-                                .getInt(
-                                        arenaName
-                                        + ".NPCS.TEAM_UPGRADES_ID",
-                                        -1
-                                );
-
-                if(id == -1
-                        || CitizensAPI
-                                .getNPCRegistry()
-                                .getById(id) == null) {
-
-                    NPC npc =
-                            Bedwars.getInstance()
-                                    .getNpcManager()
-                                    .createUpgradeShop(
-                                            teamUpgrade
-                                    );
-
-                    arenaFile.getConfig().set(
-                            arenaName
-                            + ".NPCS.TEAM_UPGRADES_ID",
-                            npc.getId()
-                    );
-
-                    arenaFile.save();
-                }
-            }
-                else {
-              	  Bukkit.getLogger().warning(
-              	            "[KPBedWars] Arena "
-              	            + arenaName
-              	            + " não possui NPC TEAM_UPGRADES."
-              	    );
-              	  continue;
-              
-            }
             
             arenas.put(arenaName, arena);
         }

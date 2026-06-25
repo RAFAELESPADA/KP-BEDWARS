@@ -1,5 +1,7 @@
 package com.rafaelauler.bedwars;
 
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
@@ -37,6 +39,7 @@ public class Bedwars extends JavaPlugin {
     private CosmeticGeneratorFile cosmeticGeneratorFile;
     private LevelManager levelManager;
     private Location lobbySpawn;
+    private WorldReset reset;
     private LobbyFile lobbyFile;
     private StatsManager statsManager;
     @Override
@@ -51,16 +54,14 @@ public class Bedwars extends JavaPlugin {
                 new SwordManager();
         playerManager = new PlayerManager();
 
-        npcManager = new NPCManager();
-        npcManager.cleanupArenaNPCs();
         Bukkit.getPluginManager()
         .registerEvents(
                 new LobbyJumpPadListener(),
                 this
         );
-        arenaManager = new ArenaManager();
         gameEndManager =
-                new GameEndManager();
+
+        		new GameEndManager();
         mysql =
                 new MySQL();
         rewardManager =
@@ -97,6 +98,9 @@ public class Bedwars extends JavaPlugin {
                 new ToolManager();
         arenaReset =
                 new ArenaReset();
+        reset =
+                new WorldReset(this);
+        
         killManager = new KillManager();
 
         lobbyFile = new LobbyFile();
@@ -141,6 +145,9 @@ public class Bedwars extends JavaPlugin {
                 new TNTPlaceListener(),
                 this
         );
+       
+        	
+       
         Bukkit.getPluginManager()
         .registerEvents(
                 new VoidListener(),
@@ -156,8 +163,14 @@ public class Bedwars extends JavaPlugin {
                 new LobbyItemListener(),
                 this
         );
+        arenaManager = new ArenaManager();
+        npcManager = new NPCManager();
+        npcManager.cleanupArenaNPCs();
         npcManager.loadNPCs();
-       
+        arenaManager.loadArenas();
+        for (Arena arena : arenaManager.getArenas().values()) {
+            reset.reset(arena);
+        }
         Bukkit.getPluginManager()
         .registerEvents(
                 new TeamDamageListener(),
@@ -344,4 +357,8 @@ public EliminationManager getEliminationManager() {
     public ArenaManager getArenaManager() {
         return arenaManager;
     }
+
+	public WorldReset getWorldReset() {
+		return reset;
+	}
 }

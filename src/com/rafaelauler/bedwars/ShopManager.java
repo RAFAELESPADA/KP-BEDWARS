@@ -198,6 +198,223 @@ public class ShopManager {
                         ShopCurrency.EMERALD,
                         6
                 );
+        items.add(new ShopItem(
+                "blast_proof_glass",
+                ShopCategory.BLOCKS,
+                createItem(
+                        Material.GLASS,
+                        4,
+                        "§aBlast-Proof Glass",
+                        "",
+                        "§7Cost: §f12 Iron",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.GLASS, 4),
+                ShopCurrency.IRON,
+                12
+        ));
+
+        items.add(new ShopItem(
+                "ladder",
+                ShopCategory.BLOCKS,
+                createItem(
+                        Material.LADDER,
+                        16,
+                        "§aLadder",
+                        "",
+                        "§7Cost: §f4 Iron",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.LADDER, 16),
+                ShopCurrency.IRON,
+                4
+        ));
+
+        items.add(new ShopItem(
+                "obsidian",
+                ShopCategory.BLOCKS,
+                createItem(
+                        Material.OBSIDIAN,
+                        4,
+                        "§aObsidian",
+                        "",
+                        "§7Cost: §24 Emeralds",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.OBSIDIAN, 4),
+                ShopCurrency.EMERALD,
+                4
+        ));
+        items.add(new ShopItem(
+                "shears",
+                ShopCategory.TOOLS,
+                createItem(
+                        Material.SHEARS,
+                        1,
+                        "§aShears",
+                        "",
+                        "§7Cost: §f20 Iron",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.SHEARS),
+                ShopCurrency.IRON,
+                20
+        ));
+
+        items.add(new ShopItem(
+                "wood_pickaxe",
+                ShopCategory.TOOLS,
+                createItem(
+                        Material.WOOD_PICKAXE,
+                        1,
+                        "§aWooden Pickaxe",
+                        "",
+                        "§7Cost: §f10 Iron",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.WOOD_PICKAXE),
+                ShopCurrency.IRON,
+                10
+        ));
+
+        items.add(new ShopItem(
+                "stone_pickaxe",
+                ShopCategory.TOOLS,
+                createItem(
+                        Material.STONE_PICKAXE,
+                        1,
+                        "§aStone Pickaxe",
+                        "",
+                        "§7Cost: §f20 Iron",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.STONE_PICKAXE),
+                ShopCurrency.IRON,
+                20
+        ));
+
+        items.add(new ShopItem(
+                "iron_pickaxe",
+                ShopCategory.TOOLS,
+                createItem(
+                        Material.IRON_PICKAXE,
+                        1,
+                        "§aIron Pickaxe",
+                        "",
+                        "§7Cost: §66 Gold",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.IRON_PICKAXE),
+                ShopCurrency.GOLD,
+                6
+        ));
+        items.add(new ShopItem(
+                "bow",
+                ShopCategory.RANGED,
+                createItem(
+                        Material.BOW,
+                        1,
+                        "§aBow",
+                        "",
+                        "§7Cost: §612 Gold",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.BOW),
+                ShopCurrency.GOLD,
+                12
+        ));
+
+        items.add(new ShopItem(
+                "arrow",
+                ShopCategory.RANGED,
+                createItem(
+                        Material.ARROW,
+                        8,
+                        "§aArrow",
+                        "",
+                        "§7Cost: §62 Gold",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.ARROW, 8),
+                ShopCurrency.GOLD,
+                2
+        ));
+        items.add(new ShopItem(
+                "golden_apple",
+                ShopCategory.POTIONS,
+                createItem(
+                        Material.GOLDEN_APPLE,
+                        1,
+                        "§aGolden Apple",
+                        "",
+                        "§7Cost: §63 Gold",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.GOLDEN_APPLE),
+                ShopCurrency.GOLD,
+                3
+        ));
+        items.add(new ShopItem(
+                "ender_pearl",
+                ShopCategory.UTILITIES,
+                createItem(
+                        Material.ENDER_PEARL,
+                        1,
+                        "§aEnder Pearl",
+                        "",
+                        "§7Cost: §24 Emeralds",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.ENDER_PEARL),
+                ShopCurrency.EMERALD,
+                4
+        ));
+
+        items.add(new ShopItem(
+                "water_bucket",
+                ShopCategory.UTILITIES,
+                createItem(
+                        Material.WATER_BUCKET,
+                        1,
+                        "§aWater Bucket",
+                        "",
+                        "§7Cost: §63 Gold",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.WATER_BUCKET),
+                ShopCurrency.GOLD,
+                3
+        ));
+
+        items.add(new ShopItem(
+                "compass",
+                ShopCategory.UTILITIES,
+                createItem(
+                        Material.COMPASS,
+                        1,
+                        "§aTracker Compass",
+                        "",
+                        "§7Cost: §24 Emeralds",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.COMPASS),
+                ShopCurrency.EMERALD,
+                4
+        ));
+
 
         diamondSword.setSwordTier(
                 SwordTier.DIAMOND

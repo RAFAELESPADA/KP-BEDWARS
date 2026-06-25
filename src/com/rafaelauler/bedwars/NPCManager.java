@@ -3,6 +3,7 @@ package com.rafaelauler.bedwars;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.trait.CommandTrait;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -18,87 +19,124 @@ public class NPCManager {
     private final Map<NPC, NPCType> npcs =
             new HashMap<>();
 
-    public void register(
-            int id,
-            NPCType type) {
+    public void register(Arena arena, NPC npc, NPCType type) {
 
-        npcTypes.put(id, type);
+        npcTypes.put(npc.getId(), type);
+        npcs.put(npc, type);
 
-        Bedwars.getInstance()
-                .getConfig()
-                .set(
-                        "NPCS." + type.name(),
-                        id
-                );
+        ArenaFile file =
+                Bedwars.getInstance()
+                        .getArenaManager()
+                        .getArenaFile();
 
-        Bedwars.getInstance()
-                .saveConfig();
+        file.getConfig().set(
+                arena.getName() + ".NPCS." + type.name() + ".ID",
+                npc.getId()
+        );
+
+        file.save();
     }
     public void loadNPCs() {
 
-        Bukkit.getScheduler()
-                .runTaskLater(
-                        Bedwars.getInstance(),
+        Bukkit.getScheduler().runTaskLater(
+                Bedwars.getInstance(),
+                () -> {
 
-                        () -> {
+                    npcTypes.clear();
+                    npcs.clear();
 
-                            for(NPCType type :
-                                    NPCType.values()) {
+                    for (Arena arena : Bedwars.getInstance()
+                            .getArenaManager()
+                            .getArenas()
+                            .values()) {
 
-                                int id =
-                                        Bedwars.getInstance()
-                                                .getConfig()
-                                                .getInt(
-                                                        "NPCS."
-                                                        + type.name(),
-                                                        -1
-                                                );
+                        for (NPCType type : NPCType.values()) {
 
-                                if(id == -1)
-                                    continue;
-                                NPC npc =
-                                        CitizensAPI
-                                                .getNPCRegistry()
-                                                .getById(id);
+                            if (type == NPCType.PLAY)
+                                continue;
 
-                                if(npc == null)
-                                    continue;
-
-                                npcTypes.put(id, type);
-
-                                npcs.put(
-                                        npc,
-                                        type
-                                );
-
-
-                                npcTypes.put(
-                                        id,
-                                        type
-                                );
-
-                                npcs.put(
-                                        npc,
-                                        type
-                                );
-                            }
-
-                            Bukkit.getLogger()
-                                    .info(
-                                            "[KPBedWars] "
-                                            + npcTypes.size()
-                                            + " NPCs carregados."
+                            int id = Bedwars.getInstance()
+                                    .getArenaManager()
+                                    .getArenaFile()
+                                    .getConfig()
+                                    .getInt(
+                                            arena.getName()
+                                                    + ".NPCS."
+                                                    + type.name()
+                                                    + ".ID",
+                                            -1
                                     );
 
-                        },
+                            if (id == -1)
+                                continue;
 
-                        40L
-                );
+                            NPC npc = CitizensAPI
+                                    .getNPCRegistry()
+                                    .getById(id);
+
+                            if (npc == null)
+                                continue;
+
+                            npcTypes.put(id, type);
+                            npcs.put(npc, type);
+
+                            CommandTrait trait =
+                                    npc.getOrAddTrait(CommandTrait.class);
+
+                            trait.clear();
+
+                            switch (type) {
+
+                                case ITEM_SHOP:
+
+                                    trait.addCommand(
+                                            new CommandTrait.NPCCommandBuilder(
+                                                    "bw shop",
+                                                    CommandTrait.Hand.BOTH
+                                            ).player(true)
+                                    );
+                                    break;
+
+                                case TEAM_UPGRADES:
+
+                                    trait.addCommand(
+                                            new CommandTrait.NPCCommandBuilder(
+                                                    "bw teamshop",
+                                                    CommandTrait.Hand.BOTH
+                                            ).player(true)
+                                    );
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+
+                    Bukkit.getLogger().info(
+                            "[KPBedWars] "
+                                    + npcs.size()
+                                    + " NPCs carregados."
+                    );
+
+                },
+                40L
+        );
+    
+    }
+    private void registerCommand(NPC npc, String command) {
+
+        CommandTrait trait = npc.getOrAddTrait(CommandTrait.class);
+
+        trait.clear();
+
+        trait.addCommand(new CommandTrait.NPCCommandBuilder(
+                command,
+                CommandTrait.Hand.BOTH
+        ).player(true));
     }
 
-
-    public NPC createItemShop(
-            Location location) {
+    public NPC createItemShop(Arena arena, Location location) {
 
         NPC npc =
                 CitizensAPI.getNPCRegistry()
@@ -118,15 +156,14 @@ public class NPCManager {
                 "cached-skin-uuid-name",
                 "Villager"
         );
-        register(
-                npc.getId(),
-                NPCType.ITEM_SHOP
-        );
+        register(arena, npc, NPCType.ITEM_SHOP);
         npcs.put(
                 npc,
                 NPCType.ITEM_SHOP
         );
-    
+        CommandTrait trait = npc.getOrAddTrait(CommandTrait.class);
+
+        registerCommand(npc, "bw shop");
         return npc;
     }
     public void cleanupArenaNPCs() {
@@ -142,8 +179,7 @@ public class NPCManager {
         npcs.clear();
         npcTypes.clear();
     }
-    public NPC createUpgradeShop(
-            Location location) {
+    public NPC createUpgradeShop(Arena arena, Location location) {
 
         NPC npc =
                 CitizensAPI.getNPCRegistry()
@@ -162,14 +198,13 @@ public class NPCManager {
                 "cached-skin-uuid-name",
                 "Gladiator"
         );
-        register(
-                npc.getId(),
-                NPCType.TEAM_UPGRADES
-        );
+        register(arena, npc, NPCType.TEAM_UPGRADES);
         npcs.put(
                 npc,
                 NPCType.TEAM_UPGRADES
         );
+
+        registerCommand(npc, "bw teamshop");
         return npc;
     }
     public NPC getClosestNPC(
@@ -230,7 +265,6 @@ public class NPCManager {
                 "cached-skin-uuid-name",
                 "Hypixel"
         );
-        register(npc.getId(), NPCType.PLAY);
         return npc;
     }
     public void removeNPC(

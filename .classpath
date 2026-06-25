@@ -10,5 +10,6 @@
 	<classpathentry exported="true" kind="lib" path="C:/Users/Desktop/Desktop/SKYZERMC NOVO/PVP/plugins/Citizens-2.0.33-b3399.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Desktop/Desktop/SKYZERMC NOVO/PVP/plugins/PlaceholderAPI-2.11.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Desktop/Downloads/spigot-1.8.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Desktop/Downloads/Multiverse-Core-2.5 (1).jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
