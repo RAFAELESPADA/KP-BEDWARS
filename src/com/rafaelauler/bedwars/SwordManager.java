@@ -1,6 +1,5 @@
 package com.rafaelauler.bedwars;
 
-import com.rafaelauler.bedwars.GamePlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -49,7 +48,23 @@ public class SwordManager {
                 "§aEspada atualizada."
         );
     }
+    public void equip(
+            Player player,
+            GamePlayer gp) {
 
+        removeSwords(player);
+
+        if(gp.getSwordTier() != null) {
+
+            player.getInventory()
+                    .addItem(
+                            new ItemStack(
+                                    getMaterial(
+                                            gp.getSwordTier()
+                                    )
+                            )
+                    );}
+        }
     private void removeSwords(
             Player player) {
 
@@ -64,6 +79,7 @@ public class SwordManager {
 
         player.getInventory()
                 .remove(Material.DIAMOND_SWORD);
+        player.updateInventory();
     }
 
     private Material getMaterial(

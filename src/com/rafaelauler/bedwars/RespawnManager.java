@@ -100,5 +100,8 @@ private void restoreUpgrades(
                     player,
                     gp
             );
+    Bedwars.getInstance().getSwordManager()
+    .equip(player, gp);
+   
 }
 }

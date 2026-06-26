@@ -141,6 +141,7 @@ public class ToolManager {
 
         player.getInventory()
                 .remove(Material.DIAMOND_AXE);
+        player.updateInventory();
     }
 
     private Material getPickaxeMaterial(
