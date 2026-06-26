@@ -5,43 +5,36 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class ArenaLeaveManager {
+	public static void leave(GamePlayer gp) {
 
-    public static void leave(
-            GamePlayer gp) {
+	    Arena arena = gp.getArena();
 
-        Arena arena =
-                gp.getArena();
+	    if (arena == null)
+	        return;
 
-        Player player =
-                Bukkit.getPlayer(
-                        gp.getUuid()
-                );
+	    gp.setAlive(false);
 
-        if(arena == null)
-            return;
+	    if (gp.getTeam() != null) {
+	        gp.getTeam().getPlayers().remove(gp.getUuid());
+	    }
 
-        arena.getGamePlayers()
-                .remove(gp);
+	    arena.getGamePlayers().remove(gp);
+	    Player p = Bukkit.getPlayer(gp.getUuid());
+	    if (p != null) {
+	    arena.getPlayers().remove(p); // ou gp.getUuid(), conforme o tipo da coleção
+	    }
+	    Bedwars.getInstance()
+	            .getGameEndManager()
+	            .checkWinner(arena);
 
-        arena.getPlayers()
-                .remove(player);
-
-        if(gp.getTeam() != null) {
-
-            gp.getTeam()
-                    .getPlayers()
-                    .remove(gp.getUuid());
-        }
-        gp.setAlive(false);
-        gp.setArena(null);
-        gp.setTeam(null);
-       if (player != null && player.isOnline()) {
-        player.getEnderChest().clear();
-       }
-        checkArena(arena);
-    }
-
-
+	    gp.setArena(null);
+	    gp.setTeam(null);
+	    if (p != null && p.isOnline()) {
+	        p.getEnderChest().clear();
+	       }
+	    checkArena(arena);
+	}
+    
     private static void checkArena(
             Arena arena) {
 

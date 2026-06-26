@@ -377,7 +377,18 @@ e.getBlock().getDrops().clear();
 	    for (BWTeam team : arena.getTeams().values()) {
 
 	        boolean alive = false;
+	        Bukkit.broadcastMessage("§e===== CHECK =====");
 
+	            Bukkit.broadcastMessage(
+	                    team.getColor().name()
+	                    + " alive=" + team.hasAlivePlayers(arena)
+	                    + " players=" + team.getPlayers().size()
+	            );
+	        
+
+	        Bukkit.broadcastMessage(
+	                "GamePlayers=" + arena.getGamePlayers().size()
+	        );
 	        for (UUID uuid : team.getPlayers()) {
 Player t = Bukkit.getPlayer(uuid);
 if (t != null) {
