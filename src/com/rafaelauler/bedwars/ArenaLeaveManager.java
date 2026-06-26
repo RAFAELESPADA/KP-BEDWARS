@@ -32,10 +32,10 @@ public class ArenaLeaveManager {
                     .getPlayers()
                     .remove(gp.getUuid());
         }
-
+        gp.setAlive(false);
         gp.setArena(null);
         gp.setTeam(null);
-       if (player != null&& player.isOnline()) {
+       if (player != null && player.isOnline()) {
         player.getEnderChest().clear();
        }
         checkArena(arena);

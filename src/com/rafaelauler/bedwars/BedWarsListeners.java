@@ -370,29 +370,37 @@ e.getBlock().getDrops().clear();
 	                            .save(stats)
 	            );
 	}
-	public void checkWinner(
-	        Arena arena) {
+	public void checkWinner(Arena arena) {
 
-	    List<BWTeam> alive =
-	            new ArrayList<>();
+	    List<BWTeam> aliveTeams = new ArrayList<>();
 
-	    for(BWTeam team :
-	            arena.getTeams()
-	                    .values()) {
+	    for (BWTeam team : arena.getTeams().values()) {
 
-	        if(team.getPlayers()
-	                .isEmpty())
-	            continue;
+	        boolean alive = false;
 
-	        alive.add(team);
+	        for (UUID uuid : team.getPlayers()) {
+Player t = Bukkit.getPlayer(uuid);
+if (t != null) {
+	            GamePlayer gp = Bedwars.getInstance()
+	                    .getPlayerManager()
+	                    .get(t);
+
+	            if (gp != null && gp.isAlive()) {
+	                alive = true;
+	                break;
+	            }
+	        }
+
+	        if (alive) {
+	            aliveTeams.add(team);
+	        }
 	    }
 
-	    if(alive.size() != 1)
+	    if (aliveTeams.size() != 1)
 	        return;
 
-
-	    Bedwars.getInstance().getGameEndManager().checkWinner(arena);
-	    
+	    Bedwars.getInstance().getGameEndManager().endGame(arena, aliveTeams.get(0));
+	}
 	}
 @EventHandler
 public void onDeath(PlayerDeathEvent e) {
