@@ -128,6 +128,7 @@ public class UpgradeListener
                             gp,
                             gp.getArmorTier()
                     );
+        	        player.updateInventory();
         	        player.sendMessage(
         	                "§aProtection melhorada."
         	        );

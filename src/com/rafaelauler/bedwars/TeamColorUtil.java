@@ -28,6 +28,26 @@ public class TeamColorUtil {
 
         return item;
     }
+    public static ItemStack createColoredHelmet(
+            BWTeam team) {
+
+        ItemStack item =
+                new ItemStack(
+                        Material.LEATHER_HELMET
+                );
+
+        LeatherArmorMeta meta =
+                (LeatherArmorMeta)
+                        item.getItemMeta();
+
+        meta.setColor(
+                getColor(team)
+        );
+
+        item.setItemMeta(meta);
+
+        return item;
+    }
 
     public static ItemStack createColoredLeggings(
             BWTeam team) {

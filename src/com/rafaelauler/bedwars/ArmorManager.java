@@ -38,7 +38,10 @@ public class ArmorManager {
             Player player,
             GamePlayer gp,
             ArmorTier tier) {
-    	
+    	 ItemStack helmet =
+                 TeamColorUtil.createColoredHelmet(
+                         gp.getTeam()
+                 );
         ItemStack chestplate =
                 TeamColorUtil.createColoredChestplate(
                         gp.getTeam()
@@ -106,6 +109,10 @@ public class ArmorManager {
 
                 break;
         }
+        TeamUpgradeApplier.applyArmor(
+                gp.getTeam(),
+                helmet
+        );
 
         TeamUpgradeApplier.applyArmor(
                 gp.getTeam(),
@@ -121,7 +128,10 @@ public class ArmorManager {
                 gp.getTeam(),
                 boots
         );
-
+        player.getInventory()
+        .setHelmet(
+                helmet
+        );
         player.getInventory()
                 .setChestplate(
                         chestplate
