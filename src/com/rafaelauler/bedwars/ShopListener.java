@@ -320,12 +320,13 @@ public class ShopListener implements Listener {
             player.updateInventory();
             return;
         }
-
+        if(item.getSwordTier()
+                != null && !item.getDisplay().getType().name().contains("_SWORD") && !item.getDisplay().getType().name().contains("_AXE")) {
         player.getInventory()
         .addItem(
                 item.getReward()
         );
-
+        }
         player.sendMessage(
                 "§aCompra realizada."
         );
