@@ -317,91 +317,70 @@ e.getBlock().getDrops().clear();
 	                    .getName()
 	    );
 	}
-
 	@EventHandler
-	public void onQuit(
-	        PlayerQuitEvent e) {
+	public void onQuit2(PlayerQuitEvent e) {
 
-	    Player player =
-	            e.getPlayer();
+	    try {
 
-	    GamePlayer gp =
-	            Bedwars.getInstance()
-	                    .getPlayerManager()
-	                    .get(player);
+	        Bukkit.getLogger().info("1");
 
-	    if(gp == null)
-	        return;
+	        Player player = e.getPlayer();
 
-	    Arena arena =
-	            gp.getArena();
+	        GamePlayer gp = Bedwars.getInstance()
+	                .getPlayerManager()
+	                .get(player);
 
-	    if(arena == null)
-	        return;
+	        Bukkit.getLogger().info("2");
 
-	    ArenaLeaveManager.leave(
-	            gp
-	    );
-        gp.setAlive(false);
-	    Bedwars.getInstance()
-        .getGameEndManager()
-        .checkWinner(arena);
-	    Bedwars.getInstance()
-        .getStatsManager()
-        .unload(
-                e.getPlayer()
-                        .getUniqueId()
-        );
-	    PlayerStats stats =
-	            Bedwars.getInstance()
-	                    .getStatsManager()
-	                    .getStats(
-	                            e.getPlayer()
-	                                    .getUniqueId()
-	                    );
+	        if (gp == null)
+	            return;
 
-	    Bukkit.getScheduler()
-	            .runTaskAsynchronously(
-	                    Bedwars.getInstance(),
-	                    () -> Bedwars
-	                            .getInstance()
-	                            .getStatsManager()
-	                            .save(stats)
-	            );
+	        Arena arena = gp.getArena();
+
+	        Bukkit.getLogger().info("3");
+
+	        if (arena == null)
+	            return;
+
+	        ArenaLeaveManager.leave(gp);
+	        gp.setAlive(false);
+		    checkWinner(arena);
+		    Bedwars.getInstance()
+	        .getStatsManager()
+	        .unload(
+	                e.getPlayer()
+	                        .getUniqueId()
+	        );
+		    PlayerStats stats =
+		            Bedwars.getInstance()
+		                    .getStatsManager()
+		                    .getStats(
+		                            e.getPlayer()
+		                                    .getUniqueId()
+		                    );
+
+		    Bukkit.getScheduler()
+		            .runTaskAsynchronously(
+		                    Bedwars.getInstance(),
+		                    () -> Bedwars
+		                            .getInstance()
+		                            .getStatsManager()
+		                            .save(stats)
+		            );
+	        Bukkit.getLogger().info("4");
+
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	    }
 	}
+	
 	public void checkWinner(Arena arena) {
 
 	    List<BWTeam> aliveTeams = new ArrayList<>();
 
 	    for (BWTeam team : arena.getTeams().values()) {
 
-	        boolean alive = false;
-	        Bukkit.broadcastMessage("§e===== CHECK =====");
-
-	            Bukkit.broadcastMessage(
-	                    team.getColor().name()
-	                    + " alive=" + team.hasAlivePlayers(arena)
-	                    + " players=" + team.getPlayers().size()
-	            );
-	        
-
-	        Bukkit.broadcastMessage(
-	                "GamePlayers=" + arena.getGamePlayers().size()
-	        );
-	        for (UUID uuid : team.getPlayers()) {
-Player t = Bukkit.getPlayer(uuid);
-if (t != null) {
-	            GamePlayer gp = Bedwars.getInstance()
-	                    .getPlayerManager()
-	                    .get(t);
-
-	            if (gp != null && gp.isAlive()) {
-	                alive = true;
-	                break;
-	            }
-	        }
-
-	        if (alive) {
+	        if (team.hasAlivePlayers(arena)) {
 	            aliveTeams.add(team);
 	        }
 	    }
@@ -409,9 +388,10 @@ if (t != null) {
 	    if (aliveTeams.size() != 1)
 	        return;
 
+
 	    Bedwars.getInstance().getGameEndManager().endGame(arena, aliveTeams.get(0));
 	}
-	}
+	
 @EventHandler
 public void onDeath(PlayerDeathEvent e) {
 
