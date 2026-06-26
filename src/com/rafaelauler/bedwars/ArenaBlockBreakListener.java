@@ -22,7 +22,6 @@ public class ArenaBlockBreakListener implements Listener {
 
         // Só permite quebrar blocos durante a partida
         if (arena.getState() != ArenaState.PLAYING) {
-            e.setCancelled(true);
             return;
         }
 
@@ -31,8 +30,7 @@ public class ArenaBlockBreakListener implements Listener {
             return;
 
         // Se foi um bloco colocado durante a partida, pode quebrar
-        if (arena.getPlacedBlocks().remove(e.getBlock().getLocation())) {
-            e.setCancelled(false);
+        if (arena.getPlacedBlocks().contains(e.getBlock().getLocation())) {
             return;
         }
 

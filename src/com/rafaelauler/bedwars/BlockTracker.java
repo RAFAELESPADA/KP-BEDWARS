@@ -19,6 +19,9 @@ public class BlockTracker implements Listener {
 
         Arena arena = gp.getArena();
 
+        if (arena.getState() != ArenaState.PLAYING)
+            return;
+
         arena.getPlacedBlocks().add(
                 e.getBlock().getLocation().clone()
         );
@@ -36,8 +39,9 @@ public class BlockTracker implements Listener {
 
         Arena arena = gp.getArena();
 
-        // Se o bloco foi colocado durante a partida,
-        // remove da lista ao ser quebrado.
+        if (arena.getState() != ArenaState.PLAYING)
+            return;
+
         arena.getPlacedBlocks().remove(
                 e.getBlock().getLocation()
         );
