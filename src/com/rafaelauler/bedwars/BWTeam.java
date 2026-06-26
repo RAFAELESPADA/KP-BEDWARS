@@ -136,11 +136,20 @@ public class BWTeam {
         this.protectionLevel =
                 protectionLevel;
     }
-    public boolean hasAlivePlayers(Arena arena) {
+    public boolean hasAlivePlayers() {
 
-        for (GamePlayer gp : arena.getGamePlayers()) {
+        for (UUID uuid : players) {
 
-            if (gp.getTeam() == this && gp.isAlive()) {
+            Player player = Bukkit.getPlayer(uuid);
+
+            if (player == null)
+                continue;
+
+            GamePlayer gp = Bedwars.getInstance()
+                    .getPlayerManager()
+                    .get(player);
+
+            if (gp != null && gp.isAlive()) {
                 return true;
             }
         }

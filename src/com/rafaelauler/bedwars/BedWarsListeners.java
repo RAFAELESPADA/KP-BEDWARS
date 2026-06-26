@@ -374,18 +374,19 @@ e.getBlock().getDrops().clear();
 
 	    List<BWTeam> aliveTeams = new ArrayList<>();
 
-	    for (BWTeam team : arena.getTeams().values()) {
+	    Bukkit.getLogger().info("Alive Teams = " + aliveTeams.size());
 
-	        if (team.hasAlivePlayers(arena)) {
-	            aliveTeams.add(team);
-	        }
+	    for (BWTeam team : arena.getTeams().values()) {
+	        Bukkit.getLogger().info(
+	                team.getColor().name()
+	                + " | teamPlayers=" + team.getPlayers().size()
+	                + " | hasAlive=" + team.hasAlivePlayers(arena)
+	        );
 	    }
 
 	    if (aliveTeams.size() != 1) {
 	        return;
 	    }
-	    Bukkit.getLogger().info("ARENA: " + arena.getName() + " SENDO RESETADA PORQUE SOBROU 1 JOGADOR");
-	    Bedwars.getInstance().getGameEndManager().endGame(arena, aliveTeams.get(0));
 	}
 	
 @EventHandler

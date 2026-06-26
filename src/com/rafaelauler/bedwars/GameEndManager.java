@@ -17,14 +17,11 @@ public class GameEndManager {
 	    List<BWTeam> alive =
 	            new ArrayList<>();
 
-	    for(BWTeam team :
-	            arena.getTeams()
-	                    .values()) {
-
-	        if(team.hasAlivePlayers(arena)) {
-
+	    for (BWTeam team : arena.getTeams().values()) {
+	        if (team.hasAlivePlayers()) {
 	            alive.add(team);
 	        }
+	    
 	    }
 
 	    if(alive.size() != 1)
