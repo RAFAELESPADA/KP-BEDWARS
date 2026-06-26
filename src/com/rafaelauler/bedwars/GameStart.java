@@ -58,6 +58,9 @@ public class GameStart {
 	            .start(
 	                    arena
 	            );
+	    Bukkit.getLogger().info(
+	            "Geradores: " + arena.getGenerators().size()
+	    );
 	}
     private static void assignTeams(
             Arena arena) {

@@ -1,5 +1,6 @@
 package com.rafaelauler.bedwars;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -30,7 +31,10 @@ public class EmeraldGeneratorTask
 
     @Override
     public void run() {
-
+    	if(generator.getDisplay() == null){
+    	    Bukkit.getLogger().warning("Display nulo");
+    	    return;
+    	}
         countdownTicks--;
 
         if(countdownTicks % 20 == 0) {

@@ -1,5 +1,6 @@
 package com.rafaelauler.bedwars;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -31,7 +32,10 @@ public class DiamondGeneratorTask
 
     @Override
     public void run() {
-
+    	if(generator.getDisplay() == null){
+    	    Bukkit.getLogger().warning("Display nulo");
+    	    return;
+    	}
         countdownTicks--;
 
         if(countdownTicks % 20 == 0) {

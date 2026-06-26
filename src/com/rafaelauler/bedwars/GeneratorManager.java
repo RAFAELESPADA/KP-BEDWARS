@@ -1,5 +1,6 @@
 package com.rafaelauler.bedwars;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 public class GeneratorManager {
@@ -80,7 +81,13 @@ public class GeneratorManager {
 	                generator,
 	                id++
 	        );
-
+	        Bukkit.getLogger().info(
+	                "Iniciando " +
+	                generator.getType()
+	        );
+	            Bukkit.getLogger().info("Em Mundo" +
+	                generator.getLocation().getWorld().getName()
+	            );
 	        switch(generator.getType()) {
 
 	        case IRON:
@@ -115,8 +122,8 @@ public class GeneratorManager {
 	        	        new DiamondGeneratorTask(generator, 30)
 	        	                .runTaskTimer(
 	        	                        Bedwars.getInstance(),
-	        	                        20L,
-	        	                        20L
+	        	                        1L,
+	        	                        1L
 	        	                )
 	        	);
 
@@ -124,17 +131,20 @@ public class GeneratorManager {
 
 	        case EMERALD:
 
-	            new EmeraldGeneratorTask(
-	                    generator,
-	                    60
-	            ).runTaskTimer(
-	                    Bedwars.getInstance(),
-	                    1L,
-	                    1L
-	            );
+	        	arena.addTask(
+	        	        new EmeraldGeneratorTask(
+	        	                generator,
+	        	                60
+	        	        ).runTaskTimer(
+	        	                Bedwars.getInstance(),
+	        	                1L,
+	        	                1L
+	        	        )
+	        	);
 
 	            break;
 	    }
 	    }
 	}
-}
+	}
+

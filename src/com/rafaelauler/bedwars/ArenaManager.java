@@ -131,7 +131,7 @@ public class ArenaManager {
                                             + key
                                             + ".team"
                                     );
-
+                    arena.getGenerators().add(generator);
                     if(teamName != null) {
 
                     	BWTeam team = arena.getTeams().get(
