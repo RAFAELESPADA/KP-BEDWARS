@@ -112,7 +112,7 @@ public class UpgradeListener
         	        if(!Bedwars.getInstance()
         	                .getUpgradeManager()
         	                .buyProtection(team)) {
-
+        	        	 
         	            player.sendMessage(
         	                    "§cProtection máxima."
         	            );
@@ -121,7 +121,13 @@ public class UpgradeListener
         	        }
 
         	        removeDiamonds(player, cost2);
-
+        	        Bedwars.getInstance()
+                    .getArmorManager()
+                    .upgrade(
+                            player,
+                            gp,
+                            gp.getArmorTier()
+                    );
         	        player.sendMessage(
         	                "§aProtection melhorada."
         	        );

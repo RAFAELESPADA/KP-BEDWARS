@@ -15,13 +15,15 @@ public class ArenaBlockBreakListener implements Listener {
                 .getPlayerManager()
                 .get(e.getPlayer());
 
-        if (gp == null || gp.getArena() == null)
+        if (gp == null || gp.getArena() == null) {
+            e.setCancelled(true);
             return;
+        }
 
         Arena arena = gp.getArena();
 
-        // Só permite quebrar blocos durante a partida
         if (arena.getState() != ArenaState.PLAYING) {
+            e.setCancelled(true);
             return;
         }
 
@@ -29,12 +31,11 @@ public class ArenaBlockBreakListener implements Listener {
         if (e.getBlock().getType() == Material.BED_BLOCK)
             return;
 
-        // Se foi um bloco colocado durante a partida, pode quebrar
-        if (arena.getPlacedBlocks().contains(e.getBlock().getLocation())) {
+        // Bloco colocado durante a partida
+        if (arena.getPlacedBlocks().contains(e.getBlock().getLocation()))
             return;
-        }
 
-        // Caso contrário é um bloco do mapa
+        // Impede quebrar blocos do mapa
         e.setCancelled(true);
     }
 }
