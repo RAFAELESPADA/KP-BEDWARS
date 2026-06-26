@@ -293,9 +293,8 @@ e.getBlock().getDrops().clear();
 	        );
 	    }
 
-	    Bedwars.getInstance()
-	            .getGameEndManager()
-	            .checkWinner(
+	  
+	            checkWinner(
 	                    arena
 	            );
 	}
