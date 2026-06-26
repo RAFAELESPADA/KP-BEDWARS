@@ -107,7 +107,20 @@ public class WorldReset {
                     }
 
                     plugin.getLogger().info(worldName + " resetado com sucesso.");
-
+                    Bukkit.getScheduler().runTaskLater(
+                            Bedwars.getInstance(),
+                            () -> Bukkit.dispatchCommand(
+                                    Bukkit.getConsoleSender(),
+                                    "citizens reload"
+                            ), 120l
+                    );
+                    Bukkit.getScheduler().runTaskLater(
+                            Bedwars.getInstance(),
+                            () -> Bukkit.dispatchCommand(
+                                    Bukkit.getConsoleSender(),
+                                    "citizens reload"
+                            ), 120l
+                    );
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

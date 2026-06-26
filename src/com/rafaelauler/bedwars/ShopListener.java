@@ -138,7 +138,7 @@ public class ShopListener implements Listener {
 
             if(!e.getCurrentItem()
                     .getItemMeta()
-                    .hasDisplayName());
+                    .hasDisplayName()) {
             ShopItem shopItem =
                     Bedwars.getInstance()
                             .getShopManager()
@@ -166,6 +166,7 @@ public class ShopListener implements Listener {
             );
 
             return;
+        }
         }
     }
 
@@ -281,7 +282,7 @@ public class ShopListener implements Listener {
                             item.getToolType(),
                             item.getToolTier()
                     );
-
+            player.updateInventory();
             return;
         }
         if(item.getArmorTier() != null) {
@@ -298,7 +299,7 @@ public class ShopListener implements Listener {
                             gp,
                             item.getArmorTier()
                     );
-
+            player.updateInventory();
             return;
         }
         if(item.getSwordTier()
@@ -316,7 +317,7 @@ public class ShopListener implements Listener {
                             gp,
                             item.getSwordTier()
                     );
-
+            player.updateInventory();
             return;
         }
 
@@ -328,6 +329,7 @@ public class ShopListener implements Listener {
         player.sendMessage(
                 "§aCompra realizada."
         );
+        player.updateInventory();
     }
 
     private boolean hasEnough(
@@ -354,44 +356,37 @@ public class ShopListener implements Listener {
         return found >= amount;
     }
 
-    private void removeCurrency(
-            Player player,
-            Material material,
-            int amount) {
+    private void removeCurrency(Player player, Material material, int amount) {
 
-        for(ItemStack item :
-                player.getInventory()
-                        .getContents()) {
+        ItemStack[] contents = player.getInventory().getContents();
 
-            if(item == null)
+        for (int i = 0; i < contents.length; i++) {
+
+            ItemStack item = contents[i];
+
+            if (item == null)
                 continue;
 
-            if(item.getType()
-                    != material)
+            if (item.getType() != material)
                 continue;
 
-            if(amount <= 0)
+            if (amount <= 0)
                 break;
 
-            int stack =
-                    item.getAmount();
+            if (item.getAmount() <= amount) {
 
-            if(stack <= amount) {
+                amount -= item.getAmount();
 
-                amount -= stack;
-
-                item.setAmount(0);
+                contents[i] = null;
 
             } else {
 
-                item.setAmount(
-                        stack - amount
-                );
+                item.setAmount(item.getAmount() - amount);
 
                 amount = 0;
             }
         }
 
+        player.getInventory().setContents(contents);
         player.updateInventory();
-    }
-}
+    }}

@@ -13,7 +13,7 @@ public class TeamShopCommand implements SubCommand {
 
     @Override
     public String getPermission() {
-        return "";
+        return "bedwars.join";
     }
 
     @Override
