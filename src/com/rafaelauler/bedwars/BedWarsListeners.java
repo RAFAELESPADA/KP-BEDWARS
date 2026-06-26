@@ -322,7 +322,6 @@ e.getBlock().getDrops().clear();
 
 	    try {
 
-	        Bukkit.getLogger().info("1");
 
 	        Player player = e.getPlayer();
 
@@ -330,14 +329,12 @@ e.getBlock().getDrops().clear();
 	                .getPlayerManager()
 	                .get(player);
 
-	        Bukkit.getLogger().info("2");
 
 	        if (gp == null)
 	            return;
 
 	        Arena arena = gp.getArena();
 
-	        Bukkit.getLogger().info("3");
 
 	        if (arena == null)
 	            return;
@@ -367,7 +364,6 @@ e.getBlock().getDrops().clear();
 		                            .getStatsManager()
 		                            .save(stats)
 		            );
-	        Bukkit.getLogger().info("4");
 
 	    } catch (Exception ex) {
 	        ex.printStackTrace();
@@ -385,10 +381,10 @@ e.getBlock().getDrops().clear();
 	        }
 	    }
 
-	    if (aliveTeams.size() != 1)
+	    if (aliveTeams.size() != 1) {
 	        return;
-
-
+	    }
+	    Bukkit.getLogger().info("ARENA: " + arena.getName() + " SENDO RESETADA PORQUE SOBROU 1 JOGADOR");
 	    Bedwars.getInstance().getGameEndManager().endGame(arena, aliveTeams.get(0));
 	}
 	
