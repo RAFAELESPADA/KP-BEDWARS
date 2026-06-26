@@ -23,8 +23,7 @@ public class BlockTracker implements Listener {
             return;
 
         arena.getPlacedBlocks().add(
-                e.getBlock().getLocation().clone()
-        );
+                e.getBlock().getLocation());
     }
 
     @EventHandler(ignoreCancelled = true)
