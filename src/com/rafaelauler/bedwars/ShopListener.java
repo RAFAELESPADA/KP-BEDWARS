@@ -136,7 +136,7 @@ public class ShopListener implements Listener {
             if(!e.getCurrentItem().hasItemMeta())
                 return;
 
-            if(!e.getCurrentItem()
+            if(e.getCurrentItem()
                     .getItemMeta()
                     .hasDisplayName()) {
             ShopItem shopItem =
