@@ -43,7 +43,19 @@ public class BedWarsListeners implements Listener {
 	    e.setCancelled(true);
 
 	    Location loc = e.getBlock().getLocation().add(0.5, 0, 0.5);
-
+	    for (ItemStack item : e.getPlayer().getInventory().getContents()) {
+	          if (item != null && item.getType() == Material.TNT) {
+	              // Found the item, now remove one from its stack
+	              if (item.getAmount() > 1) {
+	                  item.setAmount(item.getAmount() - 1);
+	              } else {
+	                  // If only one item in the stack, set the slot to null
+	            	  e.getPlayer().getInventory().removeItem(item); // Or set the specific slot to null if you know the index
+	              }
+	              e.getPlayer().updateInventory(); // Update the player's client-side inventory
+	              break; // Stop after removing one
+	          }
+	      }
 	    TNTPrimed tnt = loc.getWorld().spawn(loc, TNTPrimed.class);
 
 	    tnt.setFuseTicks(40);
@@ -75,10 +87,11 @@ public class BedWarsListeners implements Listener {
 
 	    e.setCancelled(true);
 
-	    if (item.getAmount() == 1)
+	    if (item.getAmount() == 1) {
 	        player.setItemInHand(null);
-	    else
+	    } else {
 	        item.setAmount(item.getAmount() - 1);
+	    }
 
 	    Fireball fireball = player.launchProjectile(Fireball.class);
 

@@ -9,7 +9,9 @@ public class GeneratorManager {
 	private void createDisplay(
 	        Generator generator,
 	        int id) {
-
+if (generator.getLocation() == null) {
+	return;
+}
 	    GeneratorDisplay display =
 	            GeneratorDisplayFactory.create(
 	                    generator,
