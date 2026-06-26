@@ -4,6 +4,7 @@ package com.rafaelauler.bedwars;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -42,6 +43,12 @@ public class GameStart {
 	    gp.setCountedLoss(
 	            false
 	    );
+
+	    UUID id = gp.getUuid();
+	    Player p = Bukkit.getPlayer(id);
+	    if (p != null && p.isOnline()) {
+	    	p.getEnderChest().clear();
+	    }
 	}
 	    team.setBedAlive(true);
 	}
@@ -61,6 +68,7 @@ public class GameStart {
 	    Bukkit.getLogger().info(
 	            "Geradores: " + arena.getGenerators().size()
 	    );
+	    p.getEnderChest().clear();
 	}
     private static void assignTeams(
             Arena arena) {

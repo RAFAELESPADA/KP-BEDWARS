@@ -316,6 +316,54 @@ public class ShopManager {
                 6
         ));
         items.add(new ShopItem(
+                "wood_axe",
+                ShopCategory.TOOLS,
+                createItem(
+                        Material.WOOD_AXE,
+                        1,
+                        "§aWooden Axe",
+                        "",
+                        "§7Cost: §f10 Iron",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.WOOD_AXE),
+                ShopCurrency.IRON,
+                10
+        ));
+        items.add(new ShopItem(
+                "stone_axe",
+                ShopCategory.TOOLS,
+                createItem(
+                        Material.STONE_AXE,
+                        1,
+                        "§aStone Axe",
+                        "",
+                        "§7Cost: §f20 Iron",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.STONE_AXE),
+                ShopCurrency.IRON,
+                20
+        ));
+        items.add(new ShopItem(
+                "iron_axe",
+                ShopCategory.TOOLS,
+                createItem(
+                        Material.IRON_AXE,
+                        1,
+                        "§aIron Axe",
+                        "",
+                        "§7Cost: §66 Gold",
+                        "",
+                        "§eClique para comprar!"
+                ),
+                new ItemStack(Material.IRON_AXE),
+                ShopCurrency.GOLD,
+                6
+        ));
+        items.add(new ShopItem(
                 "bow",
                 ShopCategory.RANGED,
                 createItem(

@@ -35,9 +35,12 @@ public class ArenaLeaveManager {
 
         gp.setArena(null);
         gp.setTeam(null);
-
+       if (player != null&& player.isOnline()) {
+        player.getEnderChest().clear();
+       }
         checkArena(arena);
     }
+
 
     private static void checkArena(
             Arena arena) {

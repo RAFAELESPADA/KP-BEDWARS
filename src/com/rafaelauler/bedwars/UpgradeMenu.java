@@ -51,7 +51,7 @@ public class UpgradeMenu {
                 )
                 .lore(
                         "",
-                        "§7Custo: " + gp.getTeam().getForgeLevel()
+                        "§7Custo: §b" + gp.getTeam().getForgeLevel() + " Diamantes"
                         ,
                         "§eClique para comprar!"
                 )

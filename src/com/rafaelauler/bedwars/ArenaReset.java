@@ -2,7 +2,9 @@ package com.rafaelauler.bedwars;
 
 
 import java.util.ArrayList;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -167,6 +169,24 @@ private void resetPlayers(
         gp.setFinalKills(0);
 
         gp.setAlive(true);
+        
+        UUID id = gp.getUuid();
+        Player player = Bukkit.getPlayer(id);
+        if (player != null && player.isOnline()) {
+
+            player.getInventory().clear();
+            player.getInventory().setArmorContents(null);
+
+            // Limpa a Ender Chest
+            player.getEnderChest().clear();
+
+            player.setFireTicks(0);
+            player.setFallDistance(0);
+            player.setExp(0);
+            player.setLevel(0);
+            player.setFoodLevel(20);
+            player.setHealth(player.getMaxHealth());
+        }
     }
 }
 private void removePlacedBlocks(
