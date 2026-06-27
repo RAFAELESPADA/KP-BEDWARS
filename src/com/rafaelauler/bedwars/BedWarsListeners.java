@@ -380,7 +380,7 @@ e.getBlock().getDrops().clear();
 	        Bukkit.getLogger().info(
 	                team.getColor().name()
 	                + " | teamPlayers=" + team.getPlayers().size()
-	                + " | hasAlive=" + team.hasAlivePlayers(arena)
+	                + " | hasAlive=" + team.hasAlivePlayers()
 	        );
 	    }
 
