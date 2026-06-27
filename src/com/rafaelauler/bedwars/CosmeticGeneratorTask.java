@@ -35,7 +35,9 @@ public class CosmeticGeneratorTask
 
     @Override
     public void run() {
+double y = 0;
 
+boolean increase = true;
         if(stand == null
                 || stand.isDead()) {
 
@@ -43,30 +45,19 @@ public class CosmeticGeneratorTask
             return;
         }
 
-        rotation += 0.15;
-
-        stand.setHeadPose(
-                new EulerAngle(
-                        0,
-                        rotation,
-                        0
-                )
-        );
-
-        if(up) {
-
-            height += 0.01;
-
-            if(height >= 0.25)
-                up = false;
-
-        } else {
-
-            height -= 0.01;
-
-            if(height <= 0)
-                up = true;
+        if (y >= Math.PI * 6) {
+            increase = false;
+        } else if (y <= 0) {
+            increase = true;
         }
+        if (increase) {
+            y += 0.2;
+        } else {
+            y -= 0.2;
+        }
+
+        stand.setHeadPose(new EulerAngle(0, y, 0));
+        stand.setHeadPose(new EulerAngle(0, y, 0));
         stand.setMetadata(
                 "KPBEDWARS_COSMETIC",
                 new FixedMetadataValue(

@@ -26,7 +26,6 @@ public class GeneratorDisplayFactory {
                         location.clone().add(0, 1.25, 0),
                         ArmorStand.class
                 );
-        Material helmet;
      	new BukkitRunnable() {
 
             double y = 0;
@@ -90,7 +89,7 @@ if (generator.getType() == GeneratorType.DIAMOND || generator.getType() == Gener
 }
 
         return new GeneratorDisplay(
-                stand,
+                armorStand,
                 hologram
         );
     }
