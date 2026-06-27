@@ -1,6 +1,7 @@
 package com.rafaelauler.bedwars;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,6 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import net.md_5.bungee.api.ChatColor;
 
 public class GameEndManager {
 
@@ -46,72 +49,71 @@ public class GameEndManager {
 	                    winner
 	            );
 	}
-	public void endGame(
-	        Arena arena,
-	        BWTeam winner) {
+	public void endGame(Arena arena, BWTeam winner) {
 
-	    if(arena.getState()
-	            == ArenaState.ENDING)
+	    if (arena.getState() == ArenaState.ENDING)
 	        return;
 
-	    arena.setState(
-	            ArenaState.ENDING
+	    arena.setState(ArenaState.ENDING);
+
+	    rewardPlayers(arena, winner);
+
+	    Bukkit.broadcastMessage(
+	            "§6§lBEDWARS §8» §aA arena será reiniciada em 5 segundos."
 	    );
 
-	    rewardPlayers(
-	            arena,
-	            winner
-	    );
+	    new BukkitRunnable() {
 
-	    for(Player player :
-	            new ArrayList<Player>(
-	                    arena.getPlayers()
-	            )) {
+	        @Override
+	        public void run() {
 
-	        sendToLobby(player);
-	    }
-	    for(UUID spectator2 :
-	        new ArrayList<>(
+	            // Jogadores
+	            for (Player player : new ArrayList<>(arena.getPlayers())) {
+	                sendToLobby(player);
+	            }
+
+	            // Espectadores
+	            for (UUID uuid : new HashSet<>(arena.getSpectators())) {
+
+	                Player spectator = Bukkit.getPlayer(uuid);
+
+	                if (spectator == null)
+	                    continue;
+
 	                Bedwars.getInstance()
 	                        .getSpectatorManager()
-	                        .getSpectators(arena)
-	        )) {
-Player spectator = Bukkit.getPlayer(spectator2);
-	    Bedwars.getInstance()
-	            .getSpectatorManager()
-	            .removeSpectator(
-	                    arena,
-	                    spectator
-	            );
+	                        .removeSpectator(arena, spectator);
 
-	    spectator.getInventory().clear();
+	                spectator.getInventory().clear();
+	                spectator.getInventory().setArmorContents(null);
 
-	    spectator.teleport(
+	                spectator.setHealth(20.0);
+	                spectator.setFoodLevel(20);
+	                spectator.setFireTicks(0);
+	                spectator.setGameMode(GameMode.ADVENTURE);
+
+	                spectator.teleport(
+	                        Bedwars.getInstance().getLobbySpawn()
+	                );
+
+	                LobbyItems.give(spectator);
+
+	                Bedwars.getInstance()
+	                        .getLobbyScoreboard()
+	                        .update(spectator);
+
+	                spectator.sendMessage("§cA partida foi finalizada.");
+	            }
+
+	            arena.getSpectators().clear();
+
 	            Bedwars.getInstance()
-	                    .getLobbySpawn()
-	    );
+	                    .getArenaReset()
+	                    .reset(arena);
 
-	    spectator.setHealth(20.0);
+	        }
 
-	    spectator.setFoodLevel(20);
-
-	    spectator.setFireTicks(0);
-spectator.getInventory().setArmorContents(null);
-	    LobbyItems.give(
-	            spectator
-	    );
-
-	    Bedwars.getInstance()
-	            .getLobbyScoreboard()
-	            .update(
-	                    spectator
-	            );
-	}
-	    Bedwars.getInstance()
-	            .getArenaReset()
-	            .reset(
-	                    arena
-	            );
+	    }.runTaskLater(Bedwars.getInstance(), 100L);
 	}
     private void sendToLobby(
             Player player) {
@@ -120,9 +122,11 @@ spectator.getInventory().setArmorContents(null);
                 Bedwars.getInstance()
                         .getPlayerManager()
                         .get(player);
-
+        if (gp == null)
+            return;
         Arena arena =
                 gp.getArena();
+        
         if(gp != null) {
 
             if(gp.getTeam() != null) {
