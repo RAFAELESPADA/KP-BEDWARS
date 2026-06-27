@@ -20,50 +20,68 @@ public class GeneratorDisplayFactory {
 
         Location location =
                 generator.getLocation();
+        ArmorStand armorStand = location.getWorld().spawn(
+                location.clone().add(0, 1.25, 0),
+                ArmorStand.class
+        );
 
-        ArmorStand armorStand =
-                location.getWorld().spawn(
-                        location.clone().add(0, 1.25, 0),
-                        ArmorStand.class
+        armorStand.setVisible(false);
+        armorStand.setGravity(false);
+        armorStand.setSmall(true);
+        armorStand.setBasePlate(false);
+        armorStand.setArms(false);
+
+        if (generator.getType() == GeneratorType.EMERALD) {
+            armorStand.setHelmet(new ItemStack(Material.EMERALD_BLOCK));
+        } else if (generator.getType() == GeneratorType.DIAMOND) {
+            armorStand.setHelmet(new ItemStack(Material.DIAMOND_BLOCK));
+        }
+
+        final Location base = armorStand.getLocation().clone();
+
+        new BukkitRunnable() {
+
+            double rotation = 0;
+            double time = 0;
+
+            @Override
+            public void run() {
+
+                if (armorStand.isDead()) {
+                    cancel();
+                    return;
+                }
+
+                // Rotação
+                rotation += Math.toRadians(5);
+
+                if (rotation >= Math.PI * 2) {
+                    rotation = 0;
+                }
+
+                armorStand.setHeadPose(
+                        new EulerAngle(
+                                0,
+                                rotation,
+                                0
+                        )
                 );
-     	new BukkitRunnable() {
 
-            double y = 0;
-            boolean increase = true;
-        @Override
-        public void run() {
-        	if (armorStand == null || armorStand.isDead()) {
-        		cancel();
-        	}
-		armorStand.setVisible(false);		
-		armorStand.setGravity(false);
-		if (generator.getType() == GeneratorType.EMERALD) {
-		     armorStand.getEquipment().setHelmet(new ItemStack(Material.EMERALD_BLOCK));
+                // Flutuação
+                time += 0.12;
 
-		}
-		else if (generator.getType() == GeneratorType.DIAMOND) {
-		     armorStand.getEquipment().setHelmet(new ItemStack(Material.DIAMOND_BLOCK));
+                double offset = Math.sin(time) * 0.15;
 
-		}
+                armorStand.teleport(
+                        base.clone().add(0, offset, 0)
+                );
+            }
 
-       
-                if (y >= Math.PI * 6) {
-                    increase = false;
-                } else if (y <= 0) {
-                    increase = true;
-                }
-                if (increase) {
-                    y += 0.2;
-                } else {
-                    y -= 0.2;
-                }
-
-                armorStand.setHeadPose(new EulerAngle(0, y, 0));
-                armorStand.setHeadPose(new EulerAngle(0, y, 0));
-        }	
-		  	
-	  	}.runTaskTimer(Bedwars.getInstance(), 1, 1);
-       
+        }.runTaskTimer(
+                Bedwars.getInstance(),
+                1L,
+                1L
+        );
          
 
         Hologram hologram =

@@ -1,63 +1,24 @@
 package com.rafaelauler.bedwars;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 
-public class CosmeticGeneratorTask
-        extends BukkitRunnable {
+public class CosmeticGeneratorTask extends BukkitRunnable {
 
     private final ArmorStand stand;
+    double y = 0;
 
+    boolean increase = true;
     private final Location baseLocation;
-    private final List<ArmorStand> cosmetics =
-	        new ArrayList<>();
-    private double rotation;
+    private double time = 0;
 
-    private double height;
-
-    private boolean up = true;
-
-    public CosmeticGeneratorTask(
-            ArmorStand stand) {
+    public CosmeticGeneratorTask(ArmorStand stand) {
 
         this.stand = stand;
-
-        this.baseLocation =
-                stand.getLocation()
-                        .clone();
-    }
-
-    @Override
-    public void run() {
-double y = 0;
-
-boolean increase = true;
-        if(stand == null
-                || stand.isDead()) {
-
-            cancel();
-            return;
-        }
-
-        if (y >= Math.PI * 6) {
-            increase = false;
-        } else if (y <= 0) {
-            increase = true;
-        }
-        if (increase) {
-            y += 0.2;
-        } else {
-            y -= 0.2;
-        }
-
-        stand.setHeadPose(new EulerAngle(0, y, 0));
-        stand.setHeadPose(new EulerAngle(0, y, 0));
+        this.baseLocation = stand.getLocation().clone();
         stand.setMetadata(
                 "KPBEDWARS_COSMETIC",
                 new FixedMetadataValue(
@@ -65,18 +26,38 @@ boolean increase = true;
                         true
                 )
         );
-        cosmetics.add(stand);
-        Location location =
-                baseLocation.clone();
+    }
 
-        location.add(
-                0,
-                height,
-                0
-        );
+    @Override
+    public void run() {
 
-        stand.teleport(
-                location
-        );
+        if (stand == null || stand.isDead()) {
+            cancel();
+            return;
+        }
+
+                time += 0.12;
+
+                double offsetY = Math.sin(time) * 0.15;
+                stand.teleport(
+                        baseLocation.clone().add(0, offsetY, 0)
+                );
+                if (y >= Math.PI * 6) {
+                    increase = false;
+                } else if (y <= 0) {
+                    increase = true;
+                }
+                if (increase) {
+                    y += 0.2;
+                } else {
+                    y -= 0.2;
+                }
+                stand.setHeadPose(
+                        new EulerAngle(
+                                0,
+                                y,
+                                0
+                        )
+                );
     }
 }
