@@ -69,6 +69,28 @@ public class GameEndManager {
 
 	            // Jogadores
 	            for (Player player : new ArrayList<>(arena.getPlayers())) {
+	            	 GamePlayer gp2 =
+		                        Bedwars.getInstance()
+		                                .getPlayerManager()
+		                                .get(player);
+	            	 gp2.setArena(null);
+		                gp2.setTeam(null);
+		                
+		                arena.getPlayers().remove(player);
+		                arena.getGamePlayers().remove(gp2);
+		                gp2.setAlive(true);
+		                gp2.setSpectator(false);
+		                gp2.setWinner(false);
+
+		                gp2.setKills(0);
+		                gp2.setFinalKills(0);
+
+		                gp2.setSwordTier(null);
+		                gp2.setArmorTier(null);
+		                gp2.setPickaxeTier(null);
+		                gp2.setAxeTier(null);
+
+		                player.setGameMode(GameMode.ADVENTURE);
 	                sendToLobby(player);
 	            }
 
@@ -79,14 +101,34 @@ public class GameEndManager {
 
 	                if (spectator == null)
 	                    continue;
-
+	                
+	                GamePlayer gp =
+	                        Bedwars.getInstance()
+	                                .getPlayerManager()
+	                                .get(spectator);
+	               
+	                
 	                Bedwars.getInstance()
 	                        .getSpectatorManager()
 	                        .removeSpectator(arena, spectator);
-
 	                spectator.getInventory().clear();
 	                spectator.getInventory().setArmorContents(null);
+	                gp.setArena(null);
+	                gp.setTeam(null);
+	                
+	                arena.getPlayers().remove(spectator);
+	                arena.getGamePlayers().remove(gp);
+	                gp.setAlive(true);
+	                gp.setSpectator(false);
+	                gp.setWinner(false);
 
+	                gp.setKills(0);
+	                gp.setFinalKills(0);
+
+	                gp.setSwordTier(null);
+	                gp.setArmorTier(null);
+	                gp.setPickaxeTier(null);
+	                gp.setAxeTier(null);
 	                spectator.setHealth(20.0);
 	                spectator.setFoodLevel(20);
 	                spectator.setFireTicks(0);
@@ -97,7 +139,10 @@ public class GameEndManager {
 	                );
 
 	                LobbyItems.give(spectator);
-
+	                spectator.setScoreboard(
+	                        Bukkit.getScoreboardManager()
+	                                .getNewScoreboard()
+	                );
 	                Bedwars.getInstance()
 	                        .getLobbyScoreboard()
 	                        .update(spectator);
@@ -194,32 +239,12 @@ player.getInventory().setArmorContents(null);
                 );
     
 
-    new BukkitRunnable() {
+    
 
-        @Override
-        public void run() {
-
-            for(Player player :
-                    new ArrayList<Player>(
-                            arena.getPlayers()
-                    )) {
-
-                sendToLobby(player);
-            }
-
-            Bedwars.getInstance()
-                    .getArenaReset()
-                    .reset(
-                            arena
-                    );
+            
 
         }
 
-    }.runTaskLater(
-            Bedwars.getInstance(),
-            60L
-    );
-}
 
     private void rewardPlayers(
             Arena arena,
