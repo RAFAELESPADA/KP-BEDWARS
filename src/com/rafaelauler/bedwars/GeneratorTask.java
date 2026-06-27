@@ -28,35 +28,7 @@ public class GeneratorTask
 
         Location location =
                 generator.getLocation();
-    	ArmorStand armorStand = null;
-    	if (armorStand == null) {
-		armorStand = (ArmorStand) generator.getLocation().getWorld().spawnEntity(generator.getLocation().add(0, 1, 0), EntityType.ARMOR_STAND);
-		armorStand.setVisible(false);		
-		armorStand.setGravity(false);
-		if (generator.getType() == GeneratorType.EMERALD) {
-		     armorStand.getEquipment().setHelmet(new ItemStack(Material.EMERALD_BLOCK));
-
-		}
-		else if (generator.getType() == GeneratorType.DIAMOND) {
-		     armorStand.getEquipment().setHelmet(new ItemStack(Material.DIAMOND_BLOCK));
-
-		}
-
-       
-                if (y >= Math.PI * 6) {
-                    increase = false;
-                } else if (y <= 0) {
-                    increase = true;
-                }
-                if (increase) {
-                    y += 0.2;
-                } else {
-                    y -= 0.2;
-                }
-
-                armorStand.setHeadPose(new EulerAngle(0, y, 0));
-                armorStand.setHeadPose(new EulerAngle(0, y, 0));
-    	}
+    	
         
         location.getWorld()
                 .dropItemNaturally(
