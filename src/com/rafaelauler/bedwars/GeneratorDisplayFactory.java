@@ -3,10 +3,11 @@ package com.rafaelauler.bedwars;
 
 import eu.decentsoftware.holograms.api.DHAPI;
 import eu.decentsoftware.holograms.api.holograms.Hologram;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
@@ -18,13 +19,18 @@ public class GeneratorDisplayFactory {
             Generator generator,
             String id) {
 
+        Bukkit.getLogger().info("===== CREATE DISPLAY =====");
+        Bukkit.getLogger().info("Tipo: " + generator.getType());
+        Bukkit.getLogger().info("Location: " + generator.getLocation());
+        Bukkit.getLogger().info("World: " + generator.getLocation().getWorld());
         Location location =
                 generator.getLocation();
+        Bukkit.getLogger().info("Spawnando ArmorStand...");
         ArmorStand armorStand = location.getWorld().spawn(
                 location.clone().add(0, 1.25, 0),
                 ArmorStand.class
         );
-
+        Bukkit.getLogger().info("ArmorStand criado: " + armorStand.getUniqueId());
         armorStand.setVisible(false);
         armorStand.setGravity(false);
         armorStand.setSmall(true);

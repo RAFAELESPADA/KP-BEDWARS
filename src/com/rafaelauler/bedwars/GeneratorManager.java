@@ -6,12 +6,13 @@ import org.bukkit.Location;
 public class GeneratorManager {
 
     
-	private void createDisplay(
-	        Generator generator,
-	        int id) {
-if (generator.getLocation() == null) {
-	return;
-}
+	private void createDisplay(Generator generator, int id) {
+
+	    if (generator.getType() != GeneratorType.DIAMOND
+	            && generator.getType() != GeneratorType.EMERALD) {
+	        return;
+	    }
+
 	    GeneratorDisplay display =
 	            GeneratorDisplayFactory.create(
 	                    generator,
@@ -20,12 +21,13 @@ if (generator.getLocation() == null) {
 
 	    generator.setDisplay(display);
 
-	    new FloatingItemTask(
-	            display.getStand()
-	    ).runTaskTimer(
-	            Bedwars.getInstance(),
-	            1L,
-	            1L
+	    generator.getArena().addTask(
+	        new CosmeticGeneratorTask(display.getStand())
+	                .runTaskTimer(
+	                        Bedwars.getInstance(),
+	                        1L,
+	                        1L
+	                )
 	    );
 	}
 	public Generator getClosestGenerator(
@@ -87,7 +89,7 @@ if (generator.getLocation() == null) {
 	                "Iniciando " +
 	                generator.getType()
 	        );
-	            Bukkit.getLogger().info("Em Mundo" +
+	            Bukkit.getLogger().info("Em Mundo: " +
 	                generator.getLocation().getWorld().getName()
 	            );
 	        switch(generator.getType()) {
