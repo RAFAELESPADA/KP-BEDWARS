@@ -164,11 +164,11 @@ public class GameStart {
             Player player) {
 
         player.getInventory()
-                .addItem(
+                .addItem(ItemMarker.mark(
                         new ItemStack(
                                 Material.WOOD_SWORD
                         )
-                );
+                ));
         
     }
 }

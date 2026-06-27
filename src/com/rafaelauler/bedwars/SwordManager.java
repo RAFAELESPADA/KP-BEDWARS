@@ -26,11 +26,6 @@ public class SwordManager {
 
         Material material =
                 getMaterial(tier);
-
-        player.getInventory()
-                .addItem(
-                        new ItemStack(material)
-                );
         ItemStack sword =
                 new ItemStack(
                         material
@@ -58,10 +53,11 @@ public class SwordManager {
 
             player.getInventory()
                     .addItem(
-                            new ItemStack(
+                    		 ItemMarker.mark(         
+                    	        new ItemStack(
                                     getMaterial(
                                             gp.getSwordTier()
-                                    )
+                                    ))
                             )
                     );}
         }

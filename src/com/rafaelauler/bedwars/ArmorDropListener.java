@@ -51,4 +51,26 @@ public class ArmorDropListener
             );
         }
     }
+    @EventHandler
+    public void onDrop2(PlayerDropItemEvent e) {
+
+        GamePlayer gp =
+                Bedwars.getInstance()
+                        .getPlayerManager()
+                        .get(e.getPlayer());
+
+        if(gp == null || gp.getArena() == null)
+            return;
+
+        if(ItemMarker.isMarked(
+                e.getItemDrop().getItemStack()
+        )) {
+
+            e.setCancelled(true);
+
+            e.getPlayer().sendMessage(
+                    "§cVocê não pode dropar este item."
+            );
+        }
+    }
 }

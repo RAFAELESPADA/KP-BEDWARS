@@ -94,24 +94,27 @@ public class ToolManager {
 
             player.getInventory()
                     .addItem(
-                            new ItemStack(
+                    		ItemMarker.mark(
+                                    new ItemStack(
                                     getPickaxeMaterial(
                                             gp.getPickaxeTier()
                                     )
                             )
-                    );
+                    ));
         }
 
         if(gp.getAxeTier() != null) {
 
             player.getInventory()
-                    .addItem(
+                    .addItem( ItemMarker.mark(
+                            
+                            
                             new ItemStack(
                                     getAxeMaterial(
                                             gp.getAxeTier()
                                     )
                             )
-                    );
+                    ));
         }
     }
 

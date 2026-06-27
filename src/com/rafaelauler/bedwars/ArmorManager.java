@@ -130,22 +130,26 @@ public class ArmorManager {
         );
         player.getInventory()
         .setHelmet(
-                helmet
-        );
+        		ItemMarker.mark(
+                        helmet
+        ));
         player.getInventory()
                 .setChestplate(
-                        chestplate
-                );
+                		ItemMarker.mark(
+                                   chestplate
+                ));
 
         player.getInventory()
                 .setLeggings(
-                        leggings
-                );
+                		ItemMarker.mark(
+                                 leggings
+                ));
 
         player.getInventory()
                 .setBoots(
-                        boots
-                );
+                		ItemMarker.mark(
+                                         boots
+                ));
 
         player.updateInventory();
     

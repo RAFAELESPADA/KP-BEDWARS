@@ -3,16 +3,17 @@ package com.rafaelauler.bedwars;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class StatsManager {
 
     private final MySQL mysql;
 
+
     private final Map<UUID, PlayerStats> cache =
-            new HashMap<>();
+            new ConcurrentHashMap<>();
 
     public StatsManager(
             MySQL mysql) {

@@ -1,5 +1,6 @@
 package com.rafaelauler.bedwars;
 
+import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.scheduler.BukkitRunnable;
 
