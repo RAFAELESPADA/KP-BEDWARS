@@ -254,13 +254,15 @@ public class BedWarsListeners implements Listener {
 	                        Material.AIR
 	                );
 	    }
-
+e.getBlock().getDrops().remove(new ItemStack(Material.BED));
 	    Bedwars.getInstance()
 	            .getRewardManager()
 	            .rewardBedBreak(
 	                    player
 	            );
-
+for (Player o : Bukkit.getOnlinePlayers()) {
+	o.playSound(o.getLocation(), Sound.ENDERDRAGON_GROWL, 10L, 10L);
+}
 	    Bukkit.broadcastMessage(
 	            "§6§lBEDWARS §8» §fA cama do time "
 	            + bedTeam.getColor()

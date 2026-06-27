@@ -9,8 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
-import net.md_5.bungee.api.ChatColor;
 
 public class GameEndManager {
 
@@ -75,7 +75,12 @@ public class GameEndManager {
 		                                .get(player);
 	            	 gp2.setArena(null);
 		                gp2.setTeam(null);
-		                
+		                player.setExp(0);
+		                player.setLevel(0);
+		                player.setFallDistance(0);
+		                player.setVelocity(new Vector());
+		                player.getActivePotionEffects().forEach(effect ->
+		                        player.removePotionEffect(effect.getType()));
 		                arena.getPlayers().remove(player);
 		                arena.getGamePlayers().remove(gp2);
 		                gp2.setAlive(true);
@@ -107,7 +112,12 @@ public class GameEndManager {
 	                                .getPlayerManager()
 	                                .get(spectator);
 	               
-	                
+	                spectator.setExp(0);
+	                spectator.setLevel(0);
+	                spectator.setFallDistance(0);
+	                spectator.setVelocity(new Vector());
+	                spectator.getActivePotionEffects().forEach(effect ->
+	                spectator.removePotionEffect(effect.getType()));
 	                Bedwars.getInstance()
 	                        .getSpectatorManager()
 	                        .removeSpectator(arena, spectator);
@@ -151,7 +161,7 @@ public class GameEndManager {
 	            }
 
 	            arena.getSpectators().clear();
-
+	            arena.cancelTasks();
 	            Bedwars.getInstance()
 	                    .getArenaReset()
 	                    .reset(arena);
@@ -176,11 +186,11 @@ public class GameEndManager {
 
             if(gp.getTeam() != null) {
 
-                gp.getTeam()
-                        .getPlayers()
-                        .remove(
-                                player.getUniqueId()
-                        );
+            	BWTeam team = gp.getTeam();
+
+            	if (team != null) {
+            	    team.getPlayers().remove(player.getUniqueId());
+            	}
             }
 
             if(arena != null) {
