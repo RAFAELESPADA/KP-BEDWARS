@@ -132,72 +132,30 @@ public class StatsManager {
 
                             );
 
-            ps.setString(1,
-                    stats.getUuid()
-                            .toString());
+            ps.setString(1, stats.getUuid().toString());
+            ps.setString(2, stats.getName());
+            ps.setInt(3, stats.getKills());
+            ps.setInt(4, stats.getFinalKills());
+            ps.setInt(5, stats.getDeaths());
+            ps.setInt(6, stats.getWins());
+            ps.setInt(7, stats.getLosses());
+            ps.setInt(8, stats.getBedsBroken());
+            ps.setInt(9, stats.getLevel());
+            ps.setInt(10, stats.getCoins());
+            ps.setInt(11, stats.getWinstreak());
+            ps.setInt(12, stats.getHighestCombo()); // <-- faltava
 
-            ps.setString(2,
-                    stats.getName());
-
-            ps.setInt(3,
-                    stats.getKills());
-
-            ps.setInt(4,
-                    stats.getFinalKills());
-
-            ps.setInt(5,
-                    stats.getDeaths());
-
-            ps.setInt(6,
-                    stats.getWins());
-
-            ps.setInt(7,
-                    stats.getLosses());
-
-            ps.setInt(8,
-                    stats.getBedsBroken());
-
-            ps.setInt(9,
-                    stats.getLevel());
-
-            ps.setInt(10,
-                    stats.getCoins());
-
-            ps.setInt(11,
-                    stats.getWinstreak());
-
-            ps.setString(12,
-                    stats.getName());
-
-            ps.setInt(13,
-                    stats.getKills());
-
-            ps.setInt(14,
-                    stats.getFinalKills());
-
-            ps.setInt(15,
-                    stats.getDeaths());
-
-            ps.setInt(16,
-                    stats.getWins());
-
-            ps.setInt(17,
-                    stats.getLosses());
-
-            ps.setInt(18,
-                    stats.getBedsBroken());
-
-            ps.setInt(19,
-                    stats.getLevel());
-
-            ps.setInt(20,
-                    stats.getCoins());
-
-            ps.setInt(21,
-                    stats.getWinstreak());
-
-            ps.setInt(22,
-                    stats.getHighestCombo());
+            ps.setString(13, stats.getName());
+            ps.setInt(14, stats.getKills());
+            ps.setInt(15, stats.getFinalKills());
+            ps.setInt(16, stats.getDeaths());
+            ps.setInt(17, stats.getWins());
+            ps.setInt(18, stats.getLosses());
+            ps.setInt(19, stats.getBedsBroken());
+            ps.setInt(20, stats.getLevel());
+            ps.setInt(21, stats.getCoins());
+            ps.setInt(22, stats.getWinstreak());
+            ps.setInt(23, stats.getHighestCombo());
             ps.executeUpdate();
 
         } catch(SQLException exception) {
