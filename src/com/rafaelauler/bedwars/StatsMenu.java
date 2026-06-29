@@ -4,12 +4,24 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-
+import org.bukkit.inventory.ItemStack;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.user.User;
 public class StatsMenu {
 
     public static void open(
             Player player) {
+    	LuckPerms lp = LuckPermsProvider.get();
 
+    	User user = lp.getPlayerAdapter(Player.class)
+    	        .getUser(player);
+
+    	String prefix = "";
+
+    	if (user.getCachedData().getMetaData().getPrefix() != null) {
+    	    prefix = user.getCachedData().getMetaData().getPrefix();
+    	}
         PlayerStats stats =
                 Bedwars.getInstance()
                         .getStatsManager()
@@ -20,160 +32,235 @@ public class StatsMenu {
         Inventory inventory =
                 Bukkit.createInventory(
                         null,
-                        27,
+                        54,
                         "§8Seu Perfil"
                 );
 
+        inventory.setItem(4,
+        	    SkullBuilder.of(player)
+        	            .name("§6§l" + player.getName())
+        	            .lore(
+        	                    "").lore("§7Cargo: " + prefix).lore(
+        	                    "§7Nível §8» §e" + stats.getLevel() + "✫").lore(
+        	                    "§7XP §8» §b" + stats.getExperience()).lore(
+        	                    "").lore(
+        	                    "§7Coins §8» §6" + stats.getCoins()).lore(
+        	                    "§7Winstreak §8» §a" + stats.getWinstreak()).lore("").lore("§eBedWars Profile"
+        	            )
+        	            .build()
+        	);
+        ItemStack glass = new ItemBuilder(Material.STAINED_GLASS_PANE, 1)
+        		
+                .name(" ")
+                .build();
+        int[] border = {
+        0,1,2,3,5,6,7,8,
+        9,17,
+        18,26,
+        27,35,
+        36,44,
+        45,46,47,48,50,51,52,53
+        };
+
+        for(int slot : border)
+            inventory.setItem(slot, glass);
+
         inventory.setItem(
-                13,
-                SkullBuilder.of(player)
-                        .name(
-                                "§6" +
-                                player.getName()
+                19,
+
+                new ItemBuilder(Material.DIAMOND_SWORD)
+
+                        .name("§c§lCombate")
+
+                        .lore(
+                                ""
+                        )
+
+                        .lore(
+                                "§7Kills: §f" + stats.getKills()
+                        )
+
+                        .lore(
+                                "§7Final Kills: §f" + stats.getFinalKills()
+                        )
+
+                        .lore(
+                                "§7Deaths: §f" + stats.getDeaths()
+                        )
+
+                        .lore(
+                                "§7KDR: §a" +
+                                        String.format("%.2f", stats.getKDR())
+                        )
+
+                        .lore(
+                                "§7FKDR: §a" +
+                                        String.format("%.2f", stats.getFKDR())
+                        )
+
+                        .lore(
+                                ""
                         )
                         .lore(
-                                "§7Level: §e"
-                                + stats.getLevel()
-                                + "✫"
-                        )
+                        	    "§7Maior Combo: §6"
+                        	    + stats.getHighestCombo()
+                        	)
                         .lore(
-                                "§7Coins: §6"
-                                + stats.getCoins()
+                                "§eEstatísticas de combate."
                         )
+
                         .build()
         );
-
         inventory.setItem(
-                10,
+                20,
 
-                new ItemBuilder(
-                        Material.DIAMOND_SWORD
-                )
+                new ItemBuilder(Material.BED)
 
-                .name(
-                        "§cCombate"
-                )
+                        .name("§e§lBedWars")
 
-                .lore(
-                        "§7Kills: §f"
-                        + stats.getKills()
-                )
-
-                .lore(
-                        "§7Final Kills: §f"
-                        + stats.getFinalKills()
-                )
-
-                .lore(
-                        "§7Deaths: §f"
-                        + stats.getDeaths()
-                )
-
-                .lore(
-                        "§7KDR: §a"
-                        + String.format(
-                                "%.2f",
-                                stats.getKDR()
+                        .lore(
+                                ""
                         )
-                )
 
-                .lore(
-                        "§7FKDR: §a"
-                        + String.format(
-                                "%.2f",
-                                stats.getFKDR()
+                        .lore(
+                                "§7Camas quebradas: §f"
+                                        + stats.getBedsBroken()
                         )
-                )
 
-                .build()
-        );
-
-        inventory.setItem(
-                12,
-
-                new ItemBuilder(
-                        Material.BED
-                )
-
-                .name(
-                        "§eBedWars"
-                )
-
-                .lore(
-                        "§7Beds Broken: §f"
-                        + stats.getBedsBroken()
-                )
-
-                .build()
-        );
-
-        inventory.setItem(
-                14,
-
-                new ItemBuilder(
-                        Material.EMERALD
-                )
-
-                .name(
-                        "§aVitórias"
-                )
-
-                .lore(
-                        "§7Wins: §f"
-                        + stats.getWins()
-                )
-
-                .lore(
-                        "§7Losses: §f"
-                        + stats.getLosses()
-                )
-
-                .lore(
-                        "§7Win Rate: §a"
-                        + String.format(
-                                "%.2f",
-                                stats.getWinRate()
+                        .lore(
+                                "§7Final Kills: §f"
+                                        + stats.getFinalKills()
                         )
-                                + "%"
-                )
 
-                .build()
+                        .lore(
+                                "§7Kills: §f"
+                                        + stats.getKills()
+                        )
+
+                        .lore(
+                                ""
+                        )
+
+                        .lore(
+                                "§eDesempenho como atacante."
+                        )
+
+                        .build()
         );
+        inventory.setItem(
+                22,
+
+                new ItemBuilder(Material.EMERALD)
+
+                        .name("§a§lVitórias")
+
+                        .lore(
+                                ""
+                        )
+
+                        .lore(
+                                "§7Vitórias: §f"
+                                        + stats.getWins()
+                        )
+
+                        .lore(
+                                "§7Derrotas: §f"
+                                        + stats.getLosses()
+                        )
+
+                        .lore(
+                                "§7Partidas: §f"
+                                        + (stats.getWins() + stats.getLosses())
+                        )
+
+                        .lore(
+                                "§7Win Rate: §a"
+                                        + String.format("%.2f",
+                                        stats.getWinRate())
+                                        + "%"
+                        )
+
+                        .lore(
+                                ""
+                        )
+
+                        .lore(
+                                "§eSeu desempenho geral."
+                        )
+
+                        .build()
+        );
+        int xp = stats.getExperience();
+
+        int required = stats.getLevel() * 100;
+
+        double percent = required <= 0 ? 100 :
+                Math.min(100D, (xp * 100D) / required);
+
+        StringBuilder bar = new StringBuilder();
+
+        for (int i = 0; i < 20; i++) {
+
+            if (i < percent / 5)
+                bar.append("§a■");
+            else
+                bar.append("§7■");
+        }
 
         inventory.setItem(
-                16,
+                24,
 
-                new ItemBuilder(
-                        Material.BLAZE_POWDER
-                )
+                new ItemBuilder(Material.BLAZE_POWDER)
 
-                .name(
-                        "§6Progressão"
-                )
+                        .name("§6§lProgressão")
 
-                .lore(
-                        "§7Level: §e"
-                        + stats.getLevel()
-                )
+                        .lore(
+                                ""
+                        )
 
-                .lore(
-                        "§7XP: §f"
-                        + stats.getExperience()
-                )
+                        .lore(
+                                "§7Nível: §e"
+                                        + stats.getLevel()
+                                        + "✫"
+                        )
 
-                .lore(
-                        "§7Coins: §6"
-                        + stats.getCoins()
-                )
+                        .lore(
+                                "§7XP: §b"
+                                        + xp
+                                        + " / "
+                                        + required
+                        )
 
-                .lore(
-                        "§7Winstreak: §f"
-                        + stats.getWinstreak()
-                )
+                        .lore(
+                                ""
+                        )
 
-                .build()
+                        .lore(
+                                bar.toString()
+                        )
+
+                        .lore(
+                                "§7Progresso: §a"
+                                        + String.format("%.0f", percent)
+                                        + "%"
+                        )
+
+                        .lore(
+                                ""
+                        )
+
+                        .lore(
+                                "§7Coins: §6"
+                                        + stats.getCoins()
+                        )
+
+                        .lore(
+                                "§7Winstreak: §f"
+                                        + stats.getWinstreak()
+                        )
+
+                        .build()
         );
-
         player.openInventory(
                 inventory
         );

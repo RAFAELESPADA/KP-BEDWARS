@@ -161,13 +161,28 @@ private void resetPlayers(
 
     for(GamePlayer gp :
             arena.getGamePlayers()) {
+    	PlayerStats stats =
+    	        Bedwars.getInstance()
+    	                .getStatsManager()
+    	                .getStats(gp.getUuid());
 
+    	if (gp.getHighestCombo() > stats.getHighestCombo()) {
+
+    	    stats.setHighestCombo(
+    	            gp.getHighestCombo()
+    	    );
+    	}
         gp.setTeam(null);
 
         gp.setKills(0);
 
         gp.setFinalKills(0);
-
+        gp.setCombo(0);
+        gp.setHighestCombo(0);
+        if (gp.getTrackerTask() != null) {
+            gp.getTrackerTask().cancel();
+            gp.setTrackerTask(null);
+        }
         gp.setAlive(true);
         
         UUID id = gp.getUuid();

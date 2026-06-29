@@ -231,6 +231,33 @@ public class ShopListener implements Listener {
                 return;
             }
         }
+        if (item.getReward().getType() == Material.COMPASS) {
+
+            GamePlayer gp =
+                    Bedwars.getInstance()
+                            .getPlayerManager()
+                            .get(player);
+
+            // Já possui uma task?
+            if (gp.getTrackerTask() != null) {
+                gp.getTrackerTask().cancel();
+            }
+
+            player.getInventory().addItem(
+                    item.getReward().clone()
+            );
+
+            gp.setTrackerTask(
+                    new TrackerTask(player)
+                            .runTaskTimer(
+                                    Bedwars.getInstance(),
+                                    20L,
+                                    20L
+                            )
+            );
+
+            return;
+        }
         if(item.getToolTier() != null) {
 
             GamePlayer gp =

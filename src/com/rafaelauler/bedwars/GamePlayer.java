@@ -4,6 +4,7 @@ package com.rafaelauler.bedwars;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 public class GamePlayer {
 
@@ -21,7 +22,32 @@ public class GamePlayer {
     private Player lastDamager;
     private boolean countedLoss;
     private boolean winner;
+    private int combo;
+    private int highestCombo;
+    private BukkitTask trackerTask;
 
+    public BukkitTask getTrackerTask() {
+        return trackerTask;
+    }
+
+    public void setTrackerTask(BukkitTask trackerTask) {
+        this.trackerTask = trackerTask;
+    }
+    public int getCombo() {
+        return combo;
+    }
+
+    public void setCombo(int combo) {
+        this.combo = combo;
+    }
+
+    public int getHighestCombo() {
+        return highestCombo;
+    }
+
+    public void setHighestCombo(int highestCombo) {
+        this.highestCombo = highestCombo;
+    }
     public boolean hasCountedLoss() {
         return countedLoss;
     }

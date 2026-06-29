@@ -518,6 +518,69 @@ public class ShopManager {
     		        7
     		    )
     		);
+    	items.add(
+    		    new ShopItem(
+    		            "speed_potion",
+    		            ShopCategory.POTIONS,
+
+    		            createItem(
+    		                    Material.POTION,
+    		                    1,
+    		                    "§bSpeed Potion (45s)",
+    		                    "",
+    		                    "§7Preço: §21 Esmeralda",
+    		                    "",
+    		                    "§eClique para comprar!"
+    		            ),
+
+    		            PotionBuilder.speed(45),
+
+    		            ShopCurrency.EMERALD,
+    		            1
+    		    )
+    		);
+    	items.add(
+    		    new ShopItem(
+    		            "jump_potion",
+    		            ShopCategory.POTIONS,
+
+    		            createItem(
+    		                    Material.POTION,
+    		                    1,
+    		                    "§aJump Potion (45s)",
+    		                    "",
+    		                    "§7Preço: §21 Esmeralda",
+    		                    "",
+    		                    "§eClique para comprar!"
+    		            ),
+
+    		            PotionBuilder.jump(45),
+
+    		            ShopCurrency.EMERALD,
+    		            1
+    		    )
+    		);
+    	items.add(
+    		    new ShopItem(
+    		            "invisibility_potion",
+    		            ShopCategory.POTIONS,
+
+    		            createItem(
+    		                    Material.POTION,
+    		                    1,
+    		                    "§7Invisibility Potion (30s)",
+    		                    "",
+    		                    "§7Preço: §22 Esmeraldas",
+    		                    "",
+    		                    "§eClique para comprar!"
+    		            ),
+
+    		            PotionBuilder.invisibility(30),
+
+    		            ShopCurrency.EMERALD,
+    		            2
+    		    )
+    		);
     	ShopItem chainmailArmor =
     	        new ShopItem(
     	                "chainmail_armor",

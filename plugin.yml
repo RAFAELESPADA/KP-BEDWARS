@@ -2,7 +2,7 @@ name: KPBedWars
 main: com.rafaelauler.bedwars.Bedwars
 version: 1.0
 author: Rafael Auler
-depend: [Citizens]
+depend: [Citizens, LuckPerms]
 softdepend:
   - PlaceholderAPI
 

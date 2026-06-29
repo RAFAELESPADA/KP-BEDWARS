@@ -78,7 +78,15 @@ public class PlayerStats {
 	public int getCoins() {
 	    return coins;
 	}
+	private int highestCombo;
 
+	public int getHighestCombo() {
+	    return highestCombo;
+	}
+
+	public void setHighestCombo(int highestCombo) {
+	    this.highestCombo = highestCombo;
+	}
 	public void setCoins(
 	        int coins) {
 

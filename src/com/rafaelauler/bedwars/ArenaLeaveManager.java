@@ -13,19 +13,16 @@ public class ArenaLeaveManager {
 	        return;
 
 	    gp.setAlive(false);
-	    Bukkit.getLogger().info("A");
 
 	    if (gp.getTeam() != null) {
 	        gp.getTeam().getPlayers().remove(gp.getUuid());
 	    }
-	    Bukkit.getLogger().info("b");
 
 	    arena.getGamePlayers().remove(gp);
 	    Player p = Bukkit.getPlayer(gp.getUuid());
 	    if (p != null) {
 	    arena.getPlayers().remove(p); // ou gp.getUuid(), conforme o tipo da coleção
 	    }
-	    Bukkit.getLogger().info("c");
 
 	    Bedwars.getInstance()
 	            .getGameEndManager()
@@ -36,8 +33,11 @@ public class ArenaLeaveManager {
 	    if (p != null && p.isOnline()) {
 	        p.getEnderChest().clear();
 	       }
-	    Bukkit.getLogger().info("d");
-
+	    if (gp.getTrackerTask() != null) {
+	        gp.getTrackerTask().cancel();
+	        gp.setTrackerTask(null);
+	    }
+	    gp.setCombo(0);
 	    checkArena(arena);
 	}
     

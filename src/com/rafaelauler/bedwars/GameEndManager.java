@@ -86,7 +86,10 @@ public class GameEndManager {
 		                gp2.setAlive(true);
 		                gp2.setSpectator(false);
 		                gp2.setWinner(false);
-
+		                if (gp2.getTrackerTask() != null) {
+		                    gp2.getTrackerTask().cancel();
+		                    gp2.setTrackerTask(null);
+		                }
 		                gp2.setKills(0);
 		                gp2.setFinalKills(0);
 
@@ -111,7 +114,10 @@ public class GameEndManager {
 	                        Bedwars.getInstance()
 	                                .getPlayerManager()
 	                                .get(spectator);
-	               
+	                if (gp.getTrackerTask() != null) {
+	                    gp.getTrackerTask().cancel();
+	                    gp.setTrackerTask(null);
+	                }
 	                spectator.setExp(0);
 	                spectator.setLevel(0);
 	                spectator.setFallDistance(0);

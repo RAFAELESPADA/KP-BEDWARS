@@ -1,5 +1,6 @@
 package com.rafaelauler.bedwars;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -7,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -222,7 +224,49 @@ public class Bedwars extends JavaPlugin {
                 new DamageListener(),
                 this
         );
-        
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+
+                try {
+
+                    if (!mysql.isConnected()) {
+
+                        Bukkit.getLogger().warning(
+                                "[KPBedWars] Conexão com MySQL perdida. Reconectando..."
+                        );
+
+                        mysql.reconnect();
+                        return;
+                    }
+
+                    if (!mysql.ping()) {
+
+                        Bukkit.getLogger().warning(
+                                "[KPBedWars] Ping do MySQL falhou. Reconectando..."
+                        );
+
+                        mysql.reconnect();
+                    }
+
+                } catch (Exception exception) {
+
+                    Bukkit.getLogger().warning(
+                            "[KPBedWars] Erro ao verificar conexão com o MySQL."
+                    );
+
+                    exception.printStackTrace();
+
+                    mysql.reconnect();
+                }
+            }
+
+        }.runTaskTimerAsynchronously(
+                this,
+                20L * 60L,   // 1 minuto
+                20L * 60L
+        );
         Bukkit.getPluginManager()
         .registerEvents(
                 new UpgradeListener(),
@@ -269,6 +313,9 @@ if (stand.hasMetadata("KPBEDWARS_COSMETIC"))
 
     	        stand.remove();
     	    }
+if (mysql != null) {
+    mysql.disconnect();
+}
 getLogger().info("Stands cosmeticos removidos");
     	}
         getLogger().info("BedWars desligado!");

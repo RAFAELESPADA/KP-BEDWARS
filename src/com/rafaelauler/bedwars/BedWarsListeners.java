@@ -18,6 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -289,7 +290,10 @@ e.getBlock().getDrops().clear();
 	                80,
 	                10
 	        );
-
+	        TitleAPI.sendActionBar(
+	                player,
+	                "§cSua cama foi destruída!"
+	        );
 	        target.sendMessage(
 	                "§cSua cama foi destruída! Agora você possui apenas uma vida."
 	        );
@@ -366,7 +370,10 @@ e.getBlock().getDrops().clear();
 		                            .getStatsManager()
 		                            .save(stats)
 		            );
-
+		    if (gp.getTrackerTask() != null) {
+		        gp.getTrackerTask().cancel();
+		        gp.setTrackerTask(null);
+		    }
 	    } catch (Exception ex) {
 	        ex.printStackTrace();
 	    }
@@ -390,7 +397,29 @@ e.getBlock().getDrops().clear();
 	        return;
 	    }
 	}
-	
+	@EventHandler
+	public void onDeath(EntityDamageByEntityEvent e) {
+		GamePlayer attacker =
+		        Bedwars.getInstance()
+		                .getPlayerManager()
+		                .get((Player)e.getDamager());
+
+		if (attacker == null)
+		    return;
+
+		attacker.setCombo(attacker.getCombo() + 1);
+
+		if (attacker.getCombo() > attacker.getHighestCombo()) {
+
+		    attacker.setHighestCombo(
+		            attacker.getCombo()
+		    );
+		    TitleAPI.sendActionBar(
+		            (Player)e.getDamager(),
+		            "§6Combo §f× §e" + attacker.getCombo()
+		    );
+		}
+	}
 @EventHandler
 public void onDeath(PlayerDeathEvent e) {
 
@@ -411,6 +440,7 @@ public void onDeath(PlayerDeathEvent e) {
     && item.getType() != Material.DIAMOND
     && item.getType() != Material.EMERALD
 );
+	gp.setCombo(0);
 	e.setDeathMessage(null);
     Bukkit.getScheduler()
             .runTaskLater(

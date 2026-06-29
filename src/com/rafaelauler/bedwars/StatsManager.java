@@ -73,7 +73,9 @@ public class StatsManager {
                 stats.setWins(
                         rs.getInt("wins")
                 );
-
+                stats.setHighestCombo(
+                        rs.getInt("highest_combo")
+                );
                 stats.setLosses(
                         rs.getInt("losses")
                 );
@@ -113,7 +115,7 @@ public class StatsManager {
                             .prepareStatement(
 
                                     "INSERT INTO bedwars_stats " +
-                                            "(uuid,name,kills,final_kills,deaths,wins,losses,beds_broken,level,coins,winstreak) " +
+                                            "(uuid,name,kills,final_kills,deaths,wins,losses,beds_broken,level,coins,winstreak,highest_combo) " +
                                             "VALUES(?,?,?,?,?,?,?,?,?,?,?) " +
                                             "ON DUPLICATE KEY UPDATE " +
                                             "name=?, " +
@@ -125,7 +127,8 @@ public class StatsManager {
                                             "beds_broken=?, " +
                                             "level=?, " +
                                             "coins=?, " +
-                                            "winstreak=?"
+                                            "winstreak=?, " +
+                                            "highest_combo=?"
 
                             );
 
@@ -193,6 +196,8 @@ public class StatsManager {
             ps.setInt(21,
                     stats.getWinstreak());
 
+            ps.setInt(22,
+                    stats.getHighestCombo());
             ps.executeUpdate();
 
         } catch(SQLException exception) {

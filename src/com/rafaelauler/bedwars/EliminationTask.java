@@ -24,7 +24,10 @@ public class EliminationTask {
 	    player.sendMessage(
 	            "§cVocê foi eliminado!"
 	    );
-
+	    if (gp.getTrackerTask() != null) {
+	        gp.getTrackerTask().cancel();
+	        gp.setTrackerTask(null);
+	    }
 	    Bedwars.getInstance()
         .getSpectatorManager()
         .addSpectator(
