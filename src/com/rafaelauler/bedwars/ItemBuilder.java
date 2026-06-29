@@ -37,7 +37,18 @@ public class ItemBuilder {
 
         return this;
     }
+    public ItemBuilder addLore(String... lore) {
 
+        List<String> currentLore = meta.hasLore()
+                ? meta.getLore()
+                : new java.util.ArrayList<String>();
+
+        currentLore.addAll(Arrays.asList(lore));
+
+        meta.setLore(currentLore);
+
+        return this;
+    }
     public ItemBuilder lore(
             String... lore) {
 
@@ -48,7 +59,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder lore(
+    public ItemBuilder setlore(
             List<String> lore2) {
 
         meta.setLore(lore2);

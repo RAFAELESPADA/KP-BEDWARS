@@ -72,40 +72,40 @@ public class StatsMenu {
 
                         .name("§c§lCombate")
 
-                        .lore(
+                        .addLore(
                                 ""
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Kills: §f" + stats.getKills()
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Final Kills: §f" + stats.getFinalKills()
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Deaths: §f" + stats.getDeaths()
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7KDR: §a" +
                                         String.format("%.2f", stats.getKDR())
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7FKDR: §a" +
                                         String.format("%.2f", stats.getFKDR())
                         )
 
-                        .lore(
+                        .addLore(
                                 ""
                         )
-                        .lore(
+                        .addLore(
                         	    "§7Maior Combo: §6"
                         	    + stats.getHighestCombo()
                         	)
-                        .lore(
+                        .addLore(
                                 "§eEstatísticas de combate."
                         )
 
@@ -116,32 +116,32 @@ public class StatsMenu {
 
                 new ItemBuilder(Material.BED)
 
-                        .name("§e§lBedWars")
+                        .addLore("§e§lBedWars")
 
-                        .lore(
+                        .addLore(
                                 ""
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Camas quebradas: §f"
                                         + stats.getBedsBroken()
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Final Kills: §f"
                                         + stats.getFinalKills()
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Kills: §f"
                                         + stats.getKills()
                         )
 
-                        .lore(
+                        .addLore(
                                 ""
                         )
 
-                        .lore(
+                        .addLore(
                                 "§eDesempenho como atacante."
                         )
 
@@ -154,37 +154,37 @@ public class StatsMenu {
 
                         .name("§a§lVitórias")
 
-                        .lore(
+                        .addLore(
                                 ""
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Vitórias: §f"
                                         + stats.getWins()
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Derrotas: §f"
                                         + stats.getLosses()
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Partidas: §f"
                                         + (stats.getWins() + stats.getLosses())
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Win Rate: §a"
                                         + String.format("%.2f",
                                         stats.getWinRate())
                                         + "%"
                         )
 
-                        .lore(
+                        .addLore(
                                 ""
                         )
 
-                        .lore(
+                        .addLore(
                                 "§eSeu desempenho geral."
                         )
 
@@ -214,47 +214,47 @@ public class StatsMenu {
 
                         .name("§6§lProgressão")
 
-                        .lore(
+                        .addLore(
                                 ""
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Nível: §e"
                                         + stats.getLevel()
                                         + "✫"
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7XP: §b"
                                         + xp
                                         + " / "
                                         + required
                         )
 
-                        .lore(
+                        .addLore(
                                 ""
                         )
 
-                        .lore(
+                        .addLore(
                                 bar.toString()
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Progresso: §a"
                                         + String.format("%.0f", percent)
                                         + "%"
                         )
 
-                        .lore(
+                        .addLore(
                                 ""
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Coins: §6"
                                         + stats.getCoins()
                         )
 
-                        .lore(
+                        .addLore(
                                 "§7Winstreak: §f"
                                         + stats.getWinstreak()
                         )
