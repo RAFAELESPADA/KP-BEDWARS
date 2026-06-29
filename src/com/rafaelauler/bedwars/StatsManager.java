@@ -116,7 +116,7 @@ public class StatsManager {
 
                                     "INSERT INTO bedwars_stats " +
                                             "(uuid,name,kills,final_kills,deaths,wins,losses,beds_broken,level,coins,winstreak,highest_combo) " +
-                                            "VALUES(?,?,?,?,?,?,?,?,?,?,?) " +
+                                            "VALUES(?,?,?,?,?,?,?,?,?,?,?,?) " +
                                             "ON DUPLICATE KEY UPDATE " +
                                             "name=?, " +
                                             "kills=?, " +
