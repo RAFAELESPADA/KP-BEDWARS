@@ -145,7 +145,7 @@ public class ArenaSelectorMenu {
             ItemStack item =
                     new ItemBuilder(material)
                     .name("§a" + arena.getName())
-                    .lore(lore)
+                    .setlore(lore)
                     .build();
             inventory.setItem(
                     slot++,

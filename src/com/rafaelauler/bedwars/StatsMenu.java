@@ -70,7 +70,7 @@ public class StatsMenu {
 
                 new ItemBuilder(Material.DIAMOND_SWORD)
 
-                        .name("§c§lCombate")
+                        .name("§eCombate")
 
                         .addLore(
                                 ""
@@ -116,12 +116,12 @@ public class StatsMenu {
 
                 new ItemBuilder(Material.BED)
 
-                        .addLore("§e§lBedWars")
-
+                        .name("§eEstatísticas")
                         .addLore(
                                 ""
                         )
 
+                        .addLore("§e§lBedWars")
                         .addLore(
                                 "§7Camas quebradas: §f"
                                         + stats.getBedsBroken()
@@ -152,7 +152,7 @@ public class StatsMenu {
 
                 new ItemBuilder(Material.EMERALD)
 
-                        .name("§a§lVitórias")
+                        .name("§eVitórias")
 
                         .addLore(
                                 ""
@@ -212,7 +212,7 @@ public class StatsMenu {
 
                 new ItemBuilder(Material.BLAZE_POWDER)
 
-                        .name("§6§lProgressão")
+                        .name("§eProgressão")
 
                         .addLore(
                                 ""
