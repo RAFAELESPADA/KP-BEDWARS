@@ -103,7 +103,7 @@ public class BedwarsExpansion
                      + gp.getTeam()
                             .getColor()
                             .name()
-                            .substring(0, 1) + String.valueOf("");
+                            .substring(0, 1) + String.valueOf(" ");
             case "arena":
 
                 return gp == null
