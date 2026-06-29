@@ -20,7 +20,7 @@ public class StatsMenu {
     	String prefix = "";
 
     	if (user.getCachedData().getMetaData().getPrefix() != null) {
-    	    prefix = user.getCachedData().getMetaData().getPrefix();
+    	    prefix = user.getCachedData().getMetaData().getPrefix().replace("&", "§");
     	}
         PlayerStats stats =
                 Bedwars.getInstance()
