@@ -71,7 +71,7 @@ public class BedWarsListeners implements Listener {
 
 	    e.setCancelled(true);
 
-	    explode(e.getLocation(), 4.5);
+	    explode2(e.getLocation(), 4.5);
 	}
 	@EventHandler
 	public void onFireball(PlayerInteractEvent e) {
@@ -112,12 +112,15 @@ public class BedWarsListeners implements Listener {
 
 	    if (!e.getEntity().hasMetadata("bedwars"))
 	        return;
-
-	    explode(e.getEntity().getLocation(), 3.5);
-
+if (e.getEntity().getShooter() != null) {
+	if (e.getEntity().getShooter() instanceof Player) {
+	Player o = (Player)e.getEntity().getShooter();
+	    explode(e.getEntity().getLocation(), 3.5, o);
+}
 	    e.getEntity().remove();
 	}
-	private void explode(Location center, double radius) {
+	}
+	private void explode2(Location center, double radius) {
 
 	    World world = center.getWorld();
 
@@ -148,7 +151,6 @@ public class BedWarsListeners implements Listener {
 	                if (!arena.getPlacedBlocks().contains(block.getLocation()))
 	                    continue;
 
-	                arena.getPlacedBlocks().remove(block.getLocation());
 
 	                if (arena.getPlacedBlocks().remove(block.getLocation())) {
 	                    block.setType(Material.AIR);
@@ -158,7 +160,68 @@ public class BedWarsListeners implements Listener {
 	    }
 
 	    for (Player player : world.getPlayers()) {
+	    	if (!player.getWorld().equals(center.getWorld()))
+	    	    continue;
+	        double distance = player.getLocation().distance(center);
+	       
+	        if (distance > radius)
+	            continue;
 
+	        Vector vector = player.getLocation().toVector()
+	                .subtract(center.toVector())
+	                .normalize();
+
+	        vector.multiply(1.7);
+
+	        vector.setY(0.9);
+
+	        player.setVelocity(vector);
+
+	        player.damage(4.0);
+	    }
+	}
+	private void explode(Location center, double radius, Player damager) {
+
+	    World world = center.getWorld();
+
+	    world.playEffect(center, Effect.EXPLOSION_HUGE, 0);
+
+	    world.playSound(center, Sound.EXPLODE, 1F, 1F);
+
+	    Arena arena = Bedwars.getInstance()
+	            .getArenaManager()
+	            .getArena(world.getName());
+
+	    if (arena == null)
+	        return;
+
+	    int r = (int) Math.ceil(radius);
+
+	    for (int x = -r; x <= r; x++) {
+
+	        for (int y = -r; y <= r; y++) {
+
+	            for (int z = -r; z <= r; z++) {
+
+	                Block block = center.clone().add(x, y, z).getBlock();
+
+	                if (block.getType() == Material.AIR)
+	                    continue;
+
+	                if (!arena.getPlacedBlocks().contains(block.getLocation()))
+	                    continue;
+
+
+	                if (arena.getPlacedBlocks().remove(block.getLocation())) {
+	                    block.setType(Material.AIR);
+	                }
+	            }
+	        }
+	    }
+
+	    for (Player player : world.getPlayers()) {
+	    	if (!player.getWorld().equals(center.getWorld()))
+	    	    continue;
 	        double distance = player.getLocation().distance(center);
 
 	        if (distance > radius)
@@ -174,7 +237,7 @@ public class BedWarsListeners implements Listener {
 
 	        player.setVelocity(vector);
 
-	        player.damage(4.0);
+	        player.damage(4.0, damager);
 	    }
 	}
 	@EventHandler
@@ -383,42 +446,57 @@ e.getBlock().getDrops().clear();
 
 	    List<BWTeam> aliveTeams = new ArrayList<>();
 
-	    Bukkit.getLogger().info("Alive Teams = " + aliveTeams.size());
-
 	    for (BWTeam team : arena.getTeams().values()) {
-	        Bukkit.getLogger().info(
-	                team.getColor().name()
-	                + " | teamPlayers=" + team.getPlayers().size()
-	                + " | hasAlive=" + team.hasAlivePlayers()
-	        );
+
+	        if (team.hasAlivePlayers()) {
+	            aliveTeams.add(team);
+	        }
 	    }
 
-	    if (aliveTeams.size() != 1) {
+	    if (aliveTeams.size() != 1)
 	        return;
-	    }
+
+	    BWTeam winner = aliveTeams.get(0);
+
+	    Bedwars.getInstance()
+	            .getGameEndManager()
+	            .endGame(arena, winner);
 	}
 	@EventHandler
-	public void onDeath(EntityDamageByEntityEvent e) {
-		GamePlayer attacker =
-		        Bedwars.getInstance()
-		                .getPlayerManager()
-		                .get((Player)e.getDamager());
+	public void onDamage(EntityDamageByEntityEvent e) {
 
-		if (attacker == null)
-		    return;
+	    if (!(e.getDamager() instanceof Player))
+	        return;
+	    if (e.isCancelled())
+	        return;
+	    GamePlayer attacker = Bedwars.getInstance()
+	            .getPlayerManager()
+	            .get((Player) e.getDamager());
+	    if (!(e.getEntity() instanceof Player))
+	        return;
+	    if (attacker == null)
+	        return;
 
-		attacker.setCombo(attacker.getCombo() + 1);
+	    long now = System.currentTimeMillis();
 
-		if (attacker.getCombo() > attacker.getHighestCombo()) {
+	    // Se ficou mais de 5 segundos sem acertar um hit, reinicia o combo
+	    if (now - attacker.getLastCombat() > 5000) {
+	        attacker.setCombo(0);
+	        
+	    }
 
-		    attacker.setHighestCombo(
-		            attacker.getCombo()
-		    );
-		    TitleAPI.sendActionBar(
-		            (Player)e.getDamager(),
-		            "§6Combo §f× §e" + attacker.getCombo()
-		    );
-		}
+	    attacker.setLastCombat(now);
+
+	    attacker.setCombo(attacker.getCombo() + 1);
+
+	    if (attacker.getCombo() > attacker.getHighestCombo()) {
+	        attacker.setHighestCombo(attacker.getCombo());
+	    }
+
+	    TitleAPI.sendActionBar(
+	            (Player) e.getDamager(),
+	            "§6Combo §f× §e" + attacker.getCombo()
+	    );
 	}
 @EventHandler
 public void onDeath(PlayerDeathEvent e) {
@@ -429,9 +507,9 @@ public void onDeath(PlayerDeathEvent e) {
             Bedwars.getInstance()
                     .getPlayerManager()
                     .get(player);
+   
 
-    if(gp.getArena() == null || gp == null
-            )
+    if (gp == null || gp.getArena() == null)
         return;
 	e.getDrops().removeIf(item ->
 
@@ -441,6 +519,17 @@ public void onDeath(PlayerDeathEvent e) {
     && item.getType() != Material.EMERALD
 );
 	gp.setCombo(0);
+	gp.setLastCombat(0);
+	if (player.getKiller() instanceof Player) {
+	 GamePlayer gp2 =
+	            Bedwars.getInstance()
+	                    .getPlayerManager()
+	                    .get(player.getKiller());
+	 if (gp2 != null) {
+	gp2.setLastCombat(0);
+	gp2.setCombo(0);
+	}
+	}
 	e.setDeathMessage(null);
     Bukkit.getScheduler()
             .runTaskLater(

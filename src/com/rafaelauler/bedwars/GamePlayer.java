@@ -25,7 +25,15 @@ public class GamePlayer {
     private int combo;
     private int highestCombo;
     private BukkitTask trackerTask;
+    private long lastCombat;
 
+    public long getLastCombat() {
+        return lastCombat;
+    }
+
+    public void setLastCombat(long lastCombat) {
+        this.lastCombat = lastCombat;
+    }
     public BukkitTask getTrackerTask() {
         return trackerTask;
     }
