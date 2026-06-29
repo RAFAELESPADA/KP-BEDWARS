@@ -100,7 +100,7 @@ public class BedwarsExpansion
             return gp.getTeam()
                     .getColor()
                     .getColor()
-                    + String.valueOf("") +  gp.getTeam()
+                    + String.valueOf(" ") +  gp.getTeam()
                             .getColor()
                             .name()
                             .substring(0, 1);
