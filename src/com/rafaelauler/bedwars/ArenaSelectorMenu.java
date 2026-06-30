@@ -65,7 +65,7 @@ public void onDrop(
        InventoryClickEvent e) {
 	String title = e.getClickedInventory().getTitle();
     e.setCancelled(true);
-if (title.equals("§8BedWars") || !title.equals("§8Selecionar Arena")) {
+if (title.equals("§8BedWars") || title.equals("§8Selecionar Arena")) {
 	
 
 
