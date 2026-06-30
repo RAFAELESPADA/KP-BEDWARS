@@ -196,6 +196,11 @@ public class Bedwars extends JavaPlugin {
         );
         Bukkit.getPluginManager()
         .registerEvents(
+                new ArenaSelectorMenu(),
+                getInstance()
+        );
+        Bukkit.getPluginManager()
+        .registerEvents(
                 new LobbyProtectionListener(),
                 this
         );

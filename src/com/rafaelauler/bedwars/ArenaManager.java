@@ -164,6 +164,53 @@ public class ArenaManager {
             arenas.put(arenaName, arena);
         }
     }
+    public Arena findBestArena() {
+
+        Arena best = null;
+
+        int priority = -1;
+        int players = -1;
+
+        for (Arena arena : arenas.values()) {
+
+            // Arena cheia
+            if (arena.getPlayers().size() >= arena.getMaxPlayers())
+                continue;
+
+            // Não entra em partidas em andamento
+            if (arena.getState() == ArenaState.PLAYING
+                    || arena.getState() == ArenaState.ENDING)
+                continue;
+
+            int currentPriority;
+
+            switch (arena.getState()) {
+
+                case STARTING:
+                    currentPriority = 2;
+                    break;
+
+                case WAITING:
+                    currentPriority = 1;
+                    break;
+
+                default:
+                    continue;
+            }
+
+            if (best == null
+                    || currentPriority > priority
+                    || (currentPriority == priority
+                    && arena.getPlayers().size() > players)) {
+
+                best = arena;
+                priority = currentPriority;
+                players = arena.getPlayers().size();
+            }
+        }
+
+        return best;
+    }
     private void loadTeams(
             String arenaName,
             Arena arena) {
