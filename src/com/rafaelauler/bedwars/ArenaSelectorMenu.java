@@ -63,6 +63,9 @@ public class ArenaSelectorMenu implements Listener {
 @EventHandler
 public void onDrop(
        InventoryClickEvent e) {
+	if (e.getClickedInventory() == null) {
+		return;
+	}
 	String title = e.getClickedInventory().getTitle();
     e.setCancelled(true);
 if (title.equals("§8BedWars") || title.equals("§8Selecionar Arena")) {
