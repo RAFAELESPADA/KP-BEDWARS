@@ -29,6 +29,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
+import eu.decentsoftware.holograms.api.actions.ClickType;
+import eu.decentsoftware.holograms.event.HologramClickEvent;
+
 public class BedWarsListeners implements Listener {
 	@EventHandler
 	public void onPlace(BlockPlaceEvent e) {
@@ -238,6 +241,89 @@ if (e.getEntity().getShooter() != null) {
 	        player.setVelocity(vector);
 
 	        player.damage(4.0, damager);
+	    }
+	}
+	@EventHandler
+	public void onClick(HologramClickEvent e) {
+
+	    if (!e.getHologram().getName().equals("kills"))
+	        return;  LeaderBoardManager leaderBoardManager =
+            Bedwars.getInstance().getLeaderBoardManager();
+	    // Clique esquerdo
+	    if (e.getClick() == ClickType.RIGHT) {
+	        leaderBoardManager.boards.get("kills")
+	                .next();
+
+e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CLICK, 10, 10);
+	    } else {
+
+	    	leaderBoardManager.boards.get("kills")
+	        .previous();
+
+e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CLICK, 10, 10);
+	    }
+	}
+	@EventHandler
+	public void onClick2(HologramClickEvent e) {
+
+       LeaderBoardManager leaderBoardManager =
+        Bedwars.getInstance().getLeaderBoardManager();
+	    if (!e.getHologram().getName().equals("deaths"))
+	        return;
+	    // Clique esquerdo
+	    if (e.getClick() == ClickType.RIGHT) {
+	        leaderBoardManager.boards.get("deaths")
+	                .next();
+
+e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CLICK, 10, 10);
+	    } else {
+
+	    	leaderBoardManager.boards.get("deaths")
+	        .previous();
+
+e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CLICK, 10, 10);
+	    }
+	}
+	    @EventHandler
+	    public void onClick3(HologramClickEvent e) {
+
+	        if (!e.getHologram().getName().equals("xp"))
+	            return;
+	        LeaderBoardManager leaderBoardManager =
+	                Bedwars.getInstance().getLeaderBoardManager();
+	        // Clique esquerdo
+	        if (e.getClick() == ClickType.RIGHT) {
+	            leaderBoardManager.boards.get("xp")
+	                    .next();
+e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CLICK, 10, 10);
+	        } else {
+
+	        	leaderBoardManager.boards.get("xp")
+	            .previous();
+
+e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CLICK, 10, 10);
+	        }
+	    }
+
+	@EventHandler
+	public void onCligck(HologramClickEvent e) {
+
+	    if (!e.getHologram().getName().equals("wins"))
+	        return;
+	       LeaderBoardManager leaderBoardManager =
+	    	        Bedwars.getInstance().getLeaderBoardManager();
+	    // Clique esquerdo
+	    if (e.getClick() == ClickType.RIGHT) {
+	        leaderBoardManager.boards.get("wins")
+	                .next();
+
+e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CLICK, 10, 10);
+	    } else {
+
+	    	leaderBoardManager.boards.get("wins")
+	        .previous();
+
+e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.CLICK, 10, 10);
 	    }
 	}
 	@EventHandler

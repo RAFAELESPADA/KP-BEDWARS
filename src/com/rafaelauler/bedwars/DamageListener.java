@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class DamageListener
         implements Listener {
-
+	
     @EventHandler
     public void onDamage(
             EntityDamageByEntityEvent e) {

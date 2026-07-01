@@ -2,6 +2,7 @@ package com.rafaelauler.bedwars;
 
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import eu.decentsoftware.holograms.api.DHAPI;
+import eu.decentsoftware.holograms.api.holograms.Hologram;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 
@@ -48,7 +51,51 @@ public class Bedwars extends JavaPlugin {
     public void onEnable() {
 
         instance = this;
+        if (getLobbySpawn() == null) {
+        	setLobbySpawn(new Location(Bukkit.getWorld("spawn"), 0 , 64 ,0));
+        }
+        LeaderBoardManager boards =
+                getLeaderBoardManager();
+            	   boards.boards.put(
+           	            "kills",
+           	            new Leaderboard(
+           	            		getLobbySpawn(),
+           	                    "kills",
+           	                    "§6§lTOP KILLS",
+           	                    "kpbedwars_kills"
+           	            )
+           	    );
+            	getLogger().info("REGISTRANDO HOLOGRAMA DE KILLS");
+              
+            	   boards.boards.put(
+           	            "deaths",
+           	            new Leaderboard(getLobbySpawn(),"kills","§6§lTOP DEATHS","kpbedwars_deaths"));
 
+            	  getLogger().info( "REGISTRANDO HOLOGRAMA DE DEATHS");
+              
+            	   boards.boards.put(
+           	            "xp",
+           	            new Leaderboard(
+           	            		getLobbySpawn(),
+           	                    "xp",
+           	                    "§6§lTOP MAIS XP",
+           	                    "kpbedwars_xp"
+           	            )
+           	    );
+
+            	   getLogger().info( "REGISTRANDO HOLOGRAMA DE XP");
+               
+            	   boards.boards.put(
+           	            "wins",
+           	            new Leaderboard(
+           	            		getLobbySpawn(),
+           	                    "wins",
+           	                    "§6§lTOP WINS",
+           	                    "kpbedwars_wins"
+           	            )
+           	    );
+
+            	   getLogger().info( "REGISTRANDO HOLOGRAMA DE WINS");
         saveDefaultConfig();
         cosmeticGeneratorFile =
                 new CosmeticGeneratorFile();
@@ -119,9 +166,7 @@ public class Bedwars extends JavaPlugin {
                 20L
         );
         
-        if (getLobbySpawn() == null) {
-        	setLobbySpawn(new Location(Bukkit.getWorld("world"), 0 , 64 ,0));
-        }
+       
         lobbySpawn = new Location(Bukkit.getWorld(getConfig().getString("Lobby.World")), getConfig().getInt("Lobby.X"), getConfig().getInt("Lobby.Y"), getConfig().getInt("Lobby.Z"));
         spectatorManager = new SpectatorManager();
         shopManager = new ShopManager();
@@ -148,7 +193,6 @@ public class Bedwars extends JavaPlugin {
                 this
         );
        
-        	
        
         Bukkit.getPluginManager()
         .registerEvents(
@@ -393,6 +437,12 @@ public EliminationManager getEliminationManager() {
     }
     public NPCManager getNpcManager() {
         return npcManager;
+    }
+    private final LeaderBoardManager leaderBoardManager =
+            new LeaderBoardManager();
+
+    public LeaderBoardManager getLeaderBoardManager() {
+        return leaderBoardManager;
     }
     public KillManager getKillManager() {
         return killManager;

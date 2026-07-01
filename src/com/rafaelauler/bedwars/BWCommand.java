@@ -41,7 +41,12 @@ public class BWCommand implements CommandExecutor {
         register(
                 new PlayCommand()
         );
+register(new SetKillsLeaderBoardCommand());
 
+register(new SetDeathsLeaderBoard());
+
+register(new SetWinsLeaderBoard());
+register(new SetXPLeaderBoard());
         register(
                 new TeamShopCommand()
         );
