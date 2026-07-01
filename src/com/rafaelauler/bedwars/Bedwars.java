@@ -69,7 +69,7 @@ public class Bedwars extends JavaPlugin {
               
             	   boards.boards.put(
            	            "deaths",
-           	            new Leaderboard(getLobbySpawn(),"kills","§6§lTOP DEATHS","kpbedwars_deaths"));
+           	            new Leaderboard(getLobbySpawn(),"deaths","§6§lTOP DEATHS","kpbedwars_deaths"));
 
             	  getLogger().info( "REGISTRANDO HOLOGRAMA DE DEATHS");
               
