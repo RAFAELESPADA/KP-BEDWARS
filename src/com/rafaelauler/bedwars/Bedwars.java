@@ -54,29 +54,30 @@ public class Bedwars extends JavaPlugin {
         if (getLobbySpawn() == null) {
         	setLobbySpawn(new Location(Bukkit.getWorld("spawn"), 0 , 64 ,0));
         }
+        Location one = new Location(Bukkit.getWorld("spawn"), 215.768, 46.53, 486.066);
         LeaderBoardManager boards =
                 getLeaderBoardManager();
             	   boards.boards.put(
            	            "kills",
            	            new Leaderboard(
-           	            		getLobbySpawn(),
+           	            		one,
            	                    "kills",
            	                    "§6§lTOP KILLS",
            	                    "kpbedwars_kills"
            	            )
            	    );
             	getLogger().info("REGISTRANDO HOLOGRAMA DE KILLS");
-              
+                Location two = new Location(Bukkit.getWorld("spawn"), 215.768, 46.53, 476.066);
             	   boards.boards.put(
            	            "deaths",
-           	            new Leaderboard(getLobbySpawn(),"deaths","§6§lTOP DEATHS","kpbedwars_deaths"));
+           	            new Leaderboard(two,"deaths","§6§lTOP DEATHS","kpbedwars_deaths"));
 
             	  getLogger().info( "REGISTRANDO HOLOGRAMA DE DEATHS");
-              
+            	  Location four = new Location(Bukkit.getWorld("spawn"), 190.768, 46.53, 490.066);
             	   boards.boards.put(
            	            "xp",
            	            new Leaderboard(
-           	            		getLobbySpawn(),
+           	            		four,
            	                    "xp",
            	                    "§6§lTOP MAIS XP",
            	                    "kpbedwars_xp"
@@ -84,11 +85,11 @@ public class Bedwars extends JavaPlugin {
            	    );
 
             	   getLogger().info( "REGISTRANDO HOLOGRAMA DE XP");
-               
+                   Location three = new Location(Bukkit.getWorld("spawn"), 190.768, 46.53, 476.066);
             	   boards.boards.put(
            	            "wins",
            	            new Leaderboard(
-           	            		getLobbySpawn(),
+           	            		three,
            	                    "wins",
            	                    "§6§lTOP WINS",
            	                    "kpbedwars_wins"
