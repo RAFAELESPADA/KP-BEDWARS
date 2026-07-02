@@ -54,7 +54,7 @@ public class Bedwars extends JavaPlugin {
         if (getLobbySpawn() == null) {
         	setLobbySpawn(new Location(Bukkit.getWorld("spawn"), 0 , 64 ,0));
         }
-        Location one = new Location(Bukkit.getWorld("spawn"), 215.768, 46.53, 486.066);
+        Location one = new Location(Bukkit.getWorld("spawn"), 74, 119, 88);
         LeaderBoardManager boards =
                 getLeaderBoardManager();
             	   boards.boards.put(
@@ -67,13 +67,13 @@ public class Bedwars extends JavaPlugin {
            	            )
            	    );
             	getLogger().info("REGISTRANDO HOLOGRAMA DE KILLS");
-                Location two = new Location(Bukkit.getWorld("spawn"), 215.768, 46.53, 476.066);
+                Location two = new Location(Bukkit.getWorld("spawn"), 74.768, 119.53, 69.066);
             	   boards.boards.put(
            	            "deaths",
            	            new Leaderboard(two,"deaths","§6§lTOP DEATHS","kpbedwars_deaths"));
 
             	  getLogger().info( "REGISTRANDO HOLOGRAMA DE DEATHS");
-            	  Location four = new Location(Bukkit.getWorld("spawn"), 190.768, 46.53, 490.066);
+            	  Location four = new Location(Bukkit.getWorld("spawn"), 88.768, 119.53, 97.066);
             	   boards.boards.put(
            	            "xp",
            	            new Leaderboard(
@@ -85,7 +85,7 @@ public class Bedwars extends JavaPlugin {
            	    );
 
             	   getLogger().info( "REGISTRANDO HOLOGRAMA DE XP");
-                   Location three = new Location(Bukkit.getWorld("spawn"), 190.768, 46.53, 476.066);
+                   Location three = new Location(Bukkit.getWorld("spawn"), 96, 119, 70);
             	   boards.boards.put(
            	            "wins",
            	            new Leaderboard(
@@ -168,7 +168,7 @@ public class Bedwars extends JavaPlugin {
         );
         
        
-        lobbySpawn = new Location(Bukkit.getWorld(getConfig().getString("Lobby.World")), getConfig().getInt("Lobby.X"), getConfig().getInt("Lobby.Y"), getConfig().getInt("Lobby.Z"));
+        lobbySpawn = new Location(Bukkit.getWorld(getConfig().getString("Lobby.World")), getConfig().getInt("Lobby.X"), getConfig().getInt("Lobby.Y"), getConfig().getInt("Lobby.Z") , getConfig().getInt("Lobby.Yaw"), getConfig().getInt("Lobby.Pitch"));
         spectatorManager = new SpectatorManager();
         shopManager = new ShopManager();
         getCommand("bw")
